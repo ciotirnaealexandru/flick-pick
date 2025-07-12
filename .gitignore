@@ -1,0 +1,101 @@
+# -------------------------
+# General
+# -------------------------
+*.class
+*.log
+*.pyc
+*.swp
+*.tmp
+*.lock
+*.iml
+*.dill
+*.js
+*.js.map
+*.info.json
+*.map.json
+.DS_Store
+.packages
+.metadata
+.history
+.idea/
+.vscode/
+.atom/
+.svn/
+
+# Environment files
+.env
+.env.*
+
+# -------------------------
+# Flutter/Dart/Pub related
+# -------------------------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub/
+.pub-cache/
+build/
+pubspec.lock
+
+# Flutter build artifacts
+**/doc/api/
+**/ios/Flutter/.last_build_id
+
+# Obfuscation/Symbolication
+app.*.symbols
+app.*.map.json
+
+# -------------------------
+# iOS
+# -------------------------
+ios/
+ios/.dart_tool/
+ios/.symlinks/
+ios/Pods/
+ios/Flutter/Flutter.podspec
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+
+# -------------------------
+# macOS
+# -------------------------
+macos/
+macos/Flutter/ephemeral/
+macos/Flutter/Generated.xcconfig
+
+# -------------------------
+# Android
+# -------------------------
+android/
+android/.gradle/
+android/.idea/
+android/captures/
+android/local.properties
+android/app/.cxx/
+android/app/build/
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# -------------------------
+# Web
+# -------------------------
+web/.dart_tool/
+
+# -------------------------
+# Windows & Linux
+# -------------------------
+windows/
+windows/flutter/ephemeral/
+linux/
+linux/flutter/ephemeral/
+
+# -------------------------
+# Optional: Remove test/, web/, android/ if tracking source
+# -------------------------
+test/
+web/
+android/
+android/app/
