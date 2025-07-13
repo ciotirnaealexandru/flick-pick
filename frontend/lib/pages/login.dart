@@ -38,7 +38,7 @@ class _FormScreenState extends State<FormScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 100),
+          const SizedBox(height: 80),
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(Colors.transparent),
@@ -46,6 +46,7 @@ class _FormScreenState extends State<FormScreen> {
               shadowColor: WidgetStateProperty.all(Colors.transparent),
               overlayColor: WidgetStateProperty.all(Colors.transparent),
               splashFactory: NoSplash.splashFactory,
+              padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -96,23 +97,25 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).primaryColor,
-      body: Container(
-        margin: const EdgeInsets.only(top: 90, bottom: 90, left: 50, right: 50),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Login',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 90),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Login',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            FormScreen(),
-          ],
+              FormScreen(),
+            ],
+          ),
         ),
       ),
     );

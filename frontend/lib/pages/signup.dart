@@ -75,6 +75,7 @@ class _FormScreenState extends State<FormScreen> {
               shadowColor: WidgetStateProperty.all(Colors.transparent),
               overlayColor: WidgetStateProperty.all(Colors.transparent),
               splashFactory: NoSplash.splashFactory,
+              padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -125,23 +126,25 @@ class Signup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).primaryColor,
-      body: Container(
-        margin: const EdgeInsets.only(top: 90, bottom: 90, left: 50, right: 50),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Sign Up',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 90),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Sign Up',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            FormScreen(),
-          ],
+              FormScreen(),
+            ],
+          ),
         ),
       ),
     );

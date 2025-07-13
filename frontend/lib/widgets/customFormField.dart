@@ -24,7 +24,7 @@ class CustomTextField extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       cursorColor: Colors.white,
-      cursorErrorColor: Colors.white, // fix the pulsing line color
+      cursorErrorColor: Colors.white,
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
