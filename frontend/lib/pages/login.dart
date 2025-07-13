@@ -24,6 +24,9 @@ class _FormScreenState extends State<FormScreen> {
               if (value == null || value.trim().isEmpty) {
                 return 'This field is empty';
               }
+              if (!value.trim().endsWith('@gmail.com')) {
+                return 'Not a valid email.';
+              }
               return null;
             },
           ),

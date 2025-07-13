@@ -11,6 +11,11 @@ class FormScreen extends StatefulWidget {
 class _FormScreenState extends State<FormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
+  // used to check if passwords match
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -44,25 +49,45 @@ class _FormScreenState extends State<FormScreen> {
               if (value == null || value.trim().isEmpty) {
                 return 'This field is empty';
               }
-              return null;
-            },
-          ),
-          const SizedBox(height: 15),
-          CustomTextField(
-            label: 'Password',
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+              if (!value.trim().endsWith('@gmail.com')) {
+                return 'Not a valid email.';
               }
               return null;
             },
           ),
           const SizedBox(height: 15),
           CustomTextField(
-            label: 'Confirm Password',
+            label: 'Password',
+            controller: _passwordController,
+            obscureText: true,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
                 return 'This field is empty';
+              }
+              if (value.length < 8) {
+                return 'Password must be at least 8 characters';
+              }
+              if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                return 'Add at least one uppercase letter';
+              }
+              if (!RegExp(r'[0-9]').hasMatch(value)) {
+                return 'Add at least one number';
+              }
+
+              return null;
+            },
+          ),
+          const SizedBox(height: 15),
+          CustomTextField(
+            label: 'Confirm Password',
+            controller: _confirmPasswordController,
+            obscureText: true,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'This field is empty';
+              }
+              if (value != _passwordController.text) {
+                return 'Passwords do not match';
               }
               return null;
             },
@@ -109,7 +134,7 @@ class _FormScreenState extends State<FormScreen> {
                 final form = _formKey.currentState!;
 
                 if (form.validate()) {
-                  Navigator.pushNamed(context, '/homepage');
+                  Navigator.pushNamed(context, '/login');
                 }
               },
             ),
@@ -117,6 +142,13 @@ class _FormScreenState extends State<FormScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 }
 
