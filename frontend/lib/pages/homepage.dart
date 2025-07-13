@@ -9,9 +9,13 @@ class Homepage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Homepage",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
-        backgroundColor: Colors.amber,
+        backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
       ),
     );
