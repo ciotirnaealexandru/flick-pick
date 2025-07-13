@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/customFormField.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -16,25 +17,72 @@ class _FormScreenState extends State<FormScreen> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
+          const SizedBox(height: 30),
+          CustomTextField(
+            label: 'Email',
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text.';
+              if (value == null || value.trim().isEmpty) {
+                return 'This field is empty';
               }
-
               return null;
             },
           ),
-
-          ElevatedButton(
-            child: Text("LOGIN"),
-            onPressed: () {
-              final form = _formKey.currentState!;
-
-              if (form.validate()) {
-                Navigator.pushNamed(context, '/homepage');
+          const SizedBox(height: 15),
+          CustomTextField(
+            label: 'Password',
+            obscureText: true,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'This field is empty';
               }
+              return null;
             },
+          ),
+          const SizedBox(height: 100),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(Colors.transparent),
+              elevation: WidgetStateProperty.all(0),
+              shadowColor: WidgetStateProperty.all(Colors.transparent),
+              overlayColor: WidgetStateProperty.all(Colors.transparent),
+              splashFactory: NoSplash.splashFactory,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text(
+                  'Make an account',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(width: 10),
+                Icon(Icons.arrow_forward_rounded, color: Colors.white),
+              ],
+            ),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/signup');
+            },
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            height: 40,
+            child: ElevatedButton(
+              child: Text(
+                "LOGIN",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              onPressed: () {
+                final form = _formKey.currentState!;
+
+                if (form.validate()) {
+                  Navigator.pushNamed(context, '/homepage');
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -48,9 +96,10 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).primaryColor,
       body: Container(
-        margin: const EdgeInsets.only(top: 80, bottom: 80, left: 50, right: 50),
+        margin: const EdgeInsets.only(top: 90, bottom: 90, left: 50, right: 50),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
