@@ -1,6 +1,7 @@
 # -------------------------
 # General
 # -------------------------
+*node_modules
 *.class
 *.log
 *.pyc
@@ -9,7 +10,6 @@
 *.lock
 *.iml
 *.dill
-*.js
 *.js.map
 *.info.json
 *.map.json
