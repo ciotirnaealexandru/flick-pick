@@ -6,49 +6,93 @@ const prisma = require("../prismaClient");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.SECRET_AUTH_KEY;
-let users = [];
 
-// HELLO AUTH!
-router.get("/", (req, res) => {
-  res.send("Hello auth!");
-});
-
+// get all users
 router.get("/users", async (req, res) => {
   const users = await prisma.user.findMany();
   res.json(users);
+});
+
+// get user by id
+router.get("/users/:id", async (req, res) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+
+  if (!user) {
+    return res.status(401).send("User does not exist");
+  }
+
+  res.json(user);
 });
 
 // REGISTER
 router.post("/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
-  // hash password
-  const hashedPassword = await bcrypt.hash(password, 8);
-  // store user
-  users.push({ username, password: hashedPassword });
+  try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email: req.body.email,
+      },
+    });
 
-  res.status(201);
-  res.send("User created");
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already in use." });
+    }
+
+    const user = await prisma.user.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        password: await bcrypt.hash(password, 12),
+      },
+    });
+    res.status(200).send({ user });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 // LOGIN
 router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  // try to find user
-  const user = users.find((u) => u.username === username);
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: req.body.email,
+      },
+    });
 
-  // if the user does not exist or the password is wrong
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).send("Invalid credentials");
+    // if the user does not exist or the password is wrong
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).send("Invalid credentials");
+    }
+
+    // generate token
+    const token = jwt.sign(
+      {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      },
+      secretKey,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    res.status(200).send({ token });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).json({ message: "Server error" });
   }
-
-  // generate token
-  const token = jwt.sign({ userId: user.username }, secretKey, {
-    expiresIn: "1h",
-  });
-
-  res.status(200).send({ token });
 });
 
 // Middleware for token verification
@@ -66,7 +110,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 router.get("/dashboard", authenticateToken, (req, res) => {
-  res.status(200).send("Welcome to the dashboard, " + req.user.userId);
+  res.status(200).send("Welcome to the dashboard, " + req.user.firstName);
 });
 
 module.exports = router;
