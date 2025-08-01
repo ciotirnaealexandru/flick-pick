@@ -1,22 +1,19 @@
 const express = require("express");
+const router = express.Router();
 
-const app = express();
-app.use(express.json());
-
-// for auth
+// for auth using an array
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.SECRET_AUTH_KEY;
 let users = [];
 
-// HELLO WORLD
-app.get("/", async (req, res) => {
-  res.status(200);
-  res.send("Hello world!");
+// HELLO AUTH!
+router.get("/", (req, res) => {
+  res.send("Hello auth!");
 });
 
 // REGISTER
-app.post("/register", async (req, res) => {
+router.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
   // hash password
@@ -29,7 +26,7 @@ app.post("/register", async (req, res) => {
 });
 
 // LOGIN
-app.post("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   // try to find user
@@ -62,6 +59,8 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-app.get("/dashboard", authenticateToken, (req, res) => {
+router.get("/dashboard", authenticateToken, (req, res) => {
   res.status(200).send("Welcome to the dashboard, " + req.user.userId);
 });
+
+module.exports = router;
