@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const prisma = require("../prismaClient");
 
 // for auth using an array
 const bcrypt = require("bcryptjs");
@@ -12,9 +13,14 @@ router.get("/", (req, res) => {
   res.send("Hello auth!");
 });
 
+router.get("/users", async (req, res) => {
+  const users = await prisma.user.findMany();
+  res.json(users);
+});
+
 // REGISTER
 router.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   // hash password
   const hashedPassword = await bcrypt.hash(password, 8);
