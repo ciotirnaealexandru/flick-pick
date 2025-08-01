@@ -1,17 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const createError = require("http-errors");
-
-//const auth = require("./auth");
 
 router.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-/*router.use("/auth", auth);
-router.use(async (req, res, next) => {
-  next(createError.NotFound("Route not Found"));
-});*/
+// where i declare routes
+const auth = require("./auth");
+
+// where i call routes
+router.use("/auth", auth);
 
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({
