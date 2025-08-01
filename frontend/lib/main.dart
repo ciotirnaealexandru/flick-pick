@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/homepage.dart';
 import 'package:frontend/pages/login.dart';
 import 'package:frontend/pages/signup.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  print('Loaded API_URL: ${dotenv.env['API_URL']}');
   runApp(const MyApp());
 }
 

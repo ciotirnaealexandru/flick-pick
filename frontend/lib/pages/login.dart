@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/customFormField.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -10,6 +13,8 @@ class FormScreen extends StatefulWidget {
 
 class _FormScreenState extends State<FormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +25,7 @@ class _FormScreenState extends State<FormScreen> {
           const SizedBox(height: 30),
           CustomTextField(
             label: 'Email',
+            controller: _emailController,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
                 return 'This field is empty';
@@ -33,6 +39,7 @@ class _FormScreenState extends State<FormScreen> {
           const SizedBox(height: 15),
           CustomTextField(
             label: 'Password',
+            controller: _passwordController,
             obscureText: true,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
@@ -79,11 +86,33 @@ class _FormScreenState extends State<FormScreen> {
                 "LOGIN",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              onPressed: () {
+              onPressed: () async {
                 final form = _formKey.currentState!;
 
                 if (form.validate()) {
-                  Navigator.pushNamed(context, '/homepage');
+                  final email = _emailController.text.trim();
+                  final password = _passwordController.text;
+
+                  final response = await http.post(
+                    Uri.parse('${dotenv.env['API_URL']!}/auth/login'),
+                    headers: {'Content-Type': 'application/json'},
+                    body: jsonEncode({'email': email, 'password': password}),
+                  );
+
+                  if (response.statusCode == 200) {
+                    final responseData = jsonDecode(response.body);
+                    final token = responseData['token'];
+
+                    // Save token securely (e.g., SharedPreferences or secure_storage)
+                    print("Login successful! Token: $token");
+
+                    Navigator.pushNamed(context, '/homepage');
+                  } else {
+                    print("Login failed: ${response.body}");
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text('Login failed')));
+                  }
                 }
               },
             ),
