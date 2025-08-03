@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../models/user_model.dart';
+import 'dart:convert';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -11,41 +13,48 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  String? userDashboard;
+  User? userInfo;
 
   @override
   void initState() {
     super.initState();
-    getUserDashboard();
+    getUserInfo();
   }
 
-  Future<void> getUserDashboard() async {
+  Future<void> getUserInfo() async {
     final secureStorage = FlutterSecureStorage();
     final token = await secureStorage.read(
       key: dotenv.env['SECURE_STORAGE_SECRET']!,
     );
 
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/auth/dashboard'),
+      Uri.parse('${dotenv.env['API_URL']!}/auth/info'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       },
     );
 
+    print("🚀 ${response.body}");
+
     if (response.statusCode == 200) {
+      final userJson = json.decode(response.body);
       setState(() {
-        userDashboard = response.body;
+        userInfo = User.fromJson(userJson);
       });
     } else {
       setState(() {
-        userDashboard = "No_dashboard";
+        userInfo = null;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (userInfo == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -60,7 +69,14 @@ class _HomepageState extends State<Homepage> {
         centerTitle: true,
       ),
 
-      body: Container(child: Text(userDashboard ?? "Loading..")),
+      body: Column(
+        children: [
+          Text("Id: ${userInfo!.id}"),
+          Text("First Name: ${userInfo!.firstName}"),
+          Text("Last Name: ${userInfo!.lastName}"),
+          Text("Email Name: ${userInfo!.email}"),
+        ],
+      ),
     );
   }
 }

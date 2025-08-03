@@ -109,8 +109,13 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-router.get("/dashboard", authenticateToken, (req, res) => {
-  res.status(200).send("Welcome to the dashboard, " + req.user.firstName);
+router.get("/info", authenticateToken, (req, res) => {
+  res.status(200).send({
+    id: req.user.id,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    email: req.user.email,
+  });
 });
 
 module.exports = router;
