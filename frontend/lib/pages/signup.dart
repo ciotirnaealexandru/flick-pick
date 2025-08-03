@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/customFormField.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -10,6 +11,8 @@ class FormScreen extends StatefulWidget {
 
 class _FormScreenState extends State<FormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+
+  final secureStorage = FlutterSecureStorage();
 
   // used to check if passwords match
   final TextEditingController _passwordController = TextEditingController();
@@ -117,7 +120,7 @@ class _FormScreenState extends State<FormScreen> {
                 Icon(Icons.arrow_forward_rounded, color: Colors.white),
               ],
             ),
-            onPressed: () {
+            onPressed: () async {
               Navigator.pushReplacementNamed(context, '/login');
             },
           ),

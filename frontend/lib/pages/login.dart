@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/widgets/customFormField.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -15,6 +16,8 @@ class _FormScreenState extends State<FormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  final secureStorage = FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +106,12 @@ class _FormScreenState extends State<FormScreen> {
                     final responseData = jsonDecode(response.body);
                     final token = responseData['token'];
 
-                    // Save token securely (e.g., SharedPreferences or secure_storage)
+                    // save the JWT to the Secure Storage
                     print("Login successful! Token: $token");
+                    await secureStorage.write(
+                      key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                      value: token,
+                    );
 
                     Navigator.pushNamed(context, '/homepage');
                   } else {

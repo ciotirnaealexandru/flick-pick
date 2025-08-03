@@ -7,7 +7,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  print('Loaded API_URL: ${dotenv.env['API_URL']}');
   runApp(const MyApp());
 }
 
