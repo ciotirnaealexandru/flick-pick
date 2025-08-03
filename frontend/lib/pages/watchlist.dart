@@ -4,15 +4,16 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
 import 'dart:convert';
+import "../components/navbar.dart";
 
-class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+class Watchlist extends StatefulWidget {
+  const Watchlist({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  State<Watchlist> createState() => _WatchlistState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _WatchlistState extends State<Watchlist> {
   User? userInfo;
 
   @override
@@ -57,14 +58,7 @@ class _HomepageState extends State<Homepage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Homepage",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        title: Navbar(),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
       ),

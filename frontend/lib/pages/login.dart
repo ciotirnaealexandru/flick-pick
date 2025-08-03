@@ -113,7 +113,7 @@ class _FormScreenState extends State<FormScreen> {
                       value: token,
                     );
 
-                    Navigator.pushNamed(context, '/homepage');
+                    Navigator.pushReplacementNamed(context, '/watchlist');
                   } else {
                     print("Login failed: ${response.body}");
                     ScaffoldMessenger.of(
