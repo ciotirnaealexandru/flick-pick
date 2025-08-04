@@ -37,8 +37,6 @@ class _WatchlistState extends State<Watchlist> {
       },
     );
 
-    print("🚀 ${response.body}");
-
     if (response.statusCode == 200) {
       final userJson = json.decode(response.body);
       setState(() {
@@ -49,6 +47,15 @@ class _WatchlistState extends State<Watchlist> {
         userInfo = null;
       });
     }
+  }
+
+  final _searchBarController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the search bar controller when the widget is disposed.
+    _searchBarController.dispose();
+    super.dispose();
   }
 
   @override
@@ -69,25 +76,38 @@ class _WatchlistState extends State<Watchlist> {
                 borderRadius: BorderRadius.circular(16),
                 color: Colors.white,
               ),
-              height: 42,
+              height: 48,
               child: Row(
                 children: [
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 12),
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Search...",
+                      child: TextField(
+                        controller: _searchBarController,
+                        decoration: InputDecoration(
+                          hintText: 'Search me up ...',
+                          hintStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          border: InputBorder.none,
+                        ),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
-                          fontSize: 18,
+                          decoration: TextDecoration.none,
+                          decorationThickness: 0,
                         ),
                       ),
                     ),
                   ),
                   SizedBox(width: 8),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      final text = _searchBarController.text.trim();
+
+                      print("🚀");
+                      print(text);
+                    },
                     icon: Icon(
                       Icons.search,
                       size: 28,
@@ -103,32 +123,43 @@ class _WatchlistState extends State<Watchlist> {
         centerTitle: true,
       ),
 
-      body: Column(
-        children: [
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
-              padding: EdgeInsets.all(20),
-              childAspectRatio: 0.7111,
-              children: [
-                ShowCard(),
-                ShowCard(),
-                ShowCard(),
-                ShowCard(),
-                ShowCard(),
-                ShowCard(),
-                ShowCard(),
-                ShowCard(),
-              ],
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Colors.white, Theme.of(context).primaryColor],
           ),
-          Text("Id: ${userInfo!.id}"),
-          Text("First Name: ${userInfo!.firstName}"),
-          Text("Last Name: ${userInfo!.lastName}"),
-          Text("Email Name: ${userInfo!.email}"),
-        ],
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                padding: EdgeInsets.all(20),
+                childAspectRatio: 0.7111,
+                children: [
+                  ShowCard(),
+                  ShowCard(),
+                  ShowCard(),
+                  ShowCard(),
+                  ShowCard(),
+                  ShowCard(),
+                  ShowCard(),
+                  ShowCard(),
+                ],
+              ),
+            ),
+            /*
+            Text("Id: ${userInfo!.id}"),
+            Text("First Name: ${userInfo!.firstName}"),
+            Text("Last Name: ${userInfo!.lastName}"),
+            Text("Email Name: ${userInfo!.email}"),
+            */
+          ],
+        ),
       ),
     );
   }

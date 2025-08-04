@@ -124,6 +124,12 @@ class _FormScreenState extends State<FormScreen> {
               },
             ),
           ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/watchlist');
+            },
+            child: Text("SKIP"),
+          ),
         ],
       ),
     );

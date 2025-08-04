@@ -16,7 +16,7 @@ class _ShowCardState extends State<ShowCard> {
       child: Column(
         children: [
           Image.network(
-            'https://static.tvmaze.com/uploads/images/medium_portrait/81/202627.jpg',
+            'https://static.tvmaze.com/uploads/images/medium_portrait/498/1246067.jpg',
             fit: BoxFit.cover,
           ),
         ],
