@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ShowCard extends StatefulWidget {
-  const ShowCard({super.key});
+  final String imageUrl;
+
+  const ShowCard({super.key, required this.imageUrl});
 
   @override
   State<ShowCard> createState() => _ShowCardState();
@@ -14,12 +16,7 @@ class _ShowCardState extends State<ShowCard> {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
       clipBehavior: Clip.hardEdge,
       child: Column(
-        children: [
-          Image.network(
-            'https://static.tvmaze.com/uploads/images/medium_portrait/498/1246067.jpg',
-            fit: BoxFit.cover,
-          ),
-        ],
+        children: [Image.network(widget.imageUrl, fit: BoxFit.cover)],
       ),
     );
   }

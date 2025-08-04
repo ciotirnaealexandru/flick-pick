@@ -4,6 +4,7 @@ import 'package:frontend/components/show_card.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
+import '../models/show_model.dart';
 import 'dart:convert';
 import "../components/navbar.dart";
 
@@ -16,6 +17,7 @@ class Watchlist extends StatefulWidget {
 
 class _WatchlistState extends State<Watchlist> {
   User? userInfo;
+  List<Show> shows = [];
 
   @override
   void initState() {
@@ -47,6 +49,23 @@ class _WatchlistState extends State<Watchlist> {
         userInfo = null;
       });
     }
+  }
+
+  Future<void> getShowInfo(text) async {
+    final response = await http.get(
+      Uri.parse('${dotenv.env['API_URL']!}/shows/search/${text}'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    final List<dynamic> showsJson = json.decode(response.body);
+
+    setState(() {
+      shows =
+          showsJson
+              .map((json) => Show.fromJson(json))
+              .where((show) => show.hasAllFields)
+              .toList();
+    });
   }
 
   final _searchBarController = TextEditingController();
@@ -102,11 +121,13 @@ class _WatchlistState extends State<Watchlist> {
                   ),
                   SizedBox(width: 8),
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      // if the search button is pressed get the text
                       final text = _searchBarController.text.trim();
 
+                      // send a a request to the backend to get the shows with those names
                       print("🚀");
-                      print(text);
+                      getShowInfo(text);
                     },
                     icon: Icon(
                       Icons.search,
@@ -140,16 +161,9 @@ class _WatchlistState extends State<Watchlist> {
                 mainAxisSpacing: 20,
                 padding: EdgeInsets.all(20),
                 childAspectRatio: 0.7111,
-                children: [
-                  ShowCard(),
-                  ShowCard(),
-                  ShowCard(),
-                  ShowCard(),
-                  ShowCard(),
-                  ShowCard(),
-                  ShowCard(),
-                  ShowCard(),
-                ],
+                children: List.generate(shows.length, (i) {
+                  return ShowCard(imageUrl: shows[i].image);
+                }),
               ),
             ),
             /*
