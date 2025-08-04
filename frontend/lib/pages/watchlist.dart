@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:frontend/components/show_card.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
@@ -58,13 +59,71 @@ class _WatchlistState extends State<Watchlist> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Navbar(),
+        toolbarHeight: 120,
+        title: Column(
+          children: [
+            Navbar(),
+            SizedBox(height: 5),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: Colors.white,
+              ),
+              height: 42,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Search...",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.search,
+                      size: 28,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
       ),
 
       body: Column(
         children: [
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+              padding: EdgeInsets.all(20),
+              childAspectRatio: 0.7111,
+              children: [
+                ShowCard(),
+                ShowCard(),
+                ShowCard(),
+                ShowCard(),
+                ShowCard(),
+                ShowCard(),
+                ShowCard(),
+                ShowCard(),
+              ],
+            ),
+          ),
           Text("Id: ${userInfo!.id}"),
           Text("First Name: ${userInfo!.firstName}"),
           Text("Last Name: ${userInfo!.lastName}"),
