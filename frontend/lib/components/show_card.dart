@@ -13,10 +13,36 @@ class _ShowCardState extends State<ShowCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: const Color.fromARGB(255, 28, 37, 51),
+      ),
       clipBehavior: Clip.hardEdge,
       child: Column(
-        children: [Image.network(widget.imageUrl, fit: BoxFit.cover)],
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.network(widget.imageUrl, fit: BoxFit.cover),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+                shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                elevation: WidgetStatePropertyAll(0),
+                splashFactory: NoSplash.splashFactory,
+              ),
+              child: Text(
+                "ADD",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 178, 166, 255),
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

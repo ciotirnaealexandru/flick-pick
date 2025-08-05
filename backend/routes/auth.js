@@ -84,7 +84,7 @@ router.post("/login", async (req, res) => {
       },
       secretKey,
       {
-        expiresIn: "1h",
+        expiresIn: "2h",
       }
     );
 

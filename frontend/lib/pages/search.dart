@@ -174,7 +174,7 @@ class _SearchState extends State<Search> {
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
                 padding: EdgeInsets.all(20),
-                childAspectRatio: 0.7111,
+                childAspectRatio: 0.595,
                 children: List.generate(shows.length, (i) {
                   return ShowCard(imageUrl: shows[i].image);
                 }),
