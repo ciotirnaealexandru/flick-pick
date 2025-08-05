@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/customFormField.dart';
+import 'package:frontend/components/custom_form_field.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class FormScreen extends StatefulWidget {
