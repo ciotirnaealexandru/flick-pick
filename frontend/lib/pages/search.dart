@@ -8,14 +8,14 @@ import '../models/show_model.dart';
 import 'dart:convert';
 import "../components/navbar.dart";
 
-class Watchlist extends StatefulWidget {
-  const Watchlist({super.key});
+class Search extends StatefulWidget {
+  const Search({super.key});
 
   @override
-  State<Watchlist> createState() => _WatchlistState();
+  State<Search> createState() => _SearchState();
 }
 
-class _WatchlistState extends State<Watchlist> {
+class _SearchState extends State<Search> {
   User? userInfo;
   List<Show> shows = [];
 
@@ -23,6 +23,7 @@ class _WatchlistState extends State<Watchlist> {
   void initState() {
     super.initState();
     getUserInfo();
+    getPopularShowsInfo();
   }
 
   Future<void> getUserInfo() async {
@@ -49,6 +50,23 @@ class _WatchlistState extends State<Watchlist> {
         userInfo = null;
       });
     }
+  }
+
+  Future<void> getPopularShowsInfo() async {
+    final response = await http.get(
+      Uri.parse('${dotenv.env['API_URL']!}/shows/popular'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    final List<dynamic> showsJson = json.decode(response.body);
+
+    setState(() {
+      shows =
+          showsJson
+              .map((json) => Show.fromJson(json))
+              .where((show) => show.hasAllFields)
+              .toList();
+    });
   }
 
   Future<void> getShowInfo(text) async {

@@ -113,7 +113,7 @@ class _FormScreenState extends State<FormScreen> {
                       value: token,
                     );
 
-                    Navigator.pushReplacementNamed(context, '/watchlist');
+                    Navigator.pushReplacementNamed(context, '/search');
                   } else {
                     print("Login failed: ${response.body}");
                     ScaffoldMessenger.of(
@@ -126,7 +126,7 @@ class _FormScreenState extends State<FormScreen> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/watchlist');
+              Navigator.pushReplacementNamed(context, '/search');
             },
             child: Text("SKIP"),
           ),

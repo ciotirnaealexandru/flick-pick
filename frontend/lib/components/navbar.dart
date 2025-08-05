@@ -17,15 +17,15 @@ class Navbar extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/watchlist');
+            Navigator.pushReplacementNamed(context, '/search');
           },
           child: Text("WATCHLIST"),
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/watchlist');
+            Navigator.pushReplacementNamed(context, '/search');
           },
-          child: Text("DISCOVER"),
+          child: Text("SETTINGS"),
         ),
       ],
     );
