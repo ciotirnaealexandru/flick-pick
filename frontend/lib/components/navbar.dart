@@ -9,23 +9,47 @@ class Navbar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(
+              Color.fromARGB(255, 28, 37, 51),
+            ),
+          ),
           onPressed: () {
             // use this temporarily to return to login
             Navigator.pushReplacementNamed(context, '/login');
           },
-          child: Text("SEARCH"),
+          child: Text(
+            "SEARCH",
+            style: TextStyle(color: const Color.fromARGB(255, 178, 166, 255)),
+          ),
         ),
         ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(
+              Color.fromARGB(255, 28, 37, 51),
+            ),
+          ),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/search');
           },
-          child: Text("WATCHLIST"),
+          child: Text(
+            "WATCHLIST",
+            style: TextStyle(color: const Color.fromARGB(255, 178, 166, 255)),
+          ),
         ),
         ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(
+              Color.fromARGB(255, 28, 37, 51),
+            ),
+          ),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/search');
           },
-          child: Text("SETTINGS"),
+          child: Text(
+            "SETTINGS",
+            style: TextStyle(color: const Color.fromARGB(255, 178, 166, 255)),
+          ),
         ),
       ],
     );

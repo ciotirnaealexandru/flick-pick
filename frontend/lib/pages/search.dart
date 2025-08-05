@@ -111,7 +111,7 @@ class _SearchState extends State<Search> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: Colors.white,
+                color: const Color.fromARGB(255, 28, 37, 51),
               ),
               height: 48,
               child: Row(
@@ -125,12 +125,12 @@ class _SearchState extends State<Search> {
                         decoration: InputDecoration(
                           hintText: 'Search me up ...',
                           hintStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: const Color.fromARGB(255, 178, 166, 255),
                           ),
                           border: InputBorder.none,
                         ),
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: const Color.fromARGB(255, 178, 166, 255),
                           decoration: TextDecoration.none,
                           decorationThickness: 0,
                         ),
@@ -150,7 +150,7 @@ class _SearchState extends State<Search> {
                     icon: Icon(
                       Icons.search,
                       size: 28,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: const Color.fromARGB(255, 178, 166, 255),
                     ),
                   ),
                 ],
@@ -158,18 +158,14 @@ class _SearchState extends State<Search> {
             ),
           ],
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: const Color.fromARGB(255, 5, 12, 28),
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
       ),
 
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Colors.white, Theme.of(context).primaryColor],
-          ),
-        ),
+        color: const Color.fromARGB(255, 5, 12, 28),
+
         child: Column(
           children: [
             Expanded(

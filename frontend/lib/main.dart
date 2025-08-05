@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Flick Pick',
       theme: ThemeData(
-        primaryColor: Color(0xFF745FFF),
+        primaryColor: Color.fromRGBO(116, 95, 255, 1),
         textTheme: TextTheme(titleLarge: const TextStyle(fontSize: 30)),
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
