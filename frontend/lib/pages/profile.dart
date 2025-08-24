@@ -19,6 +19,31 @@ class _FormScreenState extends State<FormScreen> {
 
   final secureStorage = FlutterSecureStorage();
 
+  late TextEditingController _firstNameController = TextEditingController();
+  late TextEditingController _lastNameController = TextEditingController();
+  late TextEditingController _emailController = TextEditingController();
+  late TextEditingController _phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _firstNameController = TextEditingController(
+      text: widget.userInfo.firstName,
+    );
+    _lastNameController = TextEditingController(text: widget.userInfo.lastName);
+    _emailController = TextEditingController(text: widget.userInfo.email);
+    _phoneController = TextEditingController(text: widget.userInfo.phone);
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    //_phoneController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -38,7 +63,7 @@ class _FormScreenState extends State<FormScreen> {
 
           const SizedBox(height: 10),
           CustomTextField(
-            initialValue: widget.userInfo.firstName,
+            controller: _firstNameController,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
                 return 'This field is empty';
@@ -59,7 +84,7 @@ class _FormScreenState extends State<FormScreen> {
           const SizedBox(height: 10),
 
           CustomTextField(
-            initialValue: widget.userInfo.lastName,
+            controller: _lastNameController,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
                 return 'This field is empty';
@@ -80,13 +105,40 @@ class _FormScreenState extends State<FormScreen> {
           const SizedBox(height: 10),
 
           CustomTextField(
-            initialValue: widget.userInfo.email,
+            controller: _emailController,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
                 return 'This field is empty';
               }
               if (!value.trim().endsWith('@gmail.com')) {
                 return 'Not a valid email.';
+              }
+              return null;
+            },
+          ),
+
+          const SizedBox(height: 20),
+          Text(
+            'Phone number',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 178, 166, 255),
+            ),
+          ),
+          const SizedBox(height: 10),
+
+          CustomTextField(
+            controller: _phoneController,
+            validator: (value) {
+              // allow empty
+              if (value == null || value.trim().isEmpty) return null;
+
+              final normalized = value.trim();
+              final pattern = RegExp(r'^\d{4} \d{3} \d{3}$');
+
+              if (!pattern.hasMatch(normalized)) {
+                return 'Phone must be in format: XXXX XXX XXX';
               }
               return null;
             },
@@ -198,24 +250,6 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 FormScreen(userInfo!),
-                /*
-            Text(
-              "EDIT PROFILE",
-              style: TextStyle(
-                color: Color.fromARGB(255, 178, 166, 255),
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Column(
-              children: [
-                Text("Id: ${userInfo!.id}"),
-                Text("First Name: ${userInfo!.firstName}"),
-                Text("Last Name: ${userInfo!.lastName}"),
-                Text("Email Name: ${userInfo!.email}"),
-              ],
-            ),
-            */
               ],
             ),
           ),
