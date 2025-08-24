@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/show_card.dart';
+import 'package:frontend/services/auth_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
@@ -22,37 +22,18 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
-    getUserInfo();
-    getPopularShowsInfo();
+    loadUserInfo();
+    getPopularShows();
   }
 
-  Future<void> getUserInfo() async {
-    final secureStorage = FlutterSecureStorage();
-    final token = await secureStorage.read(
-      key: dotenv.env['SECURE_STORAGE_SECRET']!,
-    );
-
-    final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/auth/info'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final userJson = json.decode(response.body);
-      setState(() {
-        userInfo = User.fromJson(userJson);
-      });
-    } else {
-      setState(() {
-        userInfo = null;
-      });
-    }
+  Future<void> loadUserInfo() async {
+    final user = await getUserInfo();
+    setState(() {
+      userInfo = user;
+    });
   }
 
-  Future<void> getPopularShowsInfo() async {
+  Future<void> getPopularShows() async {
     final response = await http.get(
       Uri.parse('${dotenv.env['API_URL']!}/shows/popular'),
       headers: {'Content-Type': 'application/json'},
@@ -69,7 +50,7 @@ class _SearchState extends State<Search> {
     });
   }
 
-  Future<void> getShowInfo(text) async {
+  Future<void> getShowsByName(text) async {
     final response = await http.get(
       Uri.parse('${dotenv.env['API_URL']!}/shows/search/$text'),
       headers: {'Content-Type': 'application/json'},
@@ -145,7 +126,7 @@ class _SearchState extends State<Search> {
 
                       // send a a request to the backend to get the shows with those names
                       print("🚀");
-                      getShowInfo(text);
+                      getShowsByName(text);
                     },
                     icon: Icon(
                       Icons.search,
