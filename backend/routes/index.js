@@ -6,12 +6,10 @@ router.get("/", (req, res) => {
 });
 
 // where i declare routes
-const auth = require("./auth");
-const shows = require("./shows");
+const user = require("./user/auth", "./user/shows");
 
 // where i call routes
-router.use("/auth", auth);
-router.use("/shows", shows);
+router.use("/user", user);
 
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({
