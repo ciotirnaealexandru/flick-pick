@@ -18,8 +18,7 @@ class Navbar extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            // use this temporarily to return to login
-            Navigator.pushReplacementNamed(context, '/login');
+            Navigator.pushReplacementNamed(context, '/search');
           },
           child: Text(
             "SEARCH",
@@ -40,7 +39,8 @@ class Navbar extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/search');
+            // use this temporarily to return to login
+            Navigator.pushReplacementNamed(context, '/login');
           },
           child: Text(
             "WATCHLIST",
