@@ -11,7 +11,7 @@ Future<User?> getUserInfo() async {
   );
 
   final response = await http.get(
-    Uri.parse('${dotenv.env['API_URL']!}/auth/info'),
+    Uri.parse('${dotenv.env['API_URL']!}/user/me'),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',

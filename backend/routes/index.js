@@ -7,9 +7,11 @@ router.get("/", (req, res) => {
 
 // where i declare routes
 const user = require("./user/auth", "./user/shows");
+const shows = require("./shows/shows");
 
 // where i call routes
 router.use("/user", user);
+router.use("/shows", shows);
 
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({

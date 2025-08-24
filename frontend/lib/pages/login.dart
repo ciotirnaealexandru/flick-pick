@@ -109,7 +109,7 @@ class _FormScreenState extends State<FormScreen> {
                   final password = _passwordController.text;
 
                   final response = await http.post(
-                    Uri.parse('${dotenv.env['API_URL']!}/auth/login'),
+                    Uri.parse('${dotenv.env['API_URL']!}/user/login'),
                     headers: {'Content-Type': 'application/json'},
                     body: jsonEncode({'email': email, 'password': password}),
                   );
@@ -128,9 +128,18 @@ class _FormScreenState extends State<FormScreen> {
                     Navigator.pushReplacementNamed(context, '/search');
                   } else {
                     print("Login failed: ${response.body}");
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text('Login failed')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Login failed.',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 178, 166, 255),
+                          ),
+                        ),
+                        backgroundColor: const Color.fromARGB(255, 28, 37, 51),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
                   }
                 }
               },
