@@ -108,6 +108,8 @@ class _FormScreenState extends State<FormScreen> {
                   final email = _emailController.text.trim();
                   final password = _passwordController.text;
 
+                  final navigator = Navigator.pushReplacementNamed;
+
                   final response = await http.post(
                     Uri.parse('${dotenv.env['API_URL']!}/user/login'),
                     headers: {'Content-Type': 'application/json'},
@@ -125,7 +127,7 @@ class _FormScreenState extends State<FormScreen> {
                       value: token,
                     );
 
-                    Navigator.pushReplacementNamed(context, '/search');
+                    navigator(context, '/search');
                   } else {
                     print("Login failed: ${response.body}");
                     ScaffoldMessenger.of(context).showSnackBar(

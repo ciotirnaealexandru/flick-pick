@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/components/custom_form_field.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -12,9 +15,9 @@ class FormScreen extends StatefulWidget {
 class _FormScreenState extends State<FormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  final secureStorage = FlutterSecureStorage();
-
-  // used to check if passwords match
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -27,6 +30,7 @@ class _FormScreenState extends State<FormScreen> {
         children: [
           const SizedBox(height: 30),
           CustomTextField(
+            controller: _firstNameController,
             label: 'First Name',
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
@@ -37,6 +41,7 @@ class _FormScreenState extends State<FormScreen> {
           ),
           const SizedBox(height: 15),
           CustomTextField(
+            controller: _lastNameController,
             label: 'Last Name',
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
@@ -47,6 +52,7 @@ class _FormScreenState extends State<FormScreen> {
           ),
           const SizedBox(height: 15),
           CustomTextField(
+            controller: _emailController,
             label: 'Email',
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
@@ -60,8 +66,8 @@ class _FormScreenState extends State<FormScreen> {
           ),
           const SizedBox(height: 15),
           CustomTextField(
-            label: 'Password',
             controller: _passwordController,
+            label: 'Password',
             obscureText: true,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
@@ -82,8 +88,8 @@ class _FormScreenState extends State<FormScreen> {
           ),
           const SizedBox(height: 15),
           CustomTextField(
-            label: 'Confirm Password',
             controller: _confirmPasswordController,
+            label: 'Confirm Password',
             obscureText: true,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
@@ -145,11 +151,50 @@ class _FormScreenState extends State<FormScreen> {
                   color: const Color.fromARGB(255, 178, 166, 255),
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 final form = _formKey.currentState!;
 
                 if (form.validate()) {
-                  Navigator.pushNamed(context, '/login');
+                  final firstName = _firstNameController.text.trim();
+                  final lastName = _lastNameController.text.trim();
+                  final email = _emailController.text.trim();
+                  final password = _passwordController.text;
+
+                  final response = await http.post(
+                    Uri.parse('${dotenv.env['API_URL']!}/user/signup'),
+                    headers: {'Content-Type': 'application/json'},
+                    body: jsonEncode({
+                      'firstName': firstName,
+                      'lastName': lastName,
+                      'email': email,
+                      'password': password,
+                    }),
+                  );
+
+                  if (response.statusCode == 200) {
+                    print("Sign up successful!");
+                    Navigator.pushReplacementNamed(context, '/login');
+                  } else {
+                    print("Response body: ${response.body}");
+
+                    final responseData = jsonDecode(response.body);
+                    final message =
+                        responseData['message'] ?? 'Something went wrong';
+
+                    // show a message of the error
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          message,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 178, 166, 255),
+                          ),
+                        ),
+                        backgroundColor: const Color.fromARGB(255, 28, 37, 51),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  }
                 }
               },
             ),
@@ -161,6 +206,9 @@ class _FormScreenState extends State<FormScreen> {
 
   @override
   void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
