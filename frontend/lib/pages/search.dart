@@ -79,7 +79,11 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     if (userInfo == null) {
-      return Center(child: CircularProgressIndicator());
+      return Center(
+        child: CircularProgressIndicator(
+          color: Color.fromARGB(255, 178, 166, 255),
+        ),
+      );
     }
 
     return Scaffold(

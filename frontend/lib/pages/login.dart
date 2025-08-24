@@ -64,16 +64,19 @@ class _FormScreenState extends State<FormScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Text(
+                Text(
                   'Make an account',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: const Color.fromARGB(255, 178, 166, 255),
                   ),
                 ),
                 SizedBox(width: 10),
-                Icon(Icons.arrow_forward_rounded, color: Colors.white),
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  color: const Color.fromARGB(255, 178, 166, 255),
+                ),
               ],
             ),
             onPressed: () {
@@ -85,9 +88,18 @@ class _FormScreenState extends State<FormScreen> {
             width: double.infinity,
             height: 40,
             child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(
+                  Color.fromARGB(255, 28, 37, 51),
+                ),
+              ),
               child: Text(
                 "LOGIN",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 178, 166, 255),
+                ),
               ),
               onPressed: () async {
                 final form = _formKey.currentState!;
@@ -124,11 +136,21 @@ class _FormScreenState extends State<FormScreen> {
               },
             ),
           ),
+          // a temporary button to skip the login
+          SizedBox(height: 200),
           ElevatedButton(
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/search');
             },
-            child: Text("SKIP"),
+            style: ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll(
+                Color.fromARGB(255, 28, 37, 51),
+              ),
+            ),
+            child: Text(
+              "SKIP",
+              style: TextStyle(color: Color.fromARGB(255, 178, 166, 255)),
+            ),
           ),
         ],
       ),
@@ -143,7 +165,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: const Color.fromARGB(255, 5, 12, 28),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 90),
@@ -155,7 +177,7 @@ class Login extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 178, 166, 255),
                 ),
               ),
               FormScreen(),
