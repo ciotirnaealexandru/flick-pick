@@ -61,10 +61,10 @@ class Navbar extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/settings');
+            Navigator.pushReplacementNamed(context, '/profile');
           },
           child: Text(
-            "SETTINGS",
+            "PROFILE",
             style: TextStyle(
               color: const Color.fromARGB(255, 178, 166, 255),
               fontWeight: FontWeight.bold,

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String label;
+  final String? label;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final bool obscureText;
   final TextInputType keyboardType;
+  final String? initialValue;
 
   const CustomTextField({
     super.key,
-    required this.label,
+    this.label,
     this.validator,
     this.controller,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
+    this.initialValue,
   });
 
   @override
@@ -23,6 +25,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
+      initialValue: initialValue,
       cursorColor: const Color.fromARGB(255, 178, 166, 255),
       cursorErrorColor: const Color.fromARGB(255, 178, 166, 255),
       style: const TextStyle(color: const Color.fromARGB(255, 178, 166, 255)),
