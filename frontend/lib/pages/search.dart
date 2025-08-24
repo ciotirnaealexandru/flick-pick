@@ -118,7 +118,7 @@ class _SearchState extends State<Search> {
                           color: const Color.fromARGB(255, 178, 166, 255),
                           decoration: TextDecoration.none,
                           decorationThickness: 0,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           fontSize: 16,
                         ),
                       ),

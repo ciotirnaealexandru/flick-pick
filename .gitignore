@@ -24,7 +24,6 @@
 
 # Environment files
 .env
-.env.*
 
 # -------------------------
 # Flutter/Dart/Pub related

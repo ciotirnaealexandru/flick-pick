@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+// gets a list of the default popular shows from the API
 router.get("/popular", async (req, res) => {
   try {
     const response = await fetch("https://api.tvmaze.com/shows");
@@ -22,10 +23,12 @@ router.get("/popular", async (req, res) => {
   }
 });
 
+// gets a list of 10 (this is the default of the API)
 router.get("/search/:name", async (req, res) => {
   try {
+    const parsedName = encodeURIComponent(req.params.name);
     const response = await fetch(
-      `https://api.tvmaze.com/search/shows?q=${req.params.name}`
+      `https://api.tvmaze.com/search/shows?q=${parsedName}`
     );
     const data = await response.json();
 
@@ -45,6 +48,7 @@ router.get("/search/:name", async (req, res) => {
   }
 });
 
+// gets specific info of a show by id
 router.get("/:id", async (req, res) => {
   try {
     const response = await fetch(
@@ -68,6 +72,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// gets info about the seasons of a show by its id
 router.get("/:id/seasons", async (req, res) => {
   try {
     const response = await fetch(
