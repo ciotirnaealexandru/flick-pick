@@ -118,4 +118,21 @@ router.get("/info", authenticateToken, (req, res) => {
   });
 });
 
+router.get("/user/shows", authenticateToken, (req, res) => {
+  // TODO
+});
+
+router.get("/user/shows/watched", authenticateToken, (req, res) => {
+  // TODO
+});
+
+router.get("/user/shows/will_watch", authenticateToken, (req, res) => {
+  // TODO
+});
+
+router.post("/user/show", authenticateToken, (req, res) => {
+  const { apiId, name, summary, imageUrl } = req.body;
+  // TODO
+});
+
 module.exports = router;
