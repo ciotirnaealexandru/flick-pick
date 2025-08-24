@@ -44,7 +44,7 @@ class Navbar extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/search');
+            Navigator.pushReplacementNamed(context, '/settings');
           },
           child: Text(
             "SETTINGS",

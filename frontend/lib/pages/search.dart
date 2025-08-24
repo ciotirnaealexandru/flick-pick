@@ -71,7 +71,7 @@ class _SearchState extends State<Search> {
 
   Future<void> getShowInfo(text) async {
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/shows/search/${text}'),
+      Uri.parse('${dotenv.env['API_URL']!}/shows/search/$text'),
       headers: {'Content-Type': 'application/json'},
     );
 
