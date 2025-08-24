@@ -28,8 +28,8 @@ router.get("/users/:id", async (req, res) => {
   res.json(user);
 });
 
-// REGISTER
-router.post("/register", async (req, res) => {
+// SIGN UP
+router.post("/signup", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   try {
