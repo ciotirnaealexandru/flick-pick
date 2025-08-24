@@ -13,6 +13,9 @@ class Navbar extends StatelessWidget {
             backgroundColor: WidgetStatePropertyAll(
               Color.fromARGB(255, 28, 37, 51),
             ),
+            padding: const WidgetStatePropertyAll(
+              EdgeInsets.symmetric(horizontal: 20),
+            ),
           ),
           onPressed: () {
             // use this temporarily to return to login
@@ -20,13 +23,20 @@ class Navbar extends StatelessWidget {
           },
           child: Text(
             "SEARCH",
-            style: TextStyle(color: const Color.fromARGB(255, 178, 166, 255)),
+            style: TextStyle(
+              color: const Color.fromARGB(255, 178, 166, 255),
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
           ),
         ),
         ElevatedButton(
           style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(
               Color.fromARGB(255, 28, 37, 51),
+            ),
+            padding: const WidgetStatePropertyAll(
+              EdgeInsets.symmetric(horizontal: 20),
             ),
           ),
           onPressed: () {
@@ -34,7 +44,11 @@ class Navbar extends StatelessWidget {
           },
           child: Text(
             "WATCHLIST",
-            style: TextStyle(color: const Color.fromARGB(255, 178, 166, 255)),
+            style: TextStyle(
+              color: const Color.fromARGB(255, 178, 166, 255),
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
           ),
         ),
         ElevatedButton(
@@ -42,13 +56,20 @@ class Navbar extends StatelessWidget {
             backgroundColor: WidgetStatePropertyAll(
               Color.fromARGB(255, 28, 37, 51),
             ),
+            padding: const WidgetStatePropertyAll(
+              EdgeInsets.symmetric(horizontal: 20),
+            ),
           ),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/settings');
           },
           child: Text(
             "SETTINGS",
-            style: TextStyle(color: const Color.fromARGB(255, 178, 166, 255)),
+            style: TextStyle(
+              color: const Color.fromARGB(255, 178, 166, 255),
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
           ),
         ),
       ],

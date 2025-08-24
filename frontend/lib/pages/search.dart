@@ -103,7 +103,7 @@ class _SearchState extends State<Search> {
                 children: [
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       alignment: Alignment.centerLeft,
                       child: TextField(
                         controller: _searchBarController,
@@ -118,6 +118,8 @@ class _SearchState extends State<Search> {
                           color: const Color.fromARGB(255, 178, 166, 255),
                           decoration: TextDecoration.none,
                           decorationThickness: 0,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -138,6 +140,7 @@ class _SearchState extends State<Search> {
                       color: const Color.fromARGB(255, 178, 166, 255),
                     ),
                   ),
+                  SizedBox(width: 4),
                 ],
               ),
             ),
@@ -159,7 +162,7 @@ class _SearchState extends State<Search> {
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
                 padding: EdgeInsets.all(20),
-                childAspectRatio: 0.595,
+                childAspectRatio: 0.61,
                 children: List.generate(shows.length, (i) {
                   return ShowCard(imageUrl: shows[i].image);
                 }),

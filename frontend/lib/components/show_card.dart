@@ -31,6 +31,10 @@ class _ShowCardState extends State<ShowCard> {
                 backgroundColor: WidgetStatePropertyAll(Colors.transparent),
                 shadowColor: WidgetStatePropertyAll(Colors.transparent),
                 elevation: WidgetStatePropertyAll(0),
+                minimumSize: WidgetStatePropertyAll(
+                  Size(0, 40),
+                ), // sets min height
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 splashFactory: NoSplash.splashFactory,
               ),
               child: Text(
@@ -38,6 +42,7 @@ class _ShowCardState extends State<ShowCard> {
                 style: TextStyle(
                   color: Color.fromARGB(255, 178, 166, 255),
                   fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
