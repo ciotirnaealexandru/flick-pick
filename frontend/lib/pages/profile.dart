@@ -174,28 +174,31 @@ class _ProfileState extends State<Profile> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Column(children: [Navbar()]),
         backgroundColor: const Color.fromARGB(255, 5, 12, 28),
       ),
-      body: Container(
-        color: const Color.fromARGB(255, 5, 12, 28),
-        width: double.infinity,
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 15),
-            Text(
-              'Edit Profile',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 178, 166, 255),
-              ),
-            ),
-            FormScreen(userInfo!),
-            /*
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            color: const Color.fromARGB(255, 5, 12, 28),
+            width: double.infinity,
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 15),
+                Text(
+                  'Edit Profile',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 178, 166, 255),
+                  ),
+                ),
+                FormScreen(userInfo!),
+                /*
             Text(
               "EDIT PROFILE",
               style: TextStyle(
@@ -213,7 +216,9 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             */
-          ],
+              ],
+            ),
+          ),
         ),
       ),
       backgroundColor: const Color.fromARGB(255, 5, 12, 28),
