@@ -79,11 +79,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     if (userInfo == null) {
-      return Center(
-        child: CircularProgressIndicator(
-          color: Color.fromARGB(255, 178, 166, 255),
-        ),
-      );
+      return Center(child: CircularProgressIndicator());
     }
 
     return Scaffold(
@@ -96,7 +92,7 @@ class _SearchState extends State<Search> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: const Color.fromARGB(255, 28, 37, 51),
+                color: Theme.of(context).colorScheme.primary,
               ),
               height: 48,
               child: Row(
@@ -109,17 +105,12 @@ class _SearchState extends State<Search> {
                         controller: _searchBarController,
                         decoration: InputDecoration(
                           hintText: 'Search me up ...',
-                          hintStyle: TextStyle(
-                            color: const Color.fromARGB(255, 178, 166, 255),
-                          ),
+                          hintStyle: Theme.of(context).textTheme.bodyMedium,
                           border: InputBorder.none,
                         ),
                         style: TextStyle(
-                          color: const Color.fromARGB(255, 178, 166, 255),
                           decoration: TextDecoration.none,
                           decorationThickness: 0,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -131,14 +122,9 @@ class _SearchState extends State<Search> {
                       final text = _searchBarController.text.trim();
 
                       // send a a request to the backend to get the shows with those names
-                      print("🚀");
                       getShowsByName(text);
                     },
-                    icon: Icon(
-                      Icons.search,
-                      size: 28,
-                      color: const Color.fromARGB(255, 178, 166, 255),
-                    ),
+                    icon: Icon(Icons.search, size: 28),
                   ),
                   SizedBox(width: 4),
                 ],
@@ -146,36 +132,24 @@ class _SearchState extends State<Search> {
             ),
           ],
         ),
-        backgroundColor: const Color.fromARGB(255, 5, 12, 28),
-        surfaceTintColor: Colors.transparent,
         centerTitle: true,
       ),
 
-      body: Container(
-        color: const Color.fromARGB(255, 5, 12, 28),
-
-        child: Column(
-          children: [
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                padding: EdgeInsets.all(20),
-                childAspectRatio: 0.61,
-                children: List.generate(shows.length, (i) {
-                  return ShowCard(imageUrl: shows[i].image);
-                }),
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+              padding: EdgeInsets.all(20),
+              childAspectRatio: 0.61,
+              children: List.generate(shows.length, (i) {
+                return ShowCard(imageUrl: shows[i].image);
+              }),
             ),
-            /*
-            Text("Id: ${userInfo!.id}"),
-            Text("First Name: ${userInfo!.firstName}"),
-            Text("Last Name: ${userInfo!.lastName}"),
-            Text("Email Name: ${userInfo!.email}"),
-            */
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

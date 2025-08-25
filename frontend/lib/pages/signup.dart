@@ -34,7 +34,7 @@ class _FormScreenState extends State<FormScreen> {
             label: 'First Name',
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               return null;
             },
@@ -45,7 +45,7 @@ class _FormScreenState extends State<FormScreen> {
             label: 'Last Name',
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               return null;
             },
@@ -56,7 +56,7 @@ class _FormScreenState extends State<FormScreen> {
             label: 'Email',
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               if (!value.trim().endsWith('@gmail.com')) {
                 return 'Not a valid email.';
@@ -71,16 +71,16 @@ class _FormScreenState extends State<FormScreen> {
             obscureText: true,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               if (value.length < 8) {
-                return 'Password must be at least 8 characters';
+                return 'Password must be at least 8 characters.';
               }
               if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                return 'Add at least one uppercase letter';
+                return 'Add at least one uppercase letter.';
               }
               if (!RegExp(r'[0-9]').hasMatch(value)) {
-                return 'Add at least one number';
+                return 'Add at least one number.';
               }
 
               return null;
@@ -93,10 +93,10 @@ class _FormScreenState extends State<FormScreen> {
             obscureText: true,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               if (value != _passwordController.text) {
-                return 'Passwords do not match';
+                return 'Passwords do not match.';
               }
               return null;
             },
@@ -114,19 +114,12 @@ class _FormScreenState extends State<FormScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Text(
+                Text(
                   'Already have an account?',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 178, 166, 255),
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 SizedBox(width: 10),
-                Icon(
-                  Icons.arrow_forward_rounded,
-                  color: Color.fromARGB(255, 178, 166, 255),
-                ),
+                Icon(Icons.arrow_forward_rounded),
               ],
             ),
             onPressed: () async {
@@ -138,19 +131,7 @@ class _FormScreenState extends State<FormScreen> {
             width: double.infinity,
             height: 40,
             child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(
-                  Color.fromARGB(255, 28, 37, 51),
-                ),
-              ),
-              child: Text(
-                "SIGN UP",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 178, 166, 255),
-                ),
-              ),
+              child: Text("SIGN UP"),
               onPressed: () async {
                 final form = _formKey.currentState!;
 
@@ -184,13 +165,7 @@ class _FormScreenState extends State<FormScreen> {
                     // show a message of the error
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(
-                          message,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 178, 166, 255),
-                          ),
-                        ),
-                        backgroundColor: const Color.fromARGB(255, 28, 37, 51),
+                        content: Text(message),
                         duration: const Duration(seconds: 2),
                       ),
                     );
@@ -222,21 +197,13 @@ class Signup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: const Color.fromARGB(255, 5, 12, 28),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 90),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Sign Up',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 178, 166, 255),
-                ),
-              ),
+              Text('Sign Up', style: Theme.of(context).textTheme.displayLarge),
               FormScreen(),
             ],
           ),

@@ -26,47 +26,45 @@ class CustomTextField extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       initialValue: initialValue,
-      cursorColor: const Color.fromARGB(255, 178, 166, 255),
-      cursorErrorColor: const Color.fromARGB(255, 178, 166, 255),
-      style: const TextStyle(color: Color.fromARGB(255, 178, 166, 255)),
+      cursorColor: Theme.of(context).colorScheme.onPrimary,
+      cursorErrorColor: Theme.of(context).colorScheme.onPrimary,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: Color.fromARGB(255, 178, 166, 255),
-        ),
-        border: const OutlineInputBorder(
+        labelStyle: Theme.of(context).textTheme.bodyLarge,
+        border: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 178, 166, 255),
+            color: Theme.of(context).colorScheme.onPrimary,
             width: 2,
           ),
         ),
-        enabledBorder: const OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 178, 166, 255),
+            color: Theme.of(context).colorScheme.onPrimary,
             width: 2,
           ),
         ),
-        focusedBorder: const OutlineInputBorder(
+        focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 178, 166, 255),
+            color: Theme.of(context).colorScheme.onPrimary,
             width: 2,
           ),
         ),
-        errorBorder: const OutlineInputBorder(
+        errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 178, 166, 255),
+            color: Theme.of(context).colorScheme.onPrimary,
             width: 2,
           ),
         ),
-        focusedErrorBorder: const OutlineInputBorder(
+        focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 178, 166, 255),
+            color: Theme.of(context).colorScheme.onPrimary,
             width: 2,
           ),
         ),
-        errorStyle: const TextStyle(color: Colors.red),
+        errorStyle: TextStyle(
+          color: Theme.of(context).colorScheme.error,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

@@ -29,7 +29,7 @@ class _FormScreenState extends State<FormScreen> {
             controller: _emailController,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               if (!value.trim().endsWith('@gmail.com')) {
                 return 'Not a valid email.';
@@ -44,7 +44,7 @@ class _FormScreenState extends State<FormScreen> {
             obscureText: true,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               return null;
             },
@@ -64,17 +64,10 @@ class _FormScreenState extends State<FormScreen> {
               children: [
                 Text(
                   'Make an account',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 178, 166, 255),
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 SizedBox(width: 10),
-                Icon(
-                  Icons.arrow_forward_rounded,
-                  color: const Color.fromARGB(255, 178, 166, 255),
-                ),
+                Icon(Icons.arrow_forward_rounded),
               ],
             ),
             onPressed: () {
@@ -86,19 +79,7 @@ class _FormScreenState extends State<FormScreen> {
             width: double.infinity,
             height: 40,
             child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(
-                  Color.fromARGB(255, 28, 37, 51),
-                ),
-              ),
-              child: Text(
-                "LOGIN",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 178, 166, 255),
-                ),
-              ),
+              child: Text("LOGIN"),
               onPressed: () async {
                 final form = _formKey.currentState!;
 
@@ -130,13 +111,7 @@ class _FormScreenState extends State<FormScreen> {
                     print("Login failed: ${response.body}");
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text(
-                          'Login failed.',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 178, 166, 255),
-                          ),
-                        ),
-                        backgroundColor: const Color.fromARGB(255, 28, 37, 51),
+                        content: const Text('Login failed.'),
                         duration: const Duration(seconds: 2),
                       ),
                     );
@@ -151,15 +126,7 @@ class _FormScreenState extends State<FormScreen> {
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/search');
             },
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(
-                Color.fromARGB(255, 28, 37, 51),
-              ),
-            ),
-            child: Text(
-              "SKIP",
-              style: TextStyle(color: Color.fromARGB(255, 178, 166, 255)),
-            ),
+            child: Text("SKIP"),
           ),
         ],
       ),
@@ -174,21 +141,13 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: const Color.fromARGB(255, 5, 12, 28),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 90),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 178, 166, 255),
-                ),
-              ),
+              Text('Login', style: Theme.of(context).textTheme.displayLarge),
               FormScreen(),
             ],
           ),

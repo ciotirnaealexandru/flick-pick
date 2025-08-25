@@ -10,9 +10,6 @@ class Navbar extends StatelessWidget {
       children: [
         ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(
-              Color.fromARGB(255, 28, 37, 51),
-            ),
             padding: const WidgetStatePropertyAll(
               EdgeInsets.symmetric(horizontal: 20),
             ),
@@ -20,20 +17,10 @@ class Navbar extends StatelessWidget {
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/search');
           },
-          child: Text(
-            "SEARCH",
-            style: TextStyle(
-              color: const Color.fromARGB(255, 178, 166, 255),
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
-          ),
+          child: Text("SEARCH", style: Theme.of(context).textTheme.bodySmall),
         ),
         ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(
-              Color.fromARGB(255, 28, 37, 51),
-            ),
             padding: const WidgetStatePropertyAll(
               EdgeInsets.symmetric(horizontal: 20),
             ),
@@ -44,18 +31,11 @@ class Navbar extends StatelessWidget {
           },
           child: Text(
             "WATCHLIST",
-            style: TextStyle(
-              color: const Color.fromARGB(255, 178, 166, 255),
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
         ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(
-              Color.fromARGB(255, 28, 37, 51),
-            ),
             padding: const WidgetStatePropertyAll(
               EdgeInsets.symmetric(horizontal: 20),
             ),
@@ -63,14 +43,7 @@ class Navbar extends StatelessWidget {
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/profile');
           },
-          child: Text(
-            "PROFILE",
-            style: TextStyle(
-              color: const Color.fromARGB(255, 178, 166, 255),
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
-          ),
+          child: Text("PROFILE", style: Theme.of(context).textTheme.bodySmall),
         ),
       ],
     );

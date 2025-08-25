@@ -15,7 +15,7 @@ class _ShowCardState extends State<ShowCard> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: const Color.fromARGB(255, 28, 37, 51),
+        color: Theme.of(context).colorScheme.primary,
       ),
       clipBehavior: Clip.hardEdge,
       child: Column(
@@ -37,14 +37,7 @@ class _ShowCardState extends State<ShowCard> {
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 splashFactory: NoSplash.splashFactory,
               ),
-              child: Text(
-                "ADD",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 178, 166, 255),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: Text("ADD", style: Theme.of(context).textTheme.bodyMedium),
             ),
           ),
         ],

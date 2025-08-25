@@ -55,63 +55,42 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 40),
-          Text(
-            'First Name',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 178, 166, 255),
-            ),
-          ),
+          Text('First Name', style: Theme.of(context).textTheme.bodyLarge),
 
           const SizedBox(height: 10),
           CustomTextField(
             controller: _firstNameController,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               return null;
             },
           ),
 
           const SizedBox(height: 20),
-          Text(
-            'Last Name',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 178, 166, 255),
-            ),
-          ),
-          const SizedBox(height: 10),
+          Text('Last Name', style: Theme.of(context).textTheme.bodyLarge),
 
+          const SizedBox(height: 10),
           CustomTextField(
             controller: _lastNameController,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               return null;
             },
           ),
 
           const SizedBox(height: 20),
-          Text(
-            'Email',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 178, 166, 255),
-            ),
-          ),
-          const SizedBox(height: 10),
+          Text('Email', style: Theme.of(context).textTheme.bodyLarge),
 
+          const SizedBox(height: 10),
           CustomTextField(
             controller: _emailController,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'This field is empty';
+                return 'This field is empty.';
               }
               if (!value.trim().endsWith('@gmail.com')) {
                 return 'Not a valid email.';
@@ -121,52 +100,35 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
           ),
 
           const SizedBox(height: 20),
-          Text(
-            'Phone number',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 178, 166, 255),
-            ),
-          ),
-          const SizedBox(height: 10),
+          Text('Phone number', style: Theme.of(context).textTheme.bodyLarge),
 
+          const SizedBox(height: 10),
           CustomTextField(
             controller: _phoneController,
             validator: (value) {
-              // allow empty
+              // allow empty phone number
               if (value == null || value.trim().isEmpty) return null;
 
               final normalized = value.trim();
               final pattern = RegExp(r'^\d{4} \d{3} \d{3}$');
 
               if (!pattern.hasMatch(normalized)) {
-                return 'Phone must be in format: XXXX XXX XXX';
+                return 'Phone must be in format: XXXX XXX XXX.';
               }
               return null;
             },
           ),
 
           const SizedBox(height: 60),
-
           Align(
             alignment: Alignment.center,
             child: SizedBox(
               width: 200,
               height: 40,
               child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(
-                    Color.fromARGB(255, 28, 37, 51),
-                  ),
-                ),
                 child: Text(
                   "UPDATE",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 178, 166, 255),
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 onPressed: () async {
                   final form = _formKey.currentState!;
@@ -199,24 +161,13 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
                     );
 
                     if (response.statusCode == 200) {
-                      print("Profile changed successfully!");
+                      print("Profile changed successfully.");
 
                       await widget.loadUserInfo();
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
-                            "Profile changed successfully!",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 178, 166, 255),
-                            ),
-                          ),
-                          backgroundColor: const Color.fromARGB(
-                            255,
-                            28,
-                            37,
-                            51,
-                          ),
+                          content: Text("Profile changed successfully."),
                           duration: const Duration(seconds: 2),
                         ),
                       );
@@ -230,18 +181,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
                       // show a message of the error
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
-                            message,
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 178, 166, 255),
-                            ),
-                          ),
-                          backgroundColor: const Color.fromARGB(
-                            255,
-                            28,
-                            37,
-                            51,
-                          ),
+                          content: Text(message),
                           duration: const Duration(seconds: 2),
                         ),
                       );
@@ -276,17 +216,10 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
         width: 200,
         height: 40,
         child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(
-              Color.fromARGB(255, 28, 37, 51),
-            ),
-          ),
           child: Text(
             "DELETE",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: const Color.fromARGB(255, 195, 45, 55),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).colorScheme.error,
             ),
           ),
           onPressed: () async {
@@ -295,47 +228,35 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   insetPadding: EdgeInsets.all(16),
-                  backgroundColor: Color.fromARGB(255, 28, 37, 51),
-                  title: const Text(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  title: Text(
                     "Confirm Delete",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 178, 166, 255),
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
 
-                  content: const Text(
+                  content: Text(
                     "Are you sure you want to delete your profile? This cannot be undone.",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Color.fromARGB(255, 178, 166, 255),
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   actions: [
                     TextButton(
                       onPressed:
                           () => Navigator.of(context).pop(false), // cancel
-                      child: const Text(
+                      child: Text(
                         "Cancel",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color.fromARGB(255, 178, 166, 255),
-                        ),
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 195, 45, 55),
+                        backgroundColor: Theme.of(context).colorScheme.error,
                       ),
                       onPressed:
                           () => Navigator.of(context).pop(true), // confirm
-                      child: const Text(
+                      child: Text(
                         "Delete",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 28, 37, 51),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.surface,
                         ),
                       ),
                     ),
@@ -381,14 +302,8 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                 // show a message of the error
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
-                      message,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 178, 166, 255),
-                      ),
-                    ),
-                    backgroundColor: const Color.fromARGB(255, 28, 37, 51),
-                    duration: const Duration(seconds: 2),
+                    content: Text(message),
+                    duration: Duration(seconds: 2),
                   ),
                 );
               }
@@ -426,23 +341,15 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     if (userInfo == null) {
-      return Center(
-        child: CircularProgressIndicator(
-          color: Color.fromARGB(255, 178, 166, 255),
-        ),
-      );
+      return Center(child: CircularProgressIndicator());
     }
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        title: Column(children: [Navbar()]),
-        backgroundColor: const Color.fromARGB(255, 5, 12, 28),
-      ),
+      appBar: AppBar(title: Navbar()),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            color: const Color.fromARGB(255, 5, 12, 28),
             width: double.infinity,
             padding: EdgeInsets.all(20),
             child: Column(
@@ -451,11 +358,7 @@ class _ProfileState extends State<Profile> {
                 SizedBox(height: 15),
                 Text(
                   'Edit Profile',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 178, 166, 255),
-                  ),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 UpdateProfileForm(userInfo!, loadUserInfo),
                 SizedBox(height: 20),
@@ -465,7 +368,6 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      backgroundColor: const Color.fromARGB(255, 5, 12, 28),
     );
   }
 }

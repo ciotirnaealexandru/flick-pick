@@ -4,6 +4,7 @@ import 'package:frontend/pages/profile.dart';
 import 'package:frontend/pages/signup.dart';
 import 'package:frontend/pages/search.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +25,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flick Pick',
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(116, 95, 255, 1),
-        textTheme: TextTheme(titleLarge: const TextStyle(fontSize: 30)),
-        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
-      ),
+      theme: appTheme,
+
       home: const Login(),
       routes: {
         '/login': (context) => const Login(),
