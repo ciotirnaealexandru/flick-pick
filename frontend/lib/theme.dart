@@ -80,7 +80,9 @@ final ThemeData appTheme = ThemeData(
     behavior: SnackBarBehavior.floating,
   ),
 
-  progressIndicatorTheme: ProgressIndicatorThemeData(color: _appColors.primary),
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: _appColors.onPrimary,
+  ),
 
   iconTheme: IconThemeData(color: _appColors.onPrimary),
 );

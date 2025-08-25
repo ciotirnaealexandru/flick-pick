@@ -54,7 +54,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 40),
+          const SizedBox(height: 30),
           Text('First Name', style: Theme.of(context).textTheme.bodyLarge),
 
           const SizedBox(height: 10),
@@ -119,7 +119,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
             },
           ),
 
-          const SizedBox(height: 60),
+          const SizedBox(height: 50),
           Align(
             alignment: Alignment.center,
             child: SizedBox(
@@ -236,7 +236,9 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
 
                   content: Text(
                     "Are you sure you want to delete your profile? This cannot be undone.",
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                   actions: [
                     TextButton(
@@ -355,7 +357,6 @@ class _ProfileState extends State<Profile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 15),
                 Text(
                   'Edit Profile',
                   style: Theme.of(context).textTheme.titleLarge,
