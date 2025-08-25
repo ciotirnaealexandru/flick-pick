@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/components/show_card.dart';
+import 'package:frontend/components/cards/show_card.dart';
 import 'package:frontend/services/auth_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -108,7 +108,7 @@ class _SearchState extends State<Search> {
                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                           border: InputBorder.none,
                         ),
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           decoration: TextDecoration.none,
                           decorationThickness: 0,
                         ),
@@ -145,7 +145,10 @@ class _SearchState extends State<Search> {
               padding: EdgeInsets.all(20),
               childAspectRatio: 0.61,
               children: List.generate(shows.length, (i) {
-                return ShowCard(imageUrl: shows[i].image);
+                return ShowCard(
+                  showId: shows[i].id,
+                  showImageUrl: shows[i].image,
+                );
               }),
             ),
           ),

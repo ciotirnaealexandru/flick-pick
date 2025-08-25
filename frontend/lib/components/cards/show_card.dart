@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ShowCard extends StatefulWidget {
-  final String imageUrl;
+  final int showId;
+  final String showImageUrl;
 
-  const ShowCard({super.key, required this.imageUrl});
+  const ShowCard({super.key, required this.showId, required this.showImageUrl});
 
   @override
   State<ShowCard> createState() => _ShowCardState();
@@ -21,7 +22,17 @@ class _ShowCardState extends State<ShowCard> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.network(widget.imageUrl, fit: BoxFit.cover),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
+            child: Image.network(widget.showImageUrl, fit: BoxFit.fitHeight),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/show_info',
+                arguments: {'id': widget.showId},
+              );
+            },
+          ),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -35,7 +46,6 @@ class _ShowCardState extends State<ShowCard> {
                   Size(0, 40),
                 ), // sets min height
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                splashFactory: NoSplash.splashFactory,
               ),
               child: Text("ADD", style: Theme.of(context).textTheme.bodyMedium),
             ),
