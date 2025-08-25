@@ -157,7 +157,7 @@ router.patch("/id/:id", authenticateToken, async (req, res) => {
     // if it's not the user that has that email and it already exists,
     // throw an error
     if (user.email != email && duplicateEmail) {
-      return res.status(401).send("Email already in use.");
+      return res.status(401).json({ message: "Email already in use." });
     }
 
     // if the user does exist, update the info

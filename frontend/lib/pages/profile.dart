@@ -1,14 +1,19 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/components/navbar.dart';
 import 'package:frontend/components/custom_form_field.dart';
 import 'package:frontend/services/auth_service.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
 
 class FormScreen extends StatefulWidget {
   final User userInfo;
+  final Future<void> Function() loadUserInfo;
 
-  const FormScreen(this.userInfo, {super.key});
+  const FormScreen(this.userInfo, this.loadUserInfo, {super.key});
 
   @override
   State<FormScreen> createState() => _FormScreenState();
@@ -16,8 +21,6 @@ class FormScreen extends StatefulWidget {
 
 class _FormScreenState extends State<FormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-
-  final secureStorage = FlutterSecureStorage();
 
   late TextEditingController _firstNameController = TextEditingController();
   late TextEditingController _lastNameController = TextEditingController();
@@ -40,7 +43,7 @@ class _FormScreenState extends State<FormScreen> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _emailController.dispose();
-    //_phoneController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
@@ -165,22 +168,82 @@ class _FormScreenState extends State<FormScreen> {
                     color: const Color.fromARGB(255, 178, 166, 255),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   final form = _formKey.currentState!;
 
                   if (form.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          'Profile changed successfully!',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 178, 166, 255),
-                          ),
-                        ),
-                        backgroundColor: const Color.fromARGB(255, 28, 37, 51),
-                        duration: const Duration(seconds: 2),
-                      ),
+                    final firstName = _firstNameController.text.trim();
+                    final lastName = _lastNameController.text.trim();
+                    final email = _emailController.text.trim();
+                    final phone = _phoneController.text.trim();
+
+                    final secureStorage = FlutterSecureStorage();
+                    final token = await secureStorage.read(
+                      key: dotenv.env['SECURE_STORAGE_SECRET']!,
                     );
+
+                    final response = await http.patch(
+                      Uri.parse(
+                        '${dotenv.env['API_URL']!}/user/id/${widget.userInfo.id}',
+                      ),
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer $token',
+                      },
+                      body: jsonEncode({
+                        'firstName': firstName,
+                        'lastName': lastName,
+                        'email': email,
+                        'phone': phone,
+                      }),
+                    );
+
+                    if (response.statusCode == 200) {
+                      print("Profile changed successfully!");
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Profile changed successfully!",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 178, 166, 255),
+                            ),
+                          ),
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            28,
+                            37,
+                            51,
+                          ),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    } else {
+                      print("Response body: ${response.body}");
+
+                      final responseData = jsonDecode(response.body);
+                      final message =
+                          responseData['message'] ?? 'Something went wrong.';
+
+                      // show a message of the error
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            message,
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 178, 166, 255),
+                            ),
+                          ),
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            28,
+                            37,
+                            51,
+                          ),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
                   }
                 },
               ),
@@ -249,7 +312,7 @@ class _ProfileState extends State<Profile> {
                     color: Color.fromARGB(255, 178, 166, 255),
                   ),
                 ),
-                FormScreen(userInfo!),
+                FormScreen(userInfo!, loadUserInfo),
               ],
             ),
           ),

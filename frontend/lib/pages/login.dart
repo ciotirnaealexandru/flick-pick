@@ -17,8 +17,6 @@ class _FormScreenState extends State<FormScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final secureStorage = FlutterSecureStorage();
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -108,8 +106,6 @@ class _FormScreenState extends State<FormScreen> {
                   final email = _emailController.text.trim();
                   final password = _passwordController.text;
 
-                  final navigator = Navigator.pushReplacementNamed;
-
                   final response = await http.post(
                     Uri.parse('${dotenv.env['API_URL']!}/user/login'),
                     headers: {'Content-Type': 'application/json'},
@@ -122,12 +118,14 @@ class _FormScreenState extends State<FormScreen> {
 
                     // save the JWT to the Secure Storage
                     print("Login successful! Token: $token");
+
+                    final secureStorage = FlutterSecureStorage();
                     await secureStorage.write(
                       key: dotenv.env['SECURE_STORAGE_SECRET']!,
                       value: token,
                     );
 
-                    navigator(context, '/search');
+                    Navigator.pushReplacementNamed(context, '/search');
                   } else {
                     print("Login failed: ${response.body}");
                     ScaffoldMessenger.of(context).showSnackBar(
