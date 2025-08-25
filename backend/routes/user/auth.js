@@ -212,7 +212,7 @@ router.delete("/id/:id", authenticateToken, async (req, res) => {
     });
 
     // return the new user
-    res.json({ message: "User succesfully deleted." });
+    res.status(200).json({ message: "User succesfully deleted." });
   } catch (error) {
     console.error("Something went wrong: ", error);
     res.status(500).json({ message: "Server error." });

@@ -9,17 +9,17 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
 
-class FormScreen extends StatefulWidget {
+class UpdateProfileForm extends StatefulWidget {
   final User userInfo;
   final Future<void> Function() loadUserInfo;
 
-  const FormScreen(this.userInfo, this.loadUserInfo, {super.key});
+  const UpdateProfileForm(this.userInfo, this.loadUserInfo, {super.key});
 
   @override
-  State<FormScreen> createState() => _FormScreenState();
+  State<UpdateProfileForm> createState() => _UpdateProfileFormState();
 }
 
-class _FormScreenState extends State<FormScreen> {
+class _UpdateProfileFormState extends State<UpdateProfileForm> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   late TextEditingController _firstNameController = TextEditingController();
@@ -201,6 +201,8 @@ class _FormScreenState extends State<FormScreen> {
                     if (response.statusCode == 200) {
                       print("Profile changed successfully!");
 
+                      await widget.loadUserInfo();
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -250,6 +252,149 @@ class _FormScreenState extends State<FormScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class DeleteProfileButton extends StatefulWidget {
+  final User userInfo;
+  final Future<void> Function() loadUserInfo;
+
+  const DeleteProfileButton(this.userInfo, this.loadUserInfo, {super.key});
+
+  @override
+  State<DeleteProfileButton> createState() => _DeleteProfileButtonState();
+}
+
+class _DeleteProfileButtonState extends State<DeleteProfileButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: SizedBox(
+        width: 200,
+        height: 40,
+        child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(
+              Color.fromARGB(255, 28, 37, 51),
+            ),
+          ),
+          child: Text(
+            "DELETE",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: const Color.fromARGB(255, 195, 45, 55),
+            ),
+          ),
+          onPressed: () async {
+            final confirmed = await showDialog<bool>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  insetPadding: EdgeInsets.all(16),
+                  backgroundColor: Color.fromARGB(255, 28, 37, 51),
+                  title: const Text(
+                    "Confirm Delete",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 178, 166, 255),
+                    ),
+                  ),
+
+                  content: const Text(
+                    "Are you sure you want to delete your profile? This cannot be undone.",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(255, 178, 166, 255),
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed:
+                          () => Navigator.of(context).pop(false), // cancel
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 178, 166, 255),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 195, 45, 55),
+                      ),
+                      onPressed:
+                          () => Navigator.of(context).pop(true), // confirm
+                      child: const Text(
+                        "Delete",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 28, 37, 51),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            // If user confirmed deletion
+            if (confirmed == true) {
+              final secureStorage = FlutterSecureStorage();
+              final token = await secureStorage.read(
+                key: dotenv.env['SECURE_STORAGE_SECRET']!,
+              );
+
+              final response = await http.delete(
+                Uri.parse(
+                  '${dotenv.env['API_URL']!}/user/id/${widget.userInfo.id}',
+                ),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer $token',
+                },
+              );
+
+              if (response.statusCode == 200) {
+                print("Profile deleted successfully!");
+
+                // remove the JWT token
+                final secureStorage = FlutterSecureStorage();
+                await secureStorage.delete(
+                  key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                );
+
+                Navigator.pushReplacementNamed(context, '/login');
+              } else {
+                print("Response body: ${response.body}");
+
+                final responseData = jsonDecode(response.body);
+                final message =
+                    responseData['message'] ?? 'Something went wrong.';
+
+                // show a message of the error
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      message,
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 178, 166, 255),
+                      ),
+                    ),
+                    backgroundColor: const Color.fromARGB(255, 28, 37, 51),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              }
+            }
+          },
+        ),
       ),
     );
   }
@@ -312,7 +457,9 @@ class _ProfileState extends State<Profile> {
                     color: Color.fromARGB(255, 178, 166, 255),
                   ),
                 ),
-                FormScreen(userInfo!, loadUserInfo),
+                UpdateProfileForm(userInfo!, loadUserInfo),
+                SizedBox(height: 20),
+                DeleteProfileButton(userInfo!, loadUserInfo),
               ],
             ),
           ),
