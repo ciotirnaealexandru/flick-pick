@@ -27,6 +27,14 @@ Flutter (Dart) - page routing, creating pages and components, color themes (futu
 
 MySQL and Prisma ORM - setting up database seeding, user Roles (USER, ADMIN), User, custom UserShows
 
+To seed the database:
+
+```bash
+    npx prisma db push
+    npx prisma generate
+    npm run seed
+```
+
 Express.js - endpoint routing, middlewares for route protection (only certain users or only admin guards), JWT token authorization, User CRUD (and /login, /signup, /me)
 
 TVMaze API - connected with Express.js backend (retrieve popular shows, or by name, by id, get user season information, text parsing, cleaning up jsons)
