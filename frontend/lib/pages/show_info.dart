@@ -60,7 +60,9 @@ class _ShowInfoState extends State<ShowInfo> {
                       children: [
                         Text(
                           showInfo!.name,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(height: 1.1),
                         ),
                         SizedBox(height: 15),
                         Text(

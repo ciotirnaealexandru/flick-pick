@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/cards/show_card.dart';
 import 'package:frontend/services/auth_service.dart';
@@ -23,7 +24,11 @@ class _SearchState extends State<Search> {
   void initState() {
     super.initState();
     loadUserInfo();
-    getPopularShows();
+    getPopularShows().then((_) {
+      for (var show in shows) {
+        precacheImage(CachedNetworkImageProvider(show.image), context);
+      }
+    });
   }
 
   Future<void> loadUserInfo() async {
@@ -138,18 +143,21 @@ class _SearchState extends State<Search> {
       body: Column(
         children: [
           Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
+            child: GridView.builder(
               padding: EdgeInsets.all(20),
-              childAspectRatio: 0.61,
-              children: List.generate(shows.length, (i) {
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 210 / 295,
+              ),
+              itemCount: shows.length,
+              itemBuilder: (context, i) {
                 return ShowCard(
                   showId: shows[i].id,
                   showImageUrl: shows[i].image,
                 );
-              }),
+              },
             ),
           ),
         ],
