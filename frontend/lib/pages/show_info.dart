@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:frontend/models/show_model.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:frontend/services/show_service.dart';
 
 class ShowInfo extends StatefulWidget {
   const ShowInfo({super.key});
@@ -23,30 +21,15 @@ class _ShowInfoState extends State<ShowInfo> {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
       showId = args['id'].toString();
 
-      // fetch the show info after we have the showId
-      getShowInfo(showId!);
+      _loadShowInfo(showId!);
     }
   }
 
-  Future<void> getShowInfo(showId) async {
-    try {
-      final response = await http.get(
-        Uri.parse('${dotenv.env['API_URL']!}/shows/$showId'),
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      if (response.statusCode == 200) {
-        final showJson = json.decode(response.body);
-
-        setState(() {
-          showInfo = Show.fromJson(showJson);
-        });
-      } else {
-        print('Failed to load show info: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error fetching show info: $e');
-    }
+  Future<void> _loadShowInfo(showId) async {
+    final data = await getShowInfo(showId);
+    setState(() {
+      showInfo = data;
+    });
   }
 
   @override
@@ -75,7 +58,7 @@ class _ShowInfoState extends State<ShowInfo> {
                         showInfo!.name,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      Text(showInfo!.name),
+                      Text(showInfo?.premiered ?? ''),
                     ],
                   ),
 

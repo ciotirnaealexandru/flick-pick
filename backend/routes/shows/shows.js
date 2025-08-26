@@ -3,6 +3,7 @@ const router = express.Router();
 
 // this is used to strip HTML formatting from things like show summaries
 const stripHTMLTags = require("../../helpers/stripHTMLTags");
+const getYear = require("../../helpers/getYear");
 
 // gets a list of the default popular shows from the API
 router.get("/popular", async (req, res) => {
@@ -66,6 +67,8 @@ router.get("/:id", async (req, res) => {
       genres: data.genres,
       image: data.image?.medium,
       summary: stripHTMLTags(data.summary),
+      premiered: getYear(data.premiered),
+      ended: getYear(data.ended),
     };
 
     res.json(simplified);
