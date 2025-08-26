@@ -14,13 +14,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum watchStatus {
+enum WatchStatus {
   // the user did not put the show on the list
   NOT_WATCHED
   // the user put the show on the list but did not watch it yet
   WILL_WATCH
   // the user put the show on the list and watched it
   WATCHED
+}
+
+enum Role {
+  ADMIN
+  USER
 }
 
 model User {
@@ -30,6 +35,7 @@ model User {
   email     String  @unique
   phone     String?
   password  String
+  role      Role    @default(USER)
 
   shows UserShow[]
 
@@ -46,11 +52,11 @@ model UserShow {
   imageUrl String
 
   // info that the user provided about the show 
-  user          User        @relation(fields: [userId], references: [id])
-  userId        Int
-  userRating    Int?
-  userReview    String?
-  watchedStatus watchStatus @default(NOT_WATCHED)
+  user        User        @relation(fields: [userId], references: [id])
+  userId      Int
+  userRating  Int?
+  userReview  String?
+  watchStatus WatchStatus @default(NOT_WATCHED)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
