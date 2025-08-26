@@ -53,61 +53,65 @@ class _ShowInfoState extends State<ShowInfo> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        showInfo!.name,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      SizedBox(height: 15),
-                      Text(
-                        "${(showInfo?.premiered != null || showInfo?.ended != null) ? "${showInfo?.premiered} - ${showInfo?.ended}" : "Years N/A"} • ${showInfo?.network}",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      Text(
-                        showInfo?.genres?.isNotEmpty == true
-                            ? showInfo!.genres!.take(2).join(" • ")
-                            : "No genres available",
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          showInfo!.name,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      SizedBox(
-                        width: 200,
-                        child: ElevatedButton(
-                          onPressed: () => {},
-                          child: Text(
-                            "Add to watchlist",
-                            style: Theme.of(context).textTheme.bodyLarge,
+                        SizedBox(height: 15),
+                        Text(
+                          "${(showInfo?.premiered != null || showInfo?.ended != null) ? "${showInfo?.premiered} - ${showInfo?.ended}" : "Years N/A"} • ${showInfo?.network}",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          softWrap: true,
+                        ),
+                        Text(
+                          showInfo?.genres?.isNotEmpty == true
+                              ? showInfo!.genres!.take(2).join(" • ")
+                              : "No genres available",
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          width: 200,
+                          child: ElevatedButton(
+                            onPressed: () => {},
+                            child: Text(
+                              "Add to watchlist",
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      Theme(
-                        data: Theme.of(context).copyWith(
-                          splashFactory: NoSplash.splashFactory,
-                          highlightColor: Colors.transparent,
-                        ),
-                        child: StarRating(
-                          size: 40,
-                          rating: rating ?? 0,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          borderColor: Theme.of(context).colorScheme.onPrimary,
-                          allowHalfRating: true,
-                          onRatingChanged:
-                              (newRating) => {
-                                if (rating == newRating)
-                                  {setState(() => rating = 0)}
-                                else
-                                  {setState(() => rating = newRating)},
+                        SizedBox(height: 10),
+                        IntrinsicWidth(
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              splashFactory: NoSplash.splashFactory,
+                              highlightColor: Colors.transparent,
+                            ),
+                            child: StarRating(
+                              size: 40,
+                              rating: rating ?? 0,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              borderColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                              allowHalfRating: true,
+                              onRatingChanged: (newRating) {
+                                setState(
+                                  () =>
+                                      rating =
+                                          (rating == newRating ? 0 : newRating),
+                                );
                               },
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
