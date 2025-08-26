@@ -55,10 +55,14 @@ router.get("/search/:name", async (req, res) => {
 // gets specific info of a show by id
 router.get("/:id", async (req, res) => {
   try {
-    const response = await fetch(
+    const showsIdResponse = await fetch(
       `https://api.tvmaze.com/shows/${req.params.id}`
     );
-    const data = await response.json();
+    const data = await showsIdResponse.json();
+    const networkName =
+      data.network?.name ?? data.webChannel?.name ?? "Unknown Network";
+    const endingYear =
+      data.status === "Ended" ? getYear(data.ended) : "Present";
 
     // get only the fields i like
     const simplified = {
@@ -68,7 +72,8 @@ router.get("/:id", async (req, res) => {
       image: data.image?.medium,
       summary: stripHTMLTags(data.summary),
       premiered: getYear(data.premiered),
-      ended: getYear(data.ended),
+      ended: endingYear,
+      network: networkName,
     };
 
     res.json(simplified);
