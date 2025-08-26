@@ -153,10 +153,10 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
                         'Authorization': 'Bearer $token',
                       },
                       body: jsonEncode({
-                        'firstName': firstName,
-                        'lastName': lastName,
-                        'email': email,
-                        'phone': phone,
+                        'newFirstName': firstName,
+                        'newLastName': lastName,
+                        'newEmail': email,
+                        'newPhone': phone,
                       }),
                     );
 
