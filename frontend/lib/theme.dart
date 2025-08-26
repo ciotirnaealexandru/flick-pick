@@ -50,11 +50,7 @@ final ThemeData appTheme = ThemeData(
       fontWeight: FontWeight.bold,
       color: _appColors.onPrimary,
     ),
-    bodyMedium: TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w600,
-      color: _appColors.onPrimary,
-    ),
+    bodyMedium: TextStyle(fontSize: 16, color: _appColors.onPrimary),
     bodySmall: TextStyle(
       fontSize: 15,
       fontWeight: FontWeight.bold,

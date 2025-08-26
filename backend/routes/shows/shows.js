@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+// this is used to strip HTML formatting from things like show summaries
+const stripHTMLTags = require("../../helpers/stripHTMLTags");
+
 // gets a list of the default popular shows from the API
 router.get("/popular", async (req, res) => {
   try {
@@ -62,7 +65,7 @@ router.get("/:id", async (req, res) => {
       name: data.name,
       genres: data.genres,
       image: data.image?.medium,
-      summary: data.summary,
+      summary: stripHTMLTags(data.summary),
     };
 
     res.json(simplified);

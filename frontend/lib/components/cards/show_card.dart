@@ -47,7 +47,12 @@ class _ShowCardState extends State<ShowCard> {
                 ), // sets min height
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: Text("ADD", style: Theme.of(context).textTheme.bodyMedium),
+              child: Text(
+                "ADD",
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],

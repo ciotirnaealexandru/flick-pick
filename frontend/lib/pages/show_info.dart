@@ -13,7 +13,7 @@ class ShowInfo extends StatefulWidget {
 
 class _ShowInfoState extends State<ShowInfo> {
   String? showId;
-  Show? show;
+  Show? showInfo;
 
   @override
   void didChangeDependencies() {
@@ -39,7 +39,7 @@ class _ShowInfoState extends State<ShowInfo> {
         final showJson = json.decode(response.body);
 
         setState(() {
-          show = Show.fromJson(showJson);
+          showInfo = Show.fromJson(showJson);
         });
       } else {
         print('Failed to load show info: ${response.statusCode}');
@@ -51,11 +51,58 @@ class _ShowInfoState extends State<ShowInfo> {
 
   @override
   Widget build(BuildContext context) {
+    if (showInfo == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(show != null ? '${show!.name}' : "Loading..."),
+      appBar: AppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 40),
+                      Text(
+                        showInfo!.name,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(showInfo!.name),
+                    ],
+                  ),
+
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    clipBehavior: Clip.hardEdge,
+                    child: Image.network(
+                      showInfo!.image,
+                      fit: BoxFit.fitHeight,
+                      height: 220,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 40),
+              Text(
+                showInfo!.summary,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              SizedBox(height: 40),
+              Text("Seasons", style: Theme.of(context).textTheme.titleMedium),
+            ],
+          ),
+        ),
       ),
-      body: Center(child: Text("Details for show with id $showId")),
     );
   }
 }
