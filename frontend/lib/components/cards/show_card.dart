@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ShowCard extends StatefulWidget {
@@ -24,7 +25,10 @@ class _ShowCardState extends State<ShowCard> {
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
-            child: Image.network(widget.showImageUrl, fit: BoxFit.fitHeight),
+            child: CachedNetworkImage(
+              imageUrl: widget.showImageUrl,
+              fit: BoxFit.fitHeight,
+            ),
             onPressed: () {
               Navigator.pushNamed(
                 context,

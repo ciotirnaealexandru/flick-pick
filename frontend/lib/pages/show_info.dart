@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:frontend/components/cards/expandable_text_card.dart';
@@ -117,8 +118,8 @@ class _ShowInfoState extends State<ShowInfo> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     clipBehavior: Clip.hardEdge,
-                    child: Image.network(
-                      showInfo!.image,
+                    child: CachedNetworkImage(
+                      imageUrl: showInfo!.image,
                       fit: BoxFit.fitHeight,
                       height: 220,
                     ),
