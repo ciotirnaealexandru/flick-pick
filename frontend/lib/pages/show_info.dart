@@ -16,6 +16,7 @@ class _ShowInfoState extends State<ShowInfo> {
   String? showId;
   Show? showInfo;
   double? rating;
+  bool isEnabled = false;
 
   @override
   void didChangeDependencies() {
@@ -81,7 +82,12 @@ class _ShowInfoState extends State<ShowInfo> {
                         SizedBox(
                           width: 200,
                           child: ElevatedButton(
-                            onPressed: () => {},
+                            onPressed:
+                                () => {
+                                  setState(() {
+                                    isEnabled = !isEnabled;
+                                  }),
+                                },
                             child: Text(
                               "Add to watchlist",
                               style: Theme.of(context).textTheme.bodyLarge,
@@ -97,16 +103,23 @@ class _ShowInfoState extends State<ShowInfo> {
                             ),
                             child: StarRating(
                               size: 40,
-                              rating: rating ?? 0,
-                              color: Theme.of(context).colorScheme.onPrimary,
+                              rating: isEnabled ? (rating ?? 0) : 0,
+                              color:
+                                  isEnabled
+                                      ? Theme.of(context).colorScheme.onPrimary
+                                      : Theme.of(context).colorScheme.primary,
                               borderColor:
-                                  Theme.of(context).colorScheme.onPrimary,
+                                  isEnabled
+                                      ? Theme.of(context).colorScheme.onPrimary
+                                      : Theme.of(context).colorScheme.primary,
                               allowHalfRating: true,
                               onRatingChanged: (newRating) {
                                 setState(
                                   () =>
                                       rating =
-                                          (rating == newRating ? 0 : newRating),
+                                          (rating == newRating || !isEnabled
+                                              ? 0
+                                              : newRating),
                                 );
                               },
                             ),

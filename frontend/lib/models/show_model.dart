@@ -13,6 +13,8 @@ class Show {
   String? ended;
   String? network;
   List<String>? genres;
+  int? rating;
+  String? watchStatus;
 
   Show({
     required this.id,
@@ -23,6 +25,8 @@ class Show {
     this.premiered,
     this.ended,
     this.network,
+    this.rating,
+    this.watchStatus,
   });
 
   factory Show.fromJson(Map<String, dynamic> json) => Show(
@@ -34,6 +38,8 @@ class Show {
     premiered: json["premiered"] as String?,
     ended: json["ended"] as String?,
     network: json["network"] as String?,
+    rating: json["rating"] as int?,
+    watchStatus: json["watchStatus"] as String?,
   );
 
   Map<String, dynamic> toJson() => {
@@ -44,6 +50,7 @@ class Show {
     "premiered": premiered,
     "ended": ended,
     "network": network,
+    "rating": rating,
   };
 
   bool get hasAllFields =>
