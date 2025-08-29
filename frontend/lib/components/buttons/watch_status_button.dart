@@ -47,7 +47,7 @@ class _WatchStatusButtonState extends State<WatchStatusButton> {
         width: 200,
         child: PopupMenuButton<String>(
           menuPadding: EdgeInsets.zero,
-          constraints: const BoxConstraints.tightFor(width: 200, height: 92),
+          constraints: const BoxConstraints.tightFor(width: 200, height: 93),
           offset: const Offset(0, 0),
           color: Theme.of(context).colorScheme.primary,
           elevation: 0,

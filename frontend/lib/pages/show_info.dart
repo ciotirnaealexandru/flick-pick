@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:frontend/components/buttons/watch_status_button.dart';
 import 'package:frontend/components/cards/expandable_text_card.dart';
+import 'package:frontend/components/cards/review_card.dart';
 import 'package:frontend/models/show_model.dart';
 import 'package:frontend/services/show_service.dart';
 
@@ -148,6 +149,25 @@ class _ShowInfoState extends State<ShowInfo> {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(height: 40),
+              Text("Reviews", style: Theme.of(context).textTheme.titleMedium),
+              ReviewCard(author: "Alex", content: "Buna, asta e un mesaj."),
+              ReviewCard(
+                author: "Andrei",
+                content:
+                    "Buna, asta e un mesaj, dar mult mult mult mult mult mult mult mult mult mult mult mult mai lung.",
+              ),
+              ReviewCard(author: "Alex", content: "Buna, asta e un mesaj."),
+              ReviewCard(
+                author: "Andrei",
+                content:
+                    "Buna, asta e un mesaj, dar mult mult mult mult mult mult mult mult mult mult mult mult mai lung.",
+              ),
+              ReviewCard(author: "Alex", content: "Buna, asta e un mesaj."),
+              ReviewCard(
+                author: "Andrei",
+                content:
+                    "Buna, asta e un mesaj, dar mult mult mult mult mult mult mult mult mult mult mult mult mai lung.",
+              ),
             ],
           ),
         ),
