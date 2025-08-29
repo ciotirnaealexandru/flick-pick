@@ -72,3 +72,5 @@ router.delete(
     // TODO
   }
 );
+
+module.exports = router;

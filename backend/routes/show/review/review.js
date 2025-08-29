@@ -15,3 +15,5 @@ router.get("/all", authenticateToken, adminRequired, (req, res) => {
 });
 
 // + CRUD
+
+module.exports = router;

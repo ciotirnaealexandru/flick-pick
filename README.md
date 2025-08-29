@@ -52,7 +52,7 @@ TV Show app for for TV Show lovers.
 
 `/user/show/review/:user_id/:show_id/all` - GET (_ADMIN_ or _USER_)
 
-`/user/show/review/:user_id/:show_id/` - POST (_ADMIN_ or _USER_)
+`/user/show/review/:user_id/:show_id` - POST (_ADMIN_ or _USER_)
 
 `/user/show/review/:user_id/:show_id/:review_id` - GET, PATCH, DELETE (_ADMIN_ or _USER_)
 

@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const prisma = require("../../../prismaClient");
+const prisma = require("../../../../prismaClient");
 
 const {
   authenticateToken,
+  adminRequired,
   adminOrSelfRequired,
 } = require("../../../middlewares");
 
@@ -56,3 +57,5 @@ router.delete(
     // TODO
   }
 );
+
+module.exports = router;
