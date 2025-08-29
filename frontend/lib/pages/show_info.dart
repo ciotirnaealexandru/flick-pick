@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:frontend/components/cards/expandable_text_card.dart';
-import 'package:frontend/components/cards/show_season_card.dart';
 import 'package:frontend/models/show_model.dart';
 import 'package:frontend/services/show_service.dart';
 
@@ -135,8 +134,6 @@ class _ShowInfoState extends State<ShowInfo> {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(height: 40),
-              //Text("Seasons", style: Theme.of(context).textTheme.titleMedium),
-              //ShowSeasonCard(showId: showId),
             ],
           ),
         ),

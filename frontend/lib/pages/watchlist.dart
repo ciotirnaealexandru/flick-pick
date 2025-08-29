@@ -38,39 +38,51 @@ class _WatchlistState extends State<Watchlist> {
         title: Column(
           children: [
             Navbar(),
+            SizedBox(height: 5),
             Row(
               children: [
                 Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        padding: const WidgetStatePropertyAll(
-                          EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                         ),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        "WATCHED",
-                        style: Theme.of(context).textTheme.bodySmall,
+                        onPressed: () {},
+                        child: Text(
+                          "WATCHED",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 SizedBox(width: 15),
                 Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        padding: const WidgetStatePropertyAll(
-                          EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                         ),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        "WILL WATCH",
-                        style: Theme.of(context).textTheme.bodySmall,
+                        onPressed: () {},
+                        child: Text(
+                          "WILL WATCH",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
                       ),
                     ),
                   ),
