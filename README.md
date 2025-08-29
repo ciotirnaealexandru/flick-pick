@@ -12,6 +12,50 @@ TV Show app for for TV Show lovers.
 
 **Profile Page** (can _update_ profile info and _delete_ account)
 
+## Endpoints
+
+### /show
+
+`/show/popular` - GET (_any_)
+
+`/show/search/:name` - GET (_any_)
+
+`/show/:show_id` - GET (_any_)
+
+### /show/review
+
+`/show/review/all` - GET (_ADMIN_)
+
+### /user
+
+`/user/signup` - POST (_any_)
+
+`/user/login` - POST (_any_)
+
+`/user/all` - GET (_ADMIN_)
+
+`/user/:user_id` - GET, PATCH, DELETE (_ADMIN_ or _USER_)
+
+`/user/me` - GET (_JWT Required_)
+
+### /user/show
+
+`/user/show/all` - GET (_ADMIN_ or _USER_)
+
+`/user/show/watched` - GET (_ADMIN_ or _USER_)
+
+`/user/show/will_watch` - GET (_ADMIN_ or _USER_)
+
+`/user/show/:user_id/:show_id` - POST, GET, PATCH, DELETE (_ADMIN_ or _USER_)
+
+### /user/show/review
+
+`/user/show/review/:user_id/:show_id/all` - GET (_ADMIN_ or _USER_)
+
+`/user/show/review/:user_id/:show_id/` - POST (_ADMIN_ or _USER_)
+
+`/user/show/review/:user_id/:show_id/:review_id` - GET, PATCH, DELETE (_ADMIN_ or _USER_)
+
 ## Technologies
 
 ### Used for development

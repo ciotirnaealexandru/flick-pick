@@ -16,7 +16,6 @@ const {
   adminOrSelfRequired,
 } = require("../middlewares");
 
-// any
 // SIGN UP user based on firstName, lastName, email, password
 router.post("/signup", async (req, res) => {
   const { firstName, lastName, email, password, phone } = req.body;
@@ -48,7 +47,6 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// any
 // LOGIN based on email and password and return a JWT token
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -83,7 +81,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// admin
 // READ all users
 router.get("/all", authenticateToken, adminRequired, async (req, res) => {
   try {
@@ -95,36 +92,29 @@ router.get("/all", authenticateToken, adminRequired, async (req, res) => {
   }
 });
 
-// admin or user
 // READ user by id
-router.get(
-  "/id/:id",
-  authenticateToken,
-  adminOrSelfRequired,
-  async (req, res) => {
-    try {
-      const user = await prisma.user.findUnique({
-        where: {
-          id: parseInt(req.params.id),
-        },
-      });
+router.get("/:id", authenticateToken, adminOrSelfRequired, async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
 
-      if (!user) {
-        return res.status(404).json({ message: "User does not exist." });
-      }
-
-      res.json(user);
-    } catch (error) {
-      console.error("Something went wrong: ", error);
-      res.status(500).json({ message: "Server error." });
+    if (!user) {
+      return res.status(404).json({ message: "User does not exist." });
     }
-  }
-);
 
-// admin or user
+    res.json(user);
+  } catch (error) {
+    console.error("Something went wrong: ", error);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
 // UPDATE user by id
 router.patch(
-  "/id/:id",
+  "/:id",
   authenticateToken,
   adminOrSelfRequired,
   async (req, res) => {
@@ -177,10 +167,9 @@ router.patch(
   }
 );
 
-// admin, user
 // DELETE user by id
 router.delete(
-  "/id/:id",
+  "/:id",
   authenticateToken,
   adminOrSelfRequired,
   async (req, res) => {
@@ -212,8 +201,7 @@ router.delete(
   }
 );
 
-// user
-// GET info about the current user via the JWT token
+// GET INFO about the current user via the JWT token
 router.get("/me", authenticateToken, async (req, res) => {
   try {
     // search the user by its id in the JWT

@@ -146,7 +146,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
 
                     final response = await http.patch(
                       Uri.parse(
-                        '${dotenv.env['API_URL']!}/user/id/${widget.userInfo.id}',
+                        '${dotenv.env['API_URL']!}/user/${widget.userInfo.id}',
                       ),
                       headers: {
                         'Content-Type': 'application/json',
@@ -276,7 +276,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
 
               final response = await http.delete(
                 Uri.parse(
-                  '${dotenv.env['API_URL']!}/user/id/${widget.userInfo.id}',
+                  '${dotenv.env['API_URL']!}/user/${widget.userInfo.id}',
                 ),
                 headers: {
                   'Content-Type': 'application/json',

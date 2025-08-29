@@ -37,26 +37,57 @@ model User {
   password  String
   role      Role    @default(USER)
 
-  shows UserShow[]
+  userShows UserShow[]
+  reviews   Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Show {
+  // database id
+  id    Int @id @default(autoincrement())
+  // id within the API database (from which i can retrieve the show info)
+  apiId Int @unique
+
+  userShows UserShow[]
+  reviews   Review[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model UserShow {
-  // default info from the show API
-  id       Int    @id @default(autoincrement())
-  apiId    Int
-  name     String
-  summary  String
-  imageUrl String
+  id Int @id @default(autoincrement())
 
-  // info that the user provided about the show 
-  user        User        @relation(fields: [userId], references: [id])
-  userId      Int
   userRating  Int?
-  userReview  String?
   watchStatus WatchStatus @default(NOT_WATCHED)
+  reviews     Review[]
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  show   Show @relation(fields: [showId], references: [id])
+  showId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, showId])
+}
+
+model Review {
+  id      Int    @id @default(autoincrement())
+  content String
+
+  userShow   UserShow @relation(fields: [userShowId], references: [id])
+  userShowId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  show   Show @relation(fields: [showId], references: [id])
+  showId Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

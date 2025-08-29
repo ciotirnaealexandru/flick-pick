@@ -55,55 +55,50 @@ router.get("/search/:name", async (req, res) => {
 // gets specific info of a show by id
 router.get("/:id", async (req, res) => {
   try {
+    // get the main show info
     const showsIdResponse = await fetch(
       `https://api.tvmaze.com/shows/${req.params.id}`
     );
-    const data = await showsIdResponse.json();
-    const networkName =
-      data.network?.name ?? data.webChannel?.name ?? "Unknown Network";
-    const endingYear =
-      data.status === "Ended" ? getYear(data.ended) : "Present";
+    const mainData = await showsIdResponse.json();
 
-    // get only the fields i like
-    const simplified = {
-      id: data.id,
-      name: data.name,
-      genres: data.genres,
-      image: data.image?.medium,
-      summary: stripHTMLTags(data.summary),
-      premiered: getYear(data.premiered),
+    const networkName =
+      mainData.network?.name ?? mainData.webChannel?.name ?? "Unknown Network";
+    const endingYear =
+      mainData.status === "Ended" ? getYear(mainData.ended) : "Present";
+
+    // get the seasons info
+    const seasonsResponse = await fetch(
+      `https://api.tvmaze.com/shows/${req.params.id}/seasons`
+    );
+    const seasonsData = await seasonsResponse.json();
+
+    // get only the seasons info that i like
+    const seasonsInfo = seasonsData.map((seasonsData) => ({
+      id: seasonsData.id,
+      number: seasonsData.number,
+      name: seasonsData.name,
+      episodeOrder: seasonsData.episodeOrder,
+      image: seasonsData.image?.medium,
+      summary: seasonsData.summary,
+    }));
+
+    // get only the show info that i like
+    const showInfo = {
+      id: mainData.id,
+      name: mainData.name,
+      genres: mainData.genres,
+      image: mainData.image?.medium,
+      summary: stripHTMLTags(mainData.summary),
+      premiered: getYear(mainData.premiered),
       ended: endingYear,
       network: networkName,
+      seasonsInfo: seasonsInfo,
     };
 
-    res.json(simplified);
+    res.json(showInfo);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch show" });
-  }
-});
-
-// gets info about the seasons of a show by its id
-router.get("/:id/seasons", async (req, res) => {
-  try {
-    const response = await fetch(
-      `https://api.tvmaze.com/shows/${req.params.id}/seasons`
-    );
-    const data = await response.json();
-
-    const simplified = data.map((data) => ({
-      id: data.id,
-      number: data.number,
-      name: data.name,
-      episodeOrder: data.episodeOrder,
-      image: data.image?.medium,
-      summary: data.summary,
-    }));
-
-    res.json(simplified);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch seasons" });
   }
 });
 

@@ -60,7 +60,7 @@ const adminOrSelfRequired = async (req, res, next) => {
     if (!dbUser) return res.status(404).json({ message: "User not found." });
 
     // allow if admin or self
-    const targetId = parseInt(req.params.id);
+    const targetId = parseInt(req.params.user_id);
     if (dbUser.role === "ADMIN" || dbUser.id === targetId) {
       return next();
     }
