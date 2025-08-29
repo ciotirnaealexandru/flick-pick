@@ -16,11 +16,11 @@ TV Show app for for TV Show lovers.
 
 ### /show
 
-`/show/popular` - GET (_any_)
+`/show/popular` - GET (_any_) ✅
 
-`/show/search/:name` - GET (_any_)
+`/show/search/:name` - GET (_any_) ✅
 
-`/show/:show_id` - GET (_any_)
+`/show/:show_id` - GET (_any_) ✅
 
 ### /show/review
 
@@ -28,25 +28,25 @@ TV Show app for for TV Show lovers.
 
 ### /user
 
-`/user/signup` - POST (_any_)
+`/user/signup` - POST (_any_) ✅
 
-`/user/login` - POST (_any_)
+`/user/login` - POST (_any_) ✅
 
-`/user/all` - GET (_ADMIN_)
+`/user/all` - GET (_ADMIN_) ✅
 
-`/user/:user_id` - GET, PATCH, DELETE (_ADMIN_ or _USER_)
+`/user/:user_id` - GET, PATCH, DELETE (_ADMIN_ or _USER_) ✅
 
-`/user/me` - GET (_JWT Required_)
+`/user/me` - GET (_JWT Required_) ✅
 
 ### /user/show
 
-`/user/show/all` - GET (_ADMIN_ or _USER_)
+`/user/show/all/:user_id` - GET (_ADMIN_ or _USER_)
 
-`/user/show/watched` - GET (_ADMIN_ or _USER_)
+`/user/show/watched/:user_id` - GET (_ADMIN_ or _USER_)
 
-`/user/show/will_watch` - GET (_ADMIN_ or _USER_)
+`/user/show/will_watch/:user_id` - GET (_ADMIN_ or _USER_)
 
-`/user/show/:user_id/:show_id` - POST, GET, PATCH, DELETE (_ADMIN_ or _USER_)
+`/user/show/:user_id/:show_id` - POST, GET, ~~PATCH~~, DELETE (_ADMIN_ or _USER_)
 
 ### /user/show/review
 
