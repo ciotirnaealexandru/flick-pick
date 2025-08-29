@@ -40,21 +40,19 @@ TV Show app for for TV Show lovers.
 
 ### /user/show
 
-`/user/show/all/:user_id` - GET (_ADMIN_ or _USER_)
+`/user/show/all/:user_id` - GET (_ADMIN_ or _USER_) ✅
 
-`/user/show/watched/:user_id` - GET (_ADMIN_ or _USER_)
+`/user/show/watched/:user_id` - GET (_ADMIN_ or _USER_) ✅
 
-`/user/show/will_watch/:user_id` - GET (_ADMIN_ or _USER_)
+`/user/show/will_watch/:user_id` - GET (_ADMIN_ or _USER_) ✅
 
-`/user/show/:user_id/:show_id` - POST, GET, ~~PATCH~~, DELETE (_ADMIN_ or _USER_)
+`/user/show/:user_id` - POST, GET, ~~PATCH~~, DELETE (_ADMIN_ or _USER_) ✅
 
 ### /user/show/review
 
-`/user/show/review/:user_id/:show_id/all` - GET (_ADMIN_ or _USER_)
+`/user/show/review/all/:user_id` - GET (_ADMIN_ or _USER_)
 
-`/user/show/review/:user_id/:show_id` - POST (_ADMIN_ or _USER_)
-
-`/user/show/review/:user_id/:show_id/:review_id` - GET, PATCH, DELETE (_ADMIN_ or _USER_)
+`/user/show/review/:user_id` - POST, GET, PATCH, DELETE (_ADMIN_ or _USER_)
 
 ## Technologies
 
