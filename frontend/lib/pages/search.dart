@@ -94,46 +94,69 @@ class _SearchState extends State<Search> {
           children: [
             Navbar(),
             SizedBox(height: 5),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              height: 48,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      alignment: Alignment.centerLeft,
-                      child: TextField(
-                        controller: _searchBarController,
-                        decoration: InputDecoration(
-                          hintText: 'Search me up ...',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium,
-                          border: InputBorder.none,
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    height: 48,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            alignment: Alignment.centerLeft,
+                            child: TextField(
+                              controller: _searchBarController,
+                              decoration: InputDecoration(
+                                hintText: 'Search me up ...',
+                                hintStyle:
+                                    Theme.of(context).textTheme.bodyMedium,
+                                border: InputBorder.none,
+                              ),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.copyWith(
+                                decoration: TextDecoration.none,
+                                decorationThickness: 0,
+                              ),
+                            ),
+                          ),
                         ),
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          decoration: TextDecoration.none,
-                          decorationThickness: 0,
+                        SizedBox(width: 8),
+                        IconButton(
+                          onPressed: () async {
+                            // if the search button is pressed get the text
+                            final text = _searchBarController.text.trim();
+
+                            // send a a request to the backend to get the shows with those names
+                            getShowsByName(text);
+                          },
+                          icon: Icon(Icons.search, size: 28),
                         ),
-                      ),
+                        SizedBox(width: 4),
+                      ],
                     ),
                   ),
-                  SizedBox(width: 8),
-                  IconButton(
-                    onPressed: () async {
-                      // if the search button is pressed get the text
-                      final text = _searchBarController.text.trim();
-
-                      // send a a request to the backend to get the shows with those names
-                      getShowsByName(text);
-                    },
-                    icon: Icon(Icons.search, size: 28),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  SizedBox(width: 4),
-                ],
-              ),
+                  height: 48,
+                  child: IconButton(
+                    onPressed: () async {
+                      Navigator.pushReplacementNamed(context, '/login');
+                    },
+                    icon: Icon(Icons.local_fire_department_outlined, size: 28),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:frontend/pages/show_info.dart';
 import 'package:frontend/pages/signup.dart';
 import 'package:frontend/pages/search.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:frontend/pages/watchlist.dart';
 import 'theme.dart';
 
 void main() async {
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
         '/search': (context) => const Search(),
         '/profile': (context) => const Profile(),
         '/show_info': (context) => const ShowInfo(),
+        '/watchlist': (context) => const Watchlist(),
       },
     );
   }

@@ -27,7 +27,7 @@ class Navbar extends StatelessWidget {
           ),
           onPressed: () {
             // use this temporarily to return to login
-            Navigator.pushReplacementNamed(context, '/login');
+            Navigator.pushReplacementNamed(context, '/watchlist');
           },
           child: Text(
             "WATCHLIST",
