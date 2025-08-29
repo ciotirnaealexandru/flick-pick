@@ -81,126 +81,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// READ all users
-router.get("/all", authenticateToken, adminRequired, async (req, res) => {
-  try {
-    const users = await prisma.user.findMany();
-    res.json(users);
-  } catch (error) {
-    console.error("Something went wrong: ", error);
-    res.status(500).json({ message: "Server error." });
-  }
-});
-
-// READ user by id
-router.get("/:id", authenticateToken, adminOrSelfRequired, async (req, res) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: parseInt(req.params.id),
-      },
-    });
-
-    if (!user) {
-      return res.status(404).json({ message: "User does not exist." });
-    }
-
-    res.json(user);
-  } catch (error) {
-    console.error("Something went wrong: ", error);
-    res.status(500).json({ message: "Server error." });
-  }
-});
-
-// UPDATE user by id
-router.patch(
-  "/:id",
-  authenticateToken,
-  adminOrSelfRequired,
-  async (req, res) => {
-    try {
-      const { newFirstName, newLastName, newEmail, newPhone } = req.body;
-
-      // search the user by its id in the JWT
-      const user = await prisma.user.findUnique({
-        where: {
-          id: parseInt(req.user.id),
-        },
-      });
-
-      // check it the user exists
-      if (!user) {
-        return res.status(404).json({ message: "User does not exist." });
-      }
-
-      // search for users with the new password to prevent duplicates
-      const duplicateEmail = await prisma.user.findUnique({
-        where: {
-          email: newEmail,
-        },
-      });
-
-      // check if it's not the user that has that email and it already exists
-      if (duplicateEmail && duplicateEmail.id != req.params.id) {
-        return res.status(401).json({ message: "Email already in use." });
-      }
-
-      // update the info
-      const updatedUser = await prisma.user.update({
-        where: {
-          id: parseInt(req.params.id),
-        },
-        data: {
-          firstName: newFirstName,
-          lastName: newLastName,
-          email: newEmail,
-          phone: newPhone,
-        },
-      });
-
-      // return the new user
-      res.json(updatedUser);
-    } catch (error) {
-      console.error("Something went wrong: ", error);
-      res.status(500).json({ message: "Server error." });
-    }
-  }
-);
-
-// DELETE user by id
-router.delete(
-  "/:id",
-  authenticateToken,
-  adminOrSelfRequired,
-  async (req, res) => {
-    try {
-      // search the user by its id in the JWT
-      const user = await prisma.user.findUnique({
-        where: {
-          id: parseInt(req.user.id),
-        },
-      });
-
-      // check it the user exists
-      if (!user) {
-        return res.status(404).json({ message: "User does not exist." });
-      }
-
-      // if the user does exist, delete it
-      await prisma.user.delete({
-        where: {
-          id: parseInt(req.params.id),
-        },
-      });
-
-      res.status(200).json({ message: "User succesfully deleted." });
-    } catch (error) {
-      console.error("Something went wrong: ", error);
-      res.status(500).json({ message: "Server error." });
-    }
-  }
-);
-
 // GET INFO about the current user via the JWT token
 router.get("/me", authenticateToken, async (req, res) => {
   try {
@@ -227,5 +107,130 @@ router.get("/me", authenticateToken, async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 });
+
+// READ all users
+router.get("/all", authenticateToken, adminRequired, async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+    res.json(users);
+  } catch (error) {
+    console.error("Something went wrong: ", error);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
+// READ user by id
+router.get(
+  "/:user_id",
+  authenticateToken,
+  adminOrSelfRequired,
+  async (req, res) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: parseInt(req.params.user_id),
+        },
+      });
+
+      if (!user) {
+        return res.status(404).json({ message: "User does not exist." });
+      }
+
+      res.json(user);
+    } catch (error) {
+      console.error("Something went wrong: ", error);
+      res.status(500).json({ message: "Server error." });
+    }
+  }
+);
+
+// UPDATE user by id
+router.patch(
+  "/:user_id",
+  authenticateToken,
+  adminOrSelfRequired,
+  async (req, res) => {
+    try {
+      const { newFirstName, newLastName, newEmail, newPhone } = req.body;
+
+      // search the user by its id in the JWT
+      const user = await prisma.user.findUnique({
+        where: {
+          id: parseInt(req.user.id),
+        },
+      });
+
+      // check it the user exists
+      if (!user) {
+        return res.status(404).json({ message: "User does not exist." });
+      }
+
+      // search for users with the new password to prevent duplicates
+      const duplicateEmail = await prisma.user.findUnique({
+        where: {
+          email: newEmail,
+        },
+      });
+
+      // check if it's not the user that has that email and it already exists
+      if (duplicateEmail && duplicateEmail.id != req.params.user_id) {
+        return res.status(401).json({ message: "Email already in use." });
+      }
+
+      // update the info
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: parseInt(req.params.user_id),
+        },
+        data: {
+          firstName: newFirstName,
+          lastName: newLastName,
+          email: newEmail,
+          phone: newPhone,
+        },
+      });
+
+      // return the new user
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Something went wrong: ", error);
+      res.status(500).json({ message: "Server error." });
+    }
+  }
+);
+
+// DELETE user by id
+router.delete(
+  "/:user_id",
+  authenticateToken,
+  adminOrSelfRequired,
+  async (req, res) => {
+    try {
+      // search the user by its id in the JWT
+      const user = await prisma.user.findUnique({
+        where: {
+          id: parseInt(req.user.id),
+        },
+      });
+
+      // check it the user exists
+      if (!user) {
+        return res.status(404).json({ message: "User does not exist." });
+      }
+
+      // if the user does exist, delete it
+      await prisma.user.delete({
+        where: {
+          id: parseInt(req.params.user_id),
+        },
+      });
+
+      res.status(200).json({ message: "User succesfully deleted." });
+    } catch (error) {
+      console.error("Something went wrong: ", error);
+      res.status(500).json({ message: "Server error." });
+    }
+  }
+);
 
 module.exports = router;

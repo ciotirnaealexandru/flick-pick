@@ -53,11 +53,11 @@ router.get("/search/:name", async (req, res) => {
 });
 
 // gets specific info of a show by id
-router.get("/:id", async (req, res) => {
+router.get("/:show_id", async (req, res) => {
   try {
     // get the main show info
     const showsIdResponse = await fetch(
-      `https://api.tvmaze.com/shows/${req.params.id}`
+      `https://api.tvmaze.com/shows/${req.params.show_id}`
     );
     const mainData = await showsIdResponse.json();
 
@@ -68,7 +68,7 @@ router.get("/:id", async (req, res) => {
 
     // get the seasons info
     const seasonsResponse = await fetch(
-      `https://api.tvmaze.com/shows/${req.params.id}/seasons`
+      `https://api.tvmaze.com/shows/${req.params.show_id}/seasons`
     );
     const seasonsData = await seasonsResponse.json();
 

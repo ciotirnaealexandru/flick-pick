@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<Show?> getShowInfo(showId) async {
   final response = await http.get(
-    Uri.parse('${dotenv.env['API_URL']!}/shows/$showId'),
+    Uri.parse('${dotenv.env['API_URL']!}/show/$showId'),
     headers: {'Content-Type': 'application/json'},
   );
 

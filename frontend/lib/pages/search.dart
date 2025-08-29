@@ -40,7 +40,7 @@ class _SearchState extends State<Search> {
 
   Future<void> getPopularShows() async {
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/shows/popular'),
+      Uri.parse('${dotenv.env['API_URL']!}/show/popular'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -57,7 +57,7 @@ class _SearchState extends State<Search> {
 
   Future<void> getShowsByName(text) async {
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/shows/search/$text'),
+      Uri.parse('${dotenv.env['API_URL']!}/show/search/$text'),
       headers: {'Content-Type': 'application/json'},
     );
 
