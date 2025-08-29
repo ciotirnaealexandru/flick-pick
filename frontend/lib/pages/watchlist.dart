@@ -80,7 +80,7 @@ class _WatchlistState extends State<Watchlist> {
                         ),
                         onPressed: () {},
                         child: Text(
-                          "WILL WATCH",
+                          "FUTURE",
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),

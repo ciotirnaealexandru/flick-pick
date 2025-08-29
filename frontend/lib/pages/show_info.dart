@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
+import 'package:frontend/components/buttons/watch_status_button.dart';
 import 'package:frontend/components/cards/expandable_text_card.dart';
 import 'package:frontend/models/show_model.dart';
 import 'package:frontend/services/show_service.dart';
@@ -16,7 +17,8 @@ class _ShowInfoState extends State<ShowInfo> {
   String? showId;
   Show? showInfo;
   double? rating;
-  bool isEnabled = false;
+  bool showRating = false;
+  String watchStatus = "NOT_WATCHED";
 
   @override
   void didChangeDependencies() {
@@ -79,20 +81,16 @@ class _ShowInfoState extends State<ShowInfo> {
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 20),
-                        SizedBox(
-                          width: 200,
-                          child: ElevatedButton(
-                            onPressed:
-                                () => {
-                                  setState(() {
-                                    isEnabled = !isEnabled;
-                                  }),
-                                },
-                            child: Text(
-                              "Add to watchlist",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
+                        WatchStatusButton(
+                          onChanged: (newStatus) {
+                            watchStatus = newStatus;
+                            if (watchStatus == "WILL_WATCH" ||
+                                watchStatus == "WATCHED") {
+                              showRating = true;
+                            } else {
+                              showRating = false;
+                            }
+                          },
                         ),
                         SizedBox(height: 10),
                         IntrinsicWidth(
@@ -103,13 +101,16 @@ class _ShowInfoState extends State<ShowInfo> {
                             ),
                             child: StarRating(
                               size: 40,
-                              rating: isEnabled ? (rating ?? 0) : 0,
+                              rating:
+                                  watchStatus != "NOT_WATCHED"
+                                      ? (rating ?? 0)
+                                      : 0,
                               color:
-                                  isEnabled
+                                  showRating
                                       ? Theme.of(context).colorScheme.onPrimary
                                       : Theme.of(context).colorScheme.primary,
                               borderColor:
-                                  isEnabled
+                                  showRating
                                       ? Theme.of(context).colorScheme.onPrimary
                                       : Theme.of(context).colorScheme.primary,
                               allowHalfRating: true,
@@ -117,7 +118,7 @@ class _ShowInfoState extends State<ShowInfo> {
                                 setState(
                                   () =>
                                       rating =
-                                          (rating == newRating || !isEnabled
+                                          (rating == newRating || !showRating
                                               ? 0
                                               : newRating),
                                 );
