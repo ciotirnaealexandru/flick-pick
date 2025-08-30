@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 typedef WatchStatusCallback = void Function(String status);
 
 class WatchStatusButton extends StatefulWidget {
-  /// Values produced by this widget: "WATCHED", "WILL_WATCH", "NOT_WATCHED"
   final String? initialStatus;
   final WatchStatusCallback? onChanged;
 
@@ -24,10 +23,9 @@ class _WatchStatusButtonState extends State<WatchStatusButton> {
   }
 
   void _handleSelection(String value) {
-    final newStatus = value == 'REMOVE' ? null : value;
+    final newStatus = value == 'REMOVE' ? 'NOT_WATCHED' : value;
     setState(() => selectedStatus = newStatus);
-    final outValue = newStatus ?? 'NOT_WATCHED';
-    if (widget.onChanged != null) widget.onChanged!(outValue);
+    if (widget.onChanged != null) widget.onChanged!(newStatus);
   }
 
   @override
@@ -56,8 +54,7 @@ class _WatchStatusButtonState extends State<WatchStatusButton> {
           ),
           onSelected: _handleSelection,
           itemBuilder: (context) {
-            // If nothing selected, show two "Add to ..." options
-            if (selectedStatus == null) {
+            if (selectedStatus == "NOT_WATCHED") {
               return [
                 PopupMenuItem<String>(
                   value: 'WATCHED',
@@ -82,39 +79,67 @@ class _WatchStatusButtonState extends State<WatchStatusButton> {
                   ),
                 ),
               ];
-            }
-
-            // If something selected, show the other option + remove
-            final other =
-                selectedStatus == 'WATCHED' ? 'WILL_WATCH' : 'WATCHED';
-            final otherLabel =
-                other == 'WATCHED' ? 'Add to Watched' : 'Add to Future';
-
-            return [
-              PopupMenuItem<String>(
-                value: other,
-                padding: EdgeInsets.all(8),
-                child: SizedBox(
-                  width: 200,
-                  child: Center(child: Text(otherLabel, style: itemStyle)),
+            } else if (selectedStatus == "WATCHED") {
+              return [
+                PopupMenuItem<String>(
+                  value: 'WILL_WATCH',
+                  padding: EdgeInsets.all(8),
+                  height: 32,
+                  child: SizedBox(
+                    width: 200,
+                    child: Center(
+                      child: Text('Add to Future', style: itemStyle),
+                    ),
+                  ),
                 ),
-              ),
-              PopupMenuItem<String>(
-                value: 'REMOVE',
-                padding: EdgeInsets.all(8),
-                child: SizedBox(
-                  width: 200,
-                  child: Center(
-                    child: Text(
-                      'Remove Show',
-                      style: itemStyle?.copyWith(
-                        color: Theme.of(context).colorScheme.error,
+                PopupMenuItem<String>(
+                  value: 'NOT_WATCHED',
+                  padding: EdgeInsets.all(8),
+                  height: 32,
+                  child: SizedBox(
+                    width: 200,
+                    child: Center(
+                      child: Text(
+                        'Remove Show',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ];
+              ];
+            } else {
+              return [
+                PopupMenuItem<String>(
+                  value: 'WATCHED',
+                  padding: EdgeInsets.all(8),
+                  height: 32,
+                  child: SizedBox(
+                    width: 200,
+                    child: Center(
+                      child: Text('Add to Watched', style: itemStyle),
+                    ),
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'NOT_WATCHED',
+                  padding: EdgeInsets.all(8),
+                  height: 32,
+                  child: SizedBox(
+                    width: 200,
+                    child: Center(
+                      child: Text(
+                        'Remove Show',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ];
+            }
           },
 
           // visible trigger button
@@ -138,7 +163,7 @@ class _WatchStatusButtonState extends State<WatchStatusButton> {
                 ),
               ),
               child: Text(
-                selectedStatus == null
+                selectedStatus == "NOT_WATCHED"
                     ? 'Add to Watched'
                     : (selectedStatus == 'WATCHED' ? 'Watched' : 'Future'),
                 textAlign: TextAlign.center,

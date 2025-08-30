@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,9 @@ import 'package:frontend/components/cards/review_card.dart';
 import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/show_service.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ShowInfo extends StatefulWidget {
   const ShowInfo({super.key});
@@ -24,7 +29,7 @@ class _ShowInfoState extends State<ShowInfo> {
 
   double? rating;
   bool showRating = false;
-  String watchStatus = "NOT_WATCHED";
+  String? watchStatus;
 
   @override
   void initState() {
@@ -48,16 +53,21 @@ class _ShowInfoState extends State<ShowInfo> {
       userInfo = user;
     });
 
-    if (apiId != null) _loadShowInfo(apiId);
+    if (apiId != null) {
+      await loadShowInfo(apiId);
+    }
   }
 
-  Future<void> _loadShowInfo(apiId) async {
+  Future<void> loadShowInfo(apiId) async {
     final data = await getShowInfo(
       apiId: apiId,
       userId: userInfo?.id.toString(),
     );
+
     setState(() {
       showInfo = data;
+      watchStatus = showInfo?.watchStatus;
+      showRating = (watchStatus == "WATCHED" || watchStatus == "WILL_WATCH");
     });
   }
 
@@ -104,7 +114,8 @@ class _ShowInfoState extends State<ShowInfo> {
                         ),
                         SizedBox(height: 20),
                         WatchStatusButton(
-                          onChanged: (newStatus) {
+                          initialStatus: watchStatus ?? "NOT_WATCHED",
+                          onChanged: (newStatus) async {
                             watchStatus = newStatus;
                             if (watchStatus == "WILL_WATCH" ||
                                 watchStatus == "WATCHED") {
@@ -112,6 +123,29 @@ class _ShowInfoState extends State<ShowInfo> {
                             } else {
                               showRating = false;
                             }
+
+                            print("✅ $watchStatus");
+
+                            final secureStorage = FlutterSecureStorage();
+                            final token = await secureStorage.read(
+                              key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                            );
+
+                            final response = await http.post(
+                              Uri.parse(
+                                '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}',
+                              ),
+                              headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer $token',
+                              },
+                              body: jsonEncode({
+                                'apiId': apiId,
+                                'watchStatus': watchStatus,
+                              }),
+                            );
+
+                            await loadShowInfo(apiId);
                           },
                         ),
                         SizedBox(height: 10),

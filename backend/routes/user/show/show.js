@@ -84,17 +84,18 @@ router.post(
     try {
       const { apiId, userRating, watchStatus } = req.body;
 
-      if (!apiId) res.status(500).json({ message: "Api Id is required." });
+      if (!apiId)
+        return res.status(500).json({ message: "Api Id is required." });
 
       // check if the show already exists in my database
       // if not, add it
       const show = await prisma.show.upsert({
         where: {
-          apiId: apiId,
+          apiId: parseInt(apiId),
         },
         update: {},
         create: {
-          apiId: apiId,
+          apiId: parseInt(apiId),
         },
       });
 
@@ -143,7 +144,7 @@ router.get(
       });
 
       if (!userShow)
-        res.status(404).json({ message: "User show does not exist." });
+        return res.status(404).json({ message: "User show does not exist." });
 
       res.status(200).json(userShow);
     } catch (error) {
@@ -155,14 +156,15 @@ router.get(
 
 // DELETE a show of an user (based on the id of the user)
 router.delete(
-  "/:user_id",
+  "/:user_id/:show_id",
   authenticateToken,
   adminOrSelfRequired,
   async (req, res) => {
     try {
       const { showId } = req.body;
 
-      if (!showId) res.status(500).json({ message: "Show Id is required." });
+      if (!showId)
+        return res.status(500).json({ message: "Show Id is required." });
 
       // check if the user_show exists, if so, delete it
       const userShow = await prisma.userShow.findUnique({

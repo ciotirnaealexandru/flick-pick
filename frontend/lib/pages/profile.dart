@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/navbar.dart';
 import 'package:frontend/components/custom_form_field.dart';
-import 'package:frontend/services/auth_service.dart';
+import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
