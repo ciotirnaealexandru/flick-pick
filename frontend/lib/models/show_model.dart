@@ -14,7 +14,7 @@ class Show {
   String? ended;
   String? network;
   List<String>? genres;
-  int? rating;
+  int? userRating;
   String? watchStatus;
 
   Show({
@@ -27,7 +27,7 @@ class Show {
     this.premiered,
     this.ended,
     this.network,
-    this.rating,
+    this.userRating,
     this.watchStatus,
   });
 
@@ -41,7 +41,7 @@ class Show {
     premiered: json["premiered"] as String?,
     ended: json["ended"] as String?,
     network: json["network"] as String?,
-    rating: json["rating"] as int?,
+    userRating: json["userRating"] as int?,
     watchStatus: json["watchStatus"] as String?,
   );
 
@@ -54,7 +54,7 @@ class Show {
     "premiered": premiered,
     "ended": ended,
     "network": network,
-    "rating": rating,
+    "userRating": userRating,
   };
 
   bool get hasAllFields =>

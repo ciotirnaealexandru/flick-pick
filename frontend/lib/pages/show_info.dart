@@ -27,7 +27,7 @@ class _ShowInfoState extends State<ShowInfo> {
   String? apiId;
   Show? showInfo;
 
-  double? rating;
+  int? userRating;
   bool showRating = false;
   String? watchStatus;
 
@@ -67,6 +67,7 @@ class _ShowInfoState extends State<ShowInfo> {
     setState(() {
       showInfo = data;
       watchStatus = showInfo?.watchStatus;
+      userRating = showInfo?.userRating;
       showRating = (watchStatus == "WATCHED" || watchStatus == "WILL_WATCH");
     });
   }
@@ -131,7 +132,7 @@ class _ShowInfoState extends State<ShowInfo> {
                               key: dotenv.env['SECURE_STORAGE_SECRET']!,
                             );
 
-                            final response = await http.post(
+                            await http.post(
                               Uri.parse(
                                 '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}',
                               ),
@@ -159,7 +160,7 @@ class _ShowInfoState extends State<ShowInfo> {
                               size: 40,
                               rating:
                                   watchStatus != "NOT_WATCHED"
-                                      ? (rating ?? 0)
+                                      ? (userRating?.toDouble() ?? 0)
                                       : 0,
                               color:
                                   showRating
@@ -170,14 +171,39 @@ class _ShowInfoState extends State<ShowInfo> {
                                       ? Colors.amber.shade300
                                       : Theme.of(context).colorScheme.primary,
                               allowHalfRating: true,
-                              onRatingChanged: (newRating) {
-                                setState(
-                                  () =>
-                                      rating =
-                                          (rating == newRating || !showRating
-                                              ? 0
-                                              : newRating),
-                                );
+                              onRatingChanged: (newRating) async {
+                                if (showRating) {
+                                  setState(
+                                    () =>
+                                        userRating =
+                                            (userRating == newRating
+                                                ? 0
+                                                : newRating.toInt()),
+                                  );
+
+                                  print(userRating);
+
+                                  final secureStorage = FlutterSecureStorage();
+                                  final token = await secureStorage.read(
+                                    key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                                  );
+
+                                  await http.post(
+                                    Uri.parse(
+                                      '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}',
+                                    ),
+                                    headers: {
+                                      'Content-Type': 'application/json',
+                                      'Authorization': 'Bearer $token',
+                                    },
+                                    body: jsonEncode({
+                                      'apiId': apiId,
+                                      'userRating': userRating,
+                                    }),
+                                  );
+
+                                  await loadShowInfo(apiId);
+                                }
                               },
                             ),
                           ),
