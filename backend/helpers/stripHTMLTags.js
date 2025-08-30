@@ -1,5 +1,6 @@
 function stripHTMLTags(original) {
-  return original.replace(/(<([^>]+)>)/gi, "");
+  if (original != null) return original.replace(/(<([^>]+)>)/gi, "");
+  return "";
 }
 
 module.exports = stripHTMLTags;

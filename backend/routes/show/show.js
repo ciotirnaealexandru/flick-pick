@@ -5,6 +5,15 @@ const router = express.Router();
 const stripHTMLTags = require("../../helpers/stripHTMLTags");
 const getYear = require("../../helpers/getYear");
 
+const prisma = require("../../prismaClient");
+
+// middlewares
+const {
+  authenticateToken,
+  adminRequired,
+  adminOrSelfRequired,
+} = require("../middlewares");
+
 // gets a list of the default popular shows from the API
 router.get("/popular", async (req, res) => {
   try {
@@ -13,17 +22,17 @@ router.get("/popular", async (req, res) => {
 
     // get only the fields i like
     const simplified = data.map((show) => ({
-      id: show.id,
+      apiId: show.id,
       name: show.name,
       genres: show.genres,
       image: show.image?.medium,
       summary: show.summary,
     }));
 
-    res.json(simplified);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch shows" });
+    res.status(200).json(simplified);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch shows." });
   }
 });
 
@@ -38,26 +47,26 @@ router.get("/search/:name", async (req, res) => {
 
     // get only the fields i like
     const simplified = data.map((show) => ({
-      id: show.show.id,
+      apiId: show.show.id,
       name: show.show.name,
       genres: show.show.genres,
       image: show.show.image?.medium,
       summary: show.show.summary,
     }));
 
-    res.json(simplified);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch shows" });
+    res.status(200).json(simplified);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch shows." });
   }
 });
 
 // gets specific info of a show by id
-router.get("/:show_id", async (req, res) => {
+router.get("/external/:api_id", async (req, res) => {
   try {
     // get the main show info
     const showsIdResponse = await fetch(
-      `https://api.tvmaze.com/shows/${req.params.show_id}`
+      `https://api.tvmaze.com/shows/${req.params.api_id}`
     );
     const mainData = await showsIdResponse.json();
 
@@ -68,23 +77,24 @@ router.get("/:show_id", async (req, res) => {
 
     // get the seasons info
     const seasonsResponse = await fetch(
-      `https://api.tvmaze.com/shows/${req.params.show_id}/seasons`
+      `https://api.tvmaze.com/shows/${req.params.api_id}/seasons`
     );
     const seasonsData = await seasonsResponse.json();
 
     // get only the seasons info that i like
-    const seasonsInfo = seasonsData.map((seasonsData) => ({
+    const seasonsArray = Array.isArray(seasonsData) ? seasonsData : [];
+    const seasonsInfo = seasonsArray.map((seasonsData) => ({
       id: seasonsData.id,
       number: seasonsData.number,
       name: seasonsData.name,
       episodeOrder: seasonsData.episodeOrder,
       image: seasonsData.image?.medium,
-      summary: seasonsData.summary,
+      summary: stripHTMLTags(seasonsData.summary),
     }));
 
     // get only the show info that i like
     const showInfo = {
-      id: mainData.id,
+      apiId: mainData.id,
       name: mainData.name,
       genres: mainData.genres,
       image: mainData.image?.medium,
@@ -95,10 +105,29 @@ router.get("/:show_id", async (req, res) => {
       seasonsInfo: seasonsInfo,
     };
 
-    res.json(showInfo);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch show" });
+    res.status(200).json(showInfo);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch show." });
+  }
+});
+
+// gets specific info of a show by api id
+router.get("/:api_id", authenticateToken, async (req, res) => {
+  try {
+    const show = await prisma.show.findUnique({
+      where: {
+        apiId: parseInt(req.params.api_id),
+      },
+    });
+
+    if (!show)
+      return res.status(500).json({ error: "Failed to fetch show by API Id." });
+
+    res.status(200).send(show);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occured." });
   }
 });
 

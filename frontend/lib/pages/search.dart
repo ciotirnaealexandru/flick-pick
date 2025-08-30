@@ -177,7 +177,7 @@ class _SearchState extends State<Search> {
               itemCount: shows.length,
               itemBuilder: (context, i) {
                 return ShowCard(
-                  showId: shows[i].id,
+                  apiId: shows[i].apiId,
                   showImageUrl: shows[i].image,
                 );
               },

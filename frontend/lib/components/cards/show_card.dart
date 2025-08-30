@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ShowCard extends StatelessWidget {
-  final int showId;
+  final int apiId;
   final String showImageUrl;
 
-  const ShowCard({super.key, required this.showId, required this.showImageUrl});
+  const ShowCard({super.key, required this.apiId, required this.showImageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,11 @@ class ShowCard extends StatelessWidget {
           maxWidthDiskCache: 210,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, '/show_info', arguments: {'id': showId});
+          Navigator.pushNamed(
+            context,
+            '/show_info',
+            arguments: {'apiId': apiId},
+          );
         },
       ),
     );

@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:frontend/components/buttons/watch_status_button.dart';
 import 'package:frontend/components/cards/expandable_text_card.dart';
 import 'package:frontend/components/cards/review_card.dart';
 import 'package:frontend/models/show_model.dart';
+import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/show_service.dart';
 
 class ShowInfo extends StatefulWidget {
@@ -15,26 +17,45 @@ class ShowInfo extends StatefulWidget {
 }
 
 class _ShowInfoState extends State<ShowInfo> {
-  String? showId;
+  User? userInfo;
+
+  String? apiId;
   Show? showInfo;
+
   double? rating;
   bool showRating = false;
   String watchStatus = "NOT_WATCHED";
 
   @override
+  void initState() {
+    super.initState();
+    loadUserInfo();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (showId == null) {
+    if (apiId == null) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
-      showId = args['id'].toString();
-
-      _loadShowInfo(showId!);
+      apiId = args['apiId'].toString();
     }
   }
 
-  Future<void> _loadShowInfo(showId) async {
-    final data = await getShowInfo(showId);
+  Future<void> loadUserInfo() async {
+    final user = await getUserInfo();
+    setState(() {
+      userInfo = user;
+    });
+
+    if (apiId != null) _loadShowInfo(apiId);
+  }
+
+  Future<void> _loadShowInfo(apiId) async {
+    final data = await getShowInfo(
+      apiId: apiId,
+      userId: userInfo?.id.toString(),
+    );
     setState(() {
       showInfo = data;
     });
@@ -42,7 +63,7 @@ class _ShowInfoState extends State<ShowInfo> {
 
   @override
   Widget build(BuildContext context) {
-    if (showInfo == null) {
+    if (showInfo == null || userInfo == null) {
       return Center(child: CircularProgressIndicator());
     }
 
@@ -108,11 +129,11 @@ class _ShowInfoState extends State<ShowInfo> {
                                       : 0,
                               color:
                                   showRating
-                                      ? Theme.of(context).colorScheme.onPrimary
+                                      ? Colors.amber.shade300
                                       : Theme.of(context).colorScheme.primary,
                               borderColor:
                                   showRating
-                                      ? Theme.of(context).colorScheme.onPrimary
+                                      ? Colors.amber.shade300
                                       : Theme.of(context).colorScheme.primary,
                               allowHalfRating: true,
                               onRatingChanged: (newRating) {
@@ -149,6 +170,7 @@ class _ShowInfoState extends State<ShowInfo> {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(height: 40),
+              /*
               Text("Reviews", style: Theme.of(context).textTheme.titleMedium),
               ReviewCard(author: "Alex", content: "Buna, asta e un mesaj."),
               ReviewCard(
@@ -168,6 +190,7 @@ class _ShowInfoState extends State<ShowInfo> {
                 content:
                     "Buna, asta e un mesaj, dar mult mult mult mult mult mult mult mult mult mult mult mult mai lung.",
               ),
+              */
             ],
           ),
         ),

@@ -23,7 +23,7 @@ router.get(
         },
       });
 
-      res.json(shows);
+      res.status(200).json(shows);
     } catch (error) {
       console.error("Something went wrong: ", error);
       res.status(500).json({ message: "Server error." });
@@ -45,7 +45,7 @@ router.get(
         },
       });
 
-      res.json(shows);
+      res.status(200).json(shows);
     } catch (error) {
       console.error("Something went wrong: ", error);
       res.status(500).json({ message: "Server error." });
@@ -67,7 +67,7 @@ router.get(
         },
       });
 
-      res.json(shows);
+      res.status(200).json(shows);
     } catch (error) {
       console.error("Something went wrong: ", error);
       res.status(500).json({ message: "Server error." });
@@ -117,7 +117,7 @@ router.post(
         },
       });
 
-      res.status(201).json(userShow);
+      res.status(200).json(userShow);
     } catch (error) {
       console.error("Something went wrong: ", error);
       res.status(500).json({ message: "Server error." });
@@ -127,26 +127,25 @@ router.post(
 
 // READ a show the user added (based on the id of the user)
 router.get(
-  "/:user_id",
+  "/:user_id/:show_id",
   authenticateToken,
   adminOrSelfRequired,
   async (req, res) => {
     try {
-      const { showId } = req.body;
-
-      if (!showId) res.status(500).json({ message: "Show Id is required." });
-
       // check if the user_show exists
       const userShow = await prisma.userShow.findUnique({
         where: {
           userId_showId: {
             userId: parseInt(req.params.user_id),
-            showId: showId,
+            showId: parseInt(req.params.show_id),
           },
         },
       });
 
-      res.status(201).json(userShow);
+      if (!userShow)
+        res.status(404).json({ message: "User show does not exist." });
+
+      res.status(200).json(userShow);
     } catch (error) {
       console.error("Something went wrong: ", error);
       res.status(500).json({ message: "Server error." });
@@ -188,7 +187,7 @@ router.delete(
         },
       });
 
-      res.status(201).json({ message: "User show deleted." });
+      res.status(200).json({ message: "User show deleted." });
     } catch (error) {
       console.error("Something went wrong: ", error);
       res.status(500).json({ message: "Server error." });

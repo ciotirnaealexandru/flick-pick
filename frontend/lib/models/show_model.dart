@@ -5,7 +5,8 @@ Show showFromJson(String str) => Show.fromJson(json.decode(str));
 String showToJson(Show data) => json.encode(data.toJson());
 
 class Show {
-  int id;
+  int? id;
+  int apiId;
   String name;
   String image;
   String summary;
@@ -17,7 +18,8 @@ class Show {
   String? watchStatus;
 
   Show({
-    required this.id,
+    this.id,
+    required this.apiId,
     required this.name,
     required this.image,
     required this.summary,
@@ -30,7 +32,8 @@ class Show {
   });
 
   factory Show.fromJson(Map<String, dynamic> json) => Show(
-    id: json["id"] ?? 0,
+    id: json["id"] as int?,
+    apiId: json["apiId"] ?? 0,
     name: json["name"] ?? '',
     image: json["image"] ?? '',
     summary: json["summary"] ?? '',
@@ -44,6 +47,7 @@ class Show {
 
   Map<String, dynamic> toJson() => {
     "id": id,
+    "apiId": apiId,
     "name": name,
     "image": image,
     "summary": summary,
