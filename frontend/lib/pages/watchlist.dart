@@ -12,6 +12,7 @@ class Watchlist extends StatefulWidget {
 
 class _WatchlistState extends State<Watchlist> {
   User? userInfo;
+  String selectedList = "WATCHED";
 
   @override
   void initState() {
@@ -42,23 +43,29 @@ class _WatchlistState extends State<Watchlist> {
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                        ),
-                        onPressed: () {},
-                        child: Text(
-                          "WATCHED",
-                          style: Theme.of(context).textTheme.bodySmall,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        backgroundColor:
+                            selectedList == "WATCHED"
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.primary,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          selectedList = "WATCHED";
+                        });
+                      },
+                      child: Text(
+                        "WATCHED",
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color:
+                              selectedList == "WATCHED"
+                                  ? Theme.of(context).colorScheme.primary
+                                  : null,
                         ),
                       ),
                     ),
@@ -66,22 +73,29 @@ class _WatchlistState extends State<Watchlist> {
                 ),
                 SizedBox(width: 15),
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                        ),
-                        onPressed: () {},
-                        child: Text(
-                          "FUTURE",
-                          style: Theme.of(context).textTheme.bodySmall,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        backgroundColor:
+                            selectedList == "FUTURE"
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.primary,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          selectedList = "FUTURE";
+                        });
+                      },
+                      child: Text(
+                        "FUTURE",
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color:
+                              selectedList == "FUTURE"
+                                  ? Theme.of(context).colorScheme.primary
+                                  : null,
                         ),
                       ),
                     ),
