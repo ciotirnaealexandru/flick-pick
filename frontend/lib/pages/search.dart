@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/cards/show_card.dart';
+import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -163,28 +164,7 @@ class _SearchState extends State<Search> {
         centerTitle: true,
       ),
 
-      body: Column(
-        children: [
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(20),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 210 / 295,
-              ),
-              itemCount: shows.length,
-              itemBuilder: (context, i) {
-                return ShowCard(
-                  apiId: shows[i].apiId,
-                  showImageUrl: shows[i].image,
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+      body: ShowGrid(shows: shows),
     );
   }
 }
