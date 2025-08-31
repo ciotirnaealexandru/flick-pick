@@ -8,6 +8,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/pages/watchlist.dart';
 import 'theme.dart';
 
+// used for reloading watchlist when i change a show status
+final RouteObserver<ModalRoute<void>> routeObserver =
+    RouteObserver<ModalRoute<void>>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -25,6 +29,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorObservers: [routeObserver],
       debugShowCheckedModeBanner: false,
       title: 'Flick Pick',
       theme: appTheme,

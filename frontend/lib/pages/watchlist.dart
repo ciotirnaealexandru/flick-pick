@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/navbar.dart';
 import 'package:frontend/components/show_grid.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/user_service.dart';
@@ -17,7 +18,7 @@ class Watchlist extends StatefulWidget {
   State<Watchlist> createState() => _WatchlistState();
 }
 
-class _WatchlistState extends State<Watchlist> {
+class _WatchlistState extends State<Watchlist> with RouteAware {
   User? userInfo;
   String selectedList = "WATCHED";
   List<Show> shows = [];
@@ -27,6 +28,24 @@ class _WatchlistState extends State<Watchlist> {
   void initState() {
     super.initState();
     loadUserInfo();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    // Called when returning to this page after a pop
+    getShowsByList(selectedList);
   }
 
   Future<void> loadUserInfo() async {
