@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/navbar.dart';
+import 'package:frontend/components/show_grid.dart';
+import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/user_service.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Watchlist extends StatefulWidget {
   const Watchlist({super.key});
@@ -13,6 +20,7 @@ class Watchlist extends StatefulWidget {
 class _WatchlistState extends State<Watchlist> {
   User? userInfo;
   String selectedList = "WATCHED";
+  List<Show> shows = [];
 
   @override
   void initState() {
@@ -24,6 +32,38 @@ class _WatchlistState extends State<Watchlist> {
     final user = await getUserInfo();
     setState(() {
       userInfo = user;
+    });
+    if (user != null) {
+      await getShowsByList(selectedList);
+    }
+  }
+
+  Future<void> getShowsByList(selectedList) async {
+    final secureStorage = FlutterSecureStorage();
+    final token = await secureStorage.read(
+      key: dotenv.env['SECURE_STORAGE_SECRET']!,
+    );
+
+    String watchType = (selectedList == "WATCHED") ? "watched" : "will_watch";
+
+    final showsResponse = await http.get(
+      Uri.parse(
+        '${dotenv.env['API_URL']!}/user/show/$watchType/${userInfo?.id}',
+      ),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    final List<dynamic> showsJson = json.decode(showsResponse.body);
+
+    setState(() {
+      shows =
+          showsJson
+              .map((json) => Show.fromJson(json['show']))
+              .where((show) => show.hasAllFields)
+              .toList();
     });
   }
 
@@ -58,6 +98,7 @@ class _WatchlistState extends State<Watchlist> {
                         setState(() {
                           selectedList = "WATCHED";
                         });
+                        getShowsByList(selectedList);
                       },
                       child: Text(
                         "WATCHED",
@@ -88,6 +129,7 @@ class _WatchlistState extends State<Watchlist> {
                         setState(() {
                           selectedList = "FUTURE";
                         });
+                        getShowsByList(selectedList);
                       },
                       child: Text(
                         "FUTURE",
@@ -107,7 +149,10 @@ class _WatchlistState extends State<Watchlist> {
         ),
       ),
 
-      body: Placeholder(),
+      body:
+          shows.isEmpty
+              ? Center(child: Text("No shows found"))
+              : ShowGrid(shows: shows),
     );
   }
 }

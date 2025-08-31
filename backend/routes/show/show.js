@@ -24,8 +24,7 @@ router.get("/popular", async (req, res) => {
     const simplified = data.map((show) => ({
       apiId: show.id,
       name: show.name,
-      genres: show.genres,
-      image: show.image?.medium,
+      imageUrl: show.image?.medium,
       summary: show.summary,
     }));
 
@@ -49,8 +48,7 @@ router.get("/search/:name", async (req, res) => {
     const simplified = data.map((show) => ({
       apiId: show.show.id,
       name: show.show.name,
-      genres: show.show.genres,
-      image: show.show.image?.medium,
+      imageUrl: show.show.image?.medium,
       summary: show.show.summary,
     }));
 
@@ -61,8 +59,8 @@ router.get("/search/:name", async (req, res) => {
   }
 });
 
-// gets specific info of a show by id
-router.get("/external/:api_id", async (req, res) => {
+// gets specific info of a show by api id
+router.get("/more/:api_id", async (req, res) => {
   try {
     // get the main show info
     const showsIdResponse = await fetch(
@@ -87,18 +85,18 @@ router.get("/external/:api_id", async (req, res) => {
       id: seasonsData.id,
       number: seasonsData.number,
       name: seasonsData.name,
-      episodeOrder: seasonsData.episodeOrder,
-      image: seasonsData.image?.medium,
+      imageUrl: seasonsData.image?.medium,
       summary: stripHTMLTags(seasonsData.summary),
+      episodeOrder: seasonsData.episodeOrder,
     }));
 
     // get only the show info that i like
     const showInfo = {
       apiId: mainData.id,
       name: mainData.name,
-      genres: mainData.genres,
-      image: mainData.image?.medium,
+      imageUrl: mainData.image?.medium,
       summary: stripHTMLTags(mainData.summary),
+      genres: mainData.genres,
       premiered: getYear(mainData.premiered),
       ended: endingYear,
       network: networkName,
@@ -109,25 +107,6 @@ router.get("/external/:api_id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch show." });
-  }
-});
-
-// gets specific info of a show by api id
-router.get("/:api_id", authenticateToken, async (req, res) => {
-  try {
-    const show = await prisma.show.findUnique({
-      where: {
-        apiId: parseInt(req.params.api_id),
-      },
-    });
-
-    if (!show)
-      return res.status(500).json({ error: "Failed to fetch show by API Id." });
-
-    res.status(200).send(show);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "An error occured." });
   }
 });
 

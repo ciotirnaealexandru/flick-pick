@@ -23,7 +23,7 @@ class ShowGrid extends StatelessWidget {
             itemBuilder: (context, i) {
               return ShowCard(
                 apiId: shows[i].apiId,
-                showImageUrl: shows[i].image,
+                imageUrl: shows[i].imageUrl,
               );
             },
           ),

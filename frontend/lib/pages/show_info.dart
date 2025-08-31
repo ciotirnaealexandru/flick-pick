@@ -140,7 +140,10 @@ class _ShowInfoState extends State<ShowInfo> {
                                 'Authorization': 'Bearer $token',
                               },
                               body: jsonEncode({
-                                'apiId': apiId,
+                                'apiId': showInfo?.apiId,
+                                'name': showInfo?.name,
+                                'imageUrl': showInfo?.imageUrl,
+                                'summary': showInfo?.summary,
                                 'watchStatus': watchStatus,
                               }),
                             );
@@ -196,7 +199,10 @@ class _ShowInfoState extends State<ShowInfo> {
                                       'Authorization': 'Bearer $token',
                                     },
                                     body: jsonEncode({
-                                      'apiId': apiId,
+                                      'apiId': showInfo?.apiId,
+                                      'name': showInfo?.name,
+                                      'imageUrl': showInfo?.imageUrl,
+                                      'summary': showInfo?.summary,
                                       'userRating': userRating,
                                     }),
                                   );
@@ -216,7 +222,7 @@ class _ShowInfoState extends State<ShowInfo> {
                     ),
                     clipBehavior: Clip.hardEdge,
                     child: CachedNetworkImage(
-                      imageUrl: showInfo!.image,
+                      imageUrl: showInfo!.imageUrl,
                       fit: BoxFit.fitHeight,
                       height: 220,
                     ),

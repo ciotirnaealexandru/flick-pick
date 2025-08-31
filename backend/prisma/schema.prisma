@@ -46,9 +46,13 @@ model User {
 
 model Show {
   // database id
-  id    Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
   // id within the API database (from which i can retrieve the show info)
-  apiId Int @unique
+  apiId    Int    @unique
+  name     String
+  imageUrl String
+  summary  String @db.Text
 
   userShows UserShow[]
   reviews   Review[]

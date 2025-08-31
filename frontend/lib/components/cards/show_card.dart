@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class ShowCard extends StatelessWidget {
   final int apiId;
-  final String showImageUrl;
+  final String imageUrl;
 
-  const ShowCard({super.key, required this.apiId, required this.showImageUrl});
+  const ShowCard({super.key, required this.apiId, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ShowCard extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
         child: CachedNetworkImage(
-          imageUrl: showImageUrl,
+          imageUrl: imageUrl,
           fit: BoxFit.cover,
           fadeInDuration: Duration(milliseconds: 200),
           maxHeightDiskCache: 300,

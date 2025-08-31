@@ -26,7 +26,7 @@ class _SearchState extends State<Search> {
     loadUserInfo();
     getPopularShows().then((_) {
       for (var show in shows) {
-        precacheImage(CachedNetworkImageProvider(show.image), context);
+        precacheImage(CachedNetworkImageProvider(show.imageUrl), context);
       }
     });
   }

@@ -3,6 +3,8 @@ const router = express.Router();
 const prisma = require("../../../prismaClient");
 const { WatchStatus } = require("@prisma/client");
 
+const stripHTMLTags = require("../../../helpers/stripHTMLTags");
+
 // middlewares
 const {
   authenticateToken,
@@ -20,6 +22,9 @@ router.get(
       const shows = await prisma.userShow.findMany({
         where: {
           userId: parseInt(req.params.user_id),
+        },
+        include: {
+          show: true,
         },
       });
 
@@ -43,6 +48,9 @@ router.get(
           userId: parseInt(req.params.user_id),
           watchStatus: WatchStatus.WATCHED,
         },
+        include: {
+          show: true,
+        },
       });
 
       res.status(200).json(shows);
@@ -65,6 +73,9 @@ router.get(
           userId: parseInt(req.params.user_id),
           watchStatus: WatchStatus.WILL_WATCH,
         },
+        include: {
+          show: true,
+        },
       });
 
       res.status(200).json(shows);
@@ -82,10 +93,19 @@ router.post(
   adminOrSelfRequired,
   async (req, res) => {
     try {
-      const { apiId, userRating, watchStatus } = req.body;
+      const { apiId, name, imageUrl, summary, userRating, watchStatus } =
+        req.body;
 
       if (!apiId)
         return res.status(500).json({ message: "Api Id is required." });
+
+      if (!name) return res.status(500).json({ message: "Name is required." });
+
+      if (!imageUrl)
+        return res.status(500).json({ message: "ImageUrl is required." });
+
+      if (!summary)
+        return res.status(500).json({ message: "Summary is required." });
 
       // check if the show already exists in my database
       // if not, add it
@@ -93,9 +113,16 @@ router.post(
         where: {
           apiId: parseInt(apiId),
         },
-        update: {},
+        update: {
+          name: name,
+          imageUrl: imageUrl,
+          summary: stripHTMLTags(summary),
+        },
         create: {
           apiId: parseInt(apiId),
+          name: name,
+          imageUrl: imageUrl,
+          summary: stripHTMLTags(summary),
         },
       });
 
@@ -116,6 +143,9 @@ router.post(
           userRating: userRating,
           watchStatus: watchStatus,
         },
+        include: {
+          show: true,
+        },
       });
 
       res.status(200).json(userShow);
@@ -126,25 +156,38 @@ router.post(
   }
 );
 
-// READ a show the user added (based on the id of the user)
+// READ a show (return only main info if the user did not add it)
 router.get(
-  "/:user_id/:show_id",
+  "/:user_id/:api_id",
   authenticateToken,
   adminOrSelfRequired,
   async (req, res) => {
     try {
+      // get the show from the api id
+      const show = await prisma.show.findUnique({
+        where: {
+          apiId: parseInt(req.params.api_id),
+        },
+      });
+
+      if (!show)
+        return res
+          .status(404)
+          .json({ message: "Show does not exist in the database." });
+
       // check if the user_show exists
       const userShow = await prisma.userShow.findUnique({
         where: {
           userId_showId: {
             userId: parseInt(req.params.user_id),
-            showId: parseInt(req.params.show_id),
+            showId: show.id,
           },
         },
       });
 
-      if (!userShow)
-        return res.status(404).json({ message: "User show does not exist." });
+      // if the user does not have that show return an empty json to later
+      // concatenate to show info from the api
+      if (!userShow) return res.status(200).json({});
 
       res.status(200).json(userShow);
     } catch (error) {
@@ -154,6 +197,7 @@ router.get(
   }
 );
 
+/*
 // DELETE a show of an user (based on the id of the user)
 router.delete(
   "/:user_id/:show_id",
@@ -161,17 +205,12 @@ router.delete(
   adminOrSelfRequired,
   async (req, res) => {
     try {
-      const { showId } = req.body;
-
-      if (!showId)
-        return res.status(500).json({ message: "Show Id is required." });
-
       // check if the user_show exists, if so, delete it
       const userShow = await prisma.userShow.findUnique({
         where: {
           userId_showId: {
             userId: parseInt(req.params.user_id),
-            showId: showId,
+            showId: parseInt(req.params.show_id),
           },
         },
       });
@@ -184,7 +223,7 @@ router.delete(
         where: {
           userId_showId: {
             userId: parseInt(req.params.user_id),
-            showId: showId,
+            showId: parseInt(req.params.show_id),
           },
         },
       });
@@ -196,5 +235,6 @@ router.delete(
     }
   }
 );
+*/
 
 module.exports = router;

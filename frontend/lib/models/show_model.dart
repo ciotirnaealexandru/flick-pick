@@ -6,10 +6,12 @@ String showToJson(Show data) => json.encode(data.toJson());
 
 class Show {
   int? id;
+
   int apiId;
   String name;
-  String image;
+  String imageUrl;
   String summary;
+
   String? premiered;
   String? ended;
   String? network;
@@ -19,10 +21,12 @@ class Show {
 
   Show({
     this.id,
+
     required this.apiId,
     required this.name,
-    required this.image,
+    required this.imageUrl,
     required this.summary,
+
     this.genres,
     this.premiered,
     this.ended,
@@ -35,7 +39,7 @@ class Show {
     id: json["id"] as int?,
     apiId: json["apiId"] ?? 0,
     name: json["name"] ?? '',
-    image: json["image"] ?? '',
+    imageUrl: json["imageUrl"] ?? '',
     summary: json["summary"] ?? '',
     genres: json["genres"] != null ? List<String>.from(json["genres"]) : [],
     premiered: json["premiered"] as String?,
@@ -49,7 +53,7 @@ class Show {
     "id": id,
     "apiId": apiId,
     "name": name,
-    "image": image,
+    "imageUrl": imageUrl,
     "summary": summary,
     "premiered": premiered,
     "ended": ended,
@@ -58,5 +62,5 @@ class Show {
   };
 
   bool get hasAllFields =>
-      name.isNotEmpty && image.isNotEmpty && summary.isNotEmpty;
+      name.isNotEmpty && imageUrl.isNotEmpty && summary.isNotEmpty;
 }
