@@ -117,36 +117,45 @@ class _ShowInfoState extends State<ShowInfo> {
                           initialStatus: watchStatus ?? "NOT_WATCHED",
                           onChanged: (newStatus) async {
                             watchStatus = newStatus;
-                            if (watchStatus == "FUTURE" ||
-                                watchStatus == "WATCHED") {
-                              showRating = true;
-                            } else {
-                              showRating = false;
-                            }
-
-                            print("✅ $watchStatus");
-
                             final secureStorage = FlutterSecureStorage();
                             final token = await secureStorage.read(
                               key: dotenv.env['SECURE_STORAGE_SECRET']!,
                             );
 
-                            await http.post(
-                              Uri.parse(
-                                '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}',
-                              ),
-                              headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer $token',
-                              },
-                              body: jsonEncode({
-                                'apiId': showInfo?.apiId,
-                                'name': showInfo?.name,
-                                'imageUrl': showInfo?.imageUrl,
-                                'summary': showInfo?.summary,
-                                'watchStatus': watchStatus,
-                              }),
-                            );
+                            print("✅ $watchStatus");
+
+                            if (watchStatus == "FUTURE" ||
+                                watchStatus == "WATCHED") {
+                              showRating = true;
+
+                              await http.post(
+                                Uri.parse(
+                                  '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}',
+                                ),
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'Authorization': 'Bearer $token',
+                                },
+                                body: jsonEncode({
+                                  'apiId': showInfo?.apiId,
+                                  'name': showInfo?.name,
+                                  'imageUrl': showInfo?.imageUrl,
+                                  'summary': showInfo?.summary,
+                                  'watchStatus': watchStatus,
+                                }),
+                              );
+                            } else {
+                              showRating = false;
+                              await http.delete(
+                                Uri.parse(
+                                  '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}/${showInfo?.apiId}',
+                                ),
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'Authorization': 'Bearer $token',
+                                },
+                              );
+                            }
 
                             await loadShowInfo(apiId);
                           },

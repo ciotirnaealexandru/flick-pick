@@ -171,9 +171,7 @@ router.get(
       });
 
       if (!show)
-        return res
-          .status(404)
-          .json({ message: "Show does not exist in the database." });
+        return res.status(404).json({ message: "Show does not exist." });
 
       // check if the user_show exists
       const userShow = await prisma.userShow.findUnique({
@@ -197,20 +195,29 @@ router.get(
   }
 );
 
-/*
 // DELETE a show of an user (based on the id of the user)
 router.delete(
-  "/:user_id/:show_id",
+  "/:user_id/:api_id",
   authenticateToken,
   adminOrSelfRequired,
   async (req, res) => {
     try {
+      // get the show from the api id
+      const show = await prisma.show.findUnique({
+        where: {
+          apiId: parseInt(req.params.api_id),
+        },
+      });
+
+      if (!show)
+        return res.status(404).json({ message: "Show does not exist." });
+
       // check if the user_show exists, if so, delete it
       const userShow = await prisma.userShow.findUnique({
         where: {
           userId_showId: {
             userId: parseInt(req.params.user_id),
-            showId: parseInt(req.params.show_id),
+            showId: show.id,
           },
         },
       });
@@ -223,7 +230,7 @@ router.delete(
         where: {
           userId_showId: {
             userId: parseInt(req.params.user_id),
-            showId: parseInt(req.params.show_id),
+            showId: show.id,
           },
         },
       });
@@ -235,6 +242,5 @@ router.delete(
     }
   }
 );
-*/
 
 module.exports = router;
