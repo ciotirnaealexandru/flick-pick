@@ -37,7 +37,7 @@ class _FormScreenState extends State<FormScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 20),
           CustomTextField(
             label: 'Password',
             controller: _passwordController,

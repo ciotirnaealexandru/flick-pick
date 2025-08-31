@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/login.dart';
 import 'package:frontend/pages/profile.dart';
+import 'package:frontend/pages/update_profile.dart';
 import 'package:frontend/pages/show_info.dart';
 import 'package:frontend/pages/signup.dart';
 import 'package:frontend/pages/search.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
         '/signup': (context) => const Signup(),
         '/search': (context) => const Search(),
         '/profile': (context) => const Profile(),
+        '/update_profile': (context) => const UpdateProfile(),
         '/show_info': (context) => const ShowInfo(),
         '/watchlist': (context) => const Watchlist(),
       },

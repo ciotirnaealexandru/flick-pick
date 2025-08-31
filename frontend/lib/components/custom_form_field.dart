@@ -28,12 +28,14 @@ class CustomTextField extends StatelessWidget {
       initialValue: initialValue,
       cursorColor: Theme.of(context).colorScheme.onPrimary,
       cursorErrorColor: Theme.of(context).colorScheme.onPrimary,
-      style: TextStyle(fontWeight: FontWeight.normal),
+      style: Theme.of(
+        context,
+      ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: Theme.of(
           context,
-        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.normal),
+        ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
         border: OutlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.onPrimary,
@@ -66,7 +68,7 @@ class CustomTextField extends StatelessWidget {
         ),
         errorStyle: TextStyle(
           color: Theme.of(context).colorScheme.error,
-          fontWeight: FontWeight.normal,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

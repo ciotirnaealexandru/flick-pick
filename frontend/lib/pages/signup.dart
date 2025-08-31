@@ -39,7 +39,7 @@ class _FormScreenState extends State<FormScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 20),
           CustomTextField(
             controller: _lastNameController,
             label: 'Last Name',
@@ -50,7 +50,7 @@ class _FormScreenState extends State<FormScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 20),
           CustomTextField(
             controller: _emailController,
             label: 'Email',
@@ -64,7 +64,7 @@ class _FormScreenState extends State<FormScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 20),
           CustomTextField(
             controller: _passwordController,
             label: 'Password',
@@ -86,7 +86,7 @@ class _FormScreenState extends State<FormScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 20),
           CustomTextField(
             controller: _confirmPasswordController,
             label: 'Confirm Password',
@@ -126,7 +126,7 @@ class _FormScreenState extends State<FormScreen> {
               Navigator.pushReplacementNamed(context, '/login');
             },
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           SizedBox(
             width: double.infinity,
             height: 40,
