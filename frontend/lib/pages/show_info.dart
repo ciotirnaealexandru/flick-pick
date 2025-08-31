@@ -67,7 +67,7 @@ class _ShowInfoState extends State<ShowInfo> {
       showInfo = data;
       watchStatus = showInfo?.watchStatus;
       userRating = showInfo?.userRating;
-      showRating = (watchStatus == "WATCHED" || watchStatus == "WILL_WATCH");
+      showRating = (watchStatus == "WATCHED" || watchStatus == "FUTURE");
     });
   }
 
@@ -117,7 +117,7 @@ class _ShowInfoState extends State<ShowInfo> {
                           initialStatus: watchStatus ?? "NOT_WATCHED",
                           onChanged: (newStatus) async {
                             watchStatus = newStatus;
-                            if (watchStatus == "WILL_WATCH" ||
+                            if (watchStatus == "FUTURE" ||
                                 watchStatus == "WATCHED") {
                               showRating = true;
                             } else {

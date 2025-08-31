@@ -68,7 +68,7 @@ class _WatchStatusButtonState extends State<WatchStatusButton> {
                   ),
                 ),
                 PopupMenuItem<String>(
-                  value: 'WILL_WATCH',
+                  value: 'FUTURE',
                   padding: EdgeInsets.all(8),
                   height: 32,
                   child: SizedBox(
@@ -82,7 +82,7 @@ class _WatchStatusButtonState extends State<WatchStatusButton> {
             } else if (selectedStatus == "WATCHED") {
               return [
                 PopupMenuItem<String>(
-                  value: 'WILL_WATCH',
+                  value: 'FUTURE',
                   padding: EdgeInsets.all(8),
                   height: 32,
                   child: SizedBox(

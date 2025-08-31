@@ -63,7 +63,7 @@ router.get(
 
 // READ all the shows the user will watch
 router.get(
-  "/will_watch/:user_id",
+  "/future/:user_id",
   authenticateToken,
   adminOrSelfRequired,
   async (req, res) => {
@@ -71,7 +71,7 @@ router.get(
       const shows = await prisma.userShow.findMany({
         where: {
           userId: parseInt(req.params.user_id),
-          watchStatus: WatchStatus.WILL_WATCH,
+          watchStatus: WatchStatus.FUTURE,
         },
         include: {
           show: true,

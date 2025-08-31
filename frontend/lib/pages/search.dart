@@ -19,6 +19,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   User? userInfo;
   List<Show> shows = [];
+  bool finishedLoading = false;
 
   @override
   void initState() {
@@ -52,6 +53,7 @@ class _SearchState extends State<Search> {
               .map((json) => Show.fromJson(json))
               .where((show) => show.hasAllFields)
               .toList();
+      finishedLoading = true;
     });
   }
 
@@ -169,7 +171,17 @@ class _SearchState extends State<Search> {
         centerTitle: true,
       ),
 
-      body: ShowGrid(shows: shows),
+      body:
+          finishedLoading && shows.isEmpty
+              ? Center(
+                child: Text(
+                  "No shows found.",
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                ),
+              )
+              : ShowGrid(shows: shows),
     );
   }
 }

@@ -21,6 +21,7 @@ class _WatchlistState extends State<Watchlist> {
   User? userInfo;
   String selectedList = "WATCHED";
   List<Show> shows = [];
+  bool finishedLoading = false;
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _WatchlistState extends State<Watchlist> {
       key: dotenv.env['SECURE_STORAGE_SECRET']!,
     );
 
-    String watchType = (selectedList == "WATCHED") ? "watched" : "will_watch";
+    String watchType = (selectedList == "WATCHED") ? "watched" : "future";
 
     final showsResponse = await http.get(
       Uri.parse(
@@ -64,6 +65,7 @@ class _WatchlistState extends State<Watchlist> {
               .map((json) => Show.fromJson(json['show']))
               .where((show) => show.hasAllFields)
               .toList();
+      finishedLoading = true;
     });
   }
 
@@ -150,8 +152,15 @@ class _WatchlistState extends State<Watchlist> {
       ),
 
       body:
-          shows.isEmpty
-              ? Center(child: Text("No shows found"))
+          finishedLoading && shows.isEmpty
+              ? Center(
+                child: Text(
+                  "No shows found.",
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                ),
+              )
               : ShowGrid(shows: shows),
     );
   }

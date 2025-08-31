@@ -20,9 +20,7 @@ TV Show app for for TV Show lovers.
 
 `/show/search/:name` - GET (_any_) ✅
 
-`/show/external/:api_id` - GET (_any_) ✅
-
-`/show/:api_id` - GET (_JWT Required_) ✅
+`/show/more/:api_id` - GET (_any_) ✅
 
 ### /show/review
 
@@ -46,11 +44,11 @@ TV Show app for for TV Show lovers.
 
 `/user/show/watched/:user_id` - GET (_ADMIN_ or _USER_) ✅
 
-`/user/show/will_watch/:user_id` - GET (_ADMIN_ or _USER_) ✅
+`/user/show/future/:user_id` - GET (_ADMIN_ or _USER_) ✅
 
 `/user/show/:user_id` - POST (_ADMIN_ or _USER_) ✅
 
-`/user/show/:user_id/:show_id` - GET, ~~PATCH~~, DELETE (_ADMIN_ or _USER_) ✅
+`/user/show/:user_id/:api_id` - GET, ~~PATCH~~, DELETE (_ADMIN_ or _USER_) ✅
 
 ### /user/show/review
 

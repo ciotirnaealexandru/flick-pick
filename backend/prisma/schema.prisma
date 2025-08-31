@@ -18,7 +18,7 @@ enum WatchStatus {
   // the user did not put the show on the list
   NOT_WATCHED
   // the user put the show on the list but did not watch it yet
-  WILL_WATCH
+  FUTURE
   // the user put the show on the list and watched it
   WATCHED
 }
