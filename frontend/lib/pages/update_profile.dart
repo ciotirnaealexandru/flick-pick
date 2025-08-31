@@ -215,18 +215,16 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  insetPadding: EdgeInsets.all(16),
+                  insetPadding: EdgeInsets.all(50),
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   title: Text(
                     "Confirm Delete",
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
 
                   content: Text(
                     "Are you sure you want to delete your profile? This cannot be undone.",
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.normal,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   actions: [
                     TextButton(
@@ -234,7 +232,9 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                           () => Navigator.of(context).pop(false), // cancel
                       child: Text(
                         "Cancel",
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     ElevatedButton(
@@ -245,8 +245,9 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                           () => Navigator.of(context).pop(true), // confirm
                       child: Text(
                         "Delete",
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).colorScheme.surface,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -339,15 +340,16 @@ class _UpdateProfileState extends State<UpdateProfile> {
       appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 50),
           child: SizedBox(
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 20),
                 Text(
                   'Update Profile',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 UpdateProfileForm(userInfo!, loadUserInfo),
                 SizedBox(height: 10),

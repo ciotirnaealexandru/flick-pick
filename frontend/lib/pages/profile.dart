@@ -55,11 +55,11 @@ class _ProfileState extends State<Profile> {
                 SizedBox(height: 20),
                 Text(
                   userInfo!.firstName,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
                   userInfo!.lastName,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 SizedBox(height: 20),
                 SizedBox(

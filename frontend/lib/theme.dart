@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 final ColorScheme _appColors = ColorScheme.dark(
   primary: const Color.fromARGB(255, 28, 37, 51),
@@ -15,6 +16,10 @@ final ColorScheme _appColors = ColorScheme.dark(
   error: const Color.fromARGB(255, 195, 45, 55),
   */
 );
+
+class AppFonts {
+  static String get primary => GoogleFonts.rubik().fontFamily!;
+}
 
 final ThemeData appTheme = ThemeData(
   brightness: Brightness.dark,
@@ -34,27 +39,36 @@ final ThemeData appTheme = ThemeData(
       fontSize: 30,
       fontWeight: FontWeight.bold,
       color: _appColors.onPrimary,
+      fontFamily: AppFonts.primary,
     ),
     titleLarge: TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.bold,
       color: _appColors.onPrimary,
+      fontFamily: AppFonts.primary,
     ),
     titleMedium: TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.bold,
       color: _appColors.onPrimary,
+      fontFamily: AppFonts.primary,
     ),
     bodyLarge: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
       color: _appColors.onPrimary,
+      fontFamily: AppFonts.primary,
     ),
-    bodyMedium: TextStyle(fontSize: 16, color: _appColors.onPrimary),
+    bodyMedium: TextStyle(
+      fontSize: 16,
+      color: _appColors.onPrimary,
+      fontFamily: AppFonts.primary,
+    ),
     bodySmall: TextStyle(
       fontSize: 15,
       fontWeight: FontWeight.bold,
       color: _appColors.onPrimary,
+      fontFamily: AppFonts.primary,
     ),
   ),
 
@@ -63,7 +77,11 @@ final ThemeData appTheme = ThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: _appColors.primary,
       foregroundColor: _appColors.onPrimary,
-      textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+      textStyle: TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        fontFamily: AppFonts.primary,
+      ),
     ),
   ),
 
@@ -72,6 +90,7 @@ final ThemeData appTheme = ThemeData(
     contentTextStyle: TextStyle(
       color: _appColors.onPrimary,
       fontWeight: FontWeight.bold,
+      fontFamily: AppFonts.primary,
     ),
     behavior: SnackBarBehavior.floating,
   ),

@@ -111,16 +111,14 @@ class _SearchState extends State<Search> {
                           child: Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: 16,
-                              vertical: 4,
+                              vertical: 9,
                             ),
                             alignment: Alignment.centerLeft,
                             child: TextField(
                               controller: _searchBarController,
                               decoration: InputDecoration(
                                 hintText: 'Search me up ...',
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
+                                hintStyle: Theme.of(context).textTheme.bodySmall
                                     ?.copyWith(fontWeight: FontWeight.bold),
                                 border: InputBorder.none,
                               ),
