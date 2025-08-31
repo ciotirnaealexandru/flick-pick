@@ -94,7 +94,7 @@ class _SearchState extends State<Search> {
         title: Column(
           children: [
             Navbar(),
-            SizedBox(height: 5),
+            SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
@@ -103,19 +103,24 @@ class _SearchState extends State<Search> {
                       borderRadius: BorderRadius.circular(16),
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    height: 48,
+                    height: 42,
                     child: Row(
                       children: [
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 4,
+                            ),
                             alignment: Alignment.centerLeft,
                             child: TextField(
                               controller: _searchBarController,
                               decoration: InputDecoration(
                                 hintText: 'Search me up ...',
-                                hintStyle:
-                                    Theme.of(context).textTheme.bodyMedium,
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                                 border: InputBorder.none,
                               ),
                               style: Theme.of(
@@ -123,6 +128,7 @@ class _SearchState extends State<Search> {
                               ).textTheme.bodyMedium?.copyWith(
                                 decoration: TextDecoration.none,
                                 decorationThickness: 0,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -143,18 +149,18 @@ class _SearchState extends State<Search> {
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 15),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  height: 48,
+                  height: 42,
                   child: IconButton(
                     onPressed: () async {
                       Navigator.pushReplacementNamed(context, '/login');
                     },
-                    icon: Icon(Icons.local_fire_department_outlined, size: 28),
+                    icon: Icon(Icons.local_fire_department_outlined, size: 26),
                   ),
                 ),
               ],

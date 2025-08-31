@@ -50,7 +50,7 @@ class _WatchStatusButtonState extends State<WatchStatusButton> {
           color: Theme.of(context).colorScheme.primary,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           onSelected: _handleSelection,
           itemBuilder: (context) {
@@ -154,7 +154,7 @@ class _WatchStatusButtonState extends State<WatchStatusButton> {
                 ),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 overlayColor: MaterialStateProperty.all(Colors.transparent),
