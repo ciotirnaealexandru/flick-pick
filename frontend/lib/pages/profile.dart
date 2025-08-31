@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/navbar.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/user_service.dart';
@@ -108,7 +110,16 @@ class _ProfileState extends State<Profile> {
                   width: 250,
                   height: 40,
                   child: ElevatedButton(
-                    onPressed: () => {},
+                    onPressed: () async {
+                      // remove the JWT token
+                      final secureStorage = FlutterSecureStorage();
+                      await secureStorage.delete(
+                        key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                      );
+
+                      Navigator.pushReplacementNamed(context, '/login');
+                    },
+
                     child: Text(
                       "LOGOUT",
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(

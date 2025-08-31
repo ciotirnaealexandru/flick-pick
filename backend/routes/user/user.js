@@ -18,7 +18,7 @@ const {
 
 // SIGN UP user based on firstName, lastName, email, password
 router.post("/signup", async (req, res) => {
-  const { firstName, lastName, email, password, phone } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   try {
     const existingUser = await prisma.user.findUnique({
@@ -37,7 +37,6 @@ router.post("/signup", async (req, res) => {
         lastName,
         email,
         password: await bcrypt.hash(password, 12),
-        phone,
       },
     });
     res.status(200).send({ user });
@@ -165,7 +164,7 @@ router.patch(
         return res.status(404).json({ message: "User does not exist." });
       }
 
-      // search for users with the new password to prevent duplicates
+      // search for users with the new email to prevent duplicates
       const duplicateEmail = await prisma.user.findUnique({
         where: {
           email: newEmail,
