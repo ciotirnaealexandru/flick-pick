@@ -1,18 +1,17 @@
 import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:frontend/components/buttons/watch_status_button.dart';
 import 'package:frontend/components/cards/expandable_text_card.dart';
-import 'package:frontend/components/cards/review_card.dart';
 import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/show_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+//import 'package:frontend/components/cards/review_card.dart';
 
 class ShowInfo extends StatefulWidget {
   const ShowInfo({super.key});

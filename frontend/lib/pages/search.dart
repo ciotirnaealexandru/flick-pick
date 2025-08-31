@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/components/cards/show_card.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
