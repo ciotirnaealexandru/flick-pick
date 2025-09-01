@@ -36,7 +36,7 @@ class _ProfileState extends State<Profile> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: Navbar()),
+      appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -133,6 +133,7 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
+      bottomNavigationBar: Navbar(),
     );
   }
 }

@@ -99,8 +99,6 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
         toolbarHeight: 120,
         title: Column(
           children: [
-            Navbar(),
-            SizedBox(height: 5),
             Row(
               children: [
                 Expanded(
@@ -181,6 +179,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                 ),
               )
               : ShowGrid(shows: shows),
+      bottomNavigationBar: Navbar(),
     );
   }
 }

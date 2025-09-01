@@ -228,7 +228,7 @@ class _ShowInfoState extends State<ShowInfo> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     clipBehavior: Clip.hardEdge,
                     child: CachedNetworkImage(

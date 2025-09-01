@@ -1,0 +1,208 @@
+import 'package:flutter/material.dart';
+
+class SortButton extends StatefulWidget {
+  const SortButton({super.key});
+
+  @override
+  State<SortButton> createState() => _SortButtonState();
+}
+
+class _SortButtonState extends State<SortButton> {
+  String selected = "popular";
+
+  void _openSortOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            splashFactory: NoSplash.splashFactory,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+
+            child: SizedBox(
+              height: 210,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton(
+                      onPressed:
+                          () => {
+                            setState(() {
+                              selected = "popular";
+                            }),
+                            Navigator.pop(context),
+                          },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        overlayColor: Colors.transparent,
+                      ),
+                      child: Container(
+                        decoration:
+                            selected == "popular"
+                                ? BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                      width: 2.5,
+                                    ),
+                                  ),
+                                )
+                                : null,
+                        child: Text(
+                          "Popular",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed:
+                          () => {
+                            setState(() {
+                              selected = "newest";
+                            }),
+                            Navigator.pop(context),
+                          },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        overlayColor: Colors.transparent,
+                      ),
+                      child: Container(
+                        decoration:
+                            selected == "newest"
+                                ? BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                      width: 2.5,
+                                    ),
+                                  ),
+                                )
+                                : null,
+                        child: Text(
+                          "Newest",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed:
+                          () => {
+                            setState(() {
+                              selected = "oldest";
+                            }),
+                            Navigator.pop(context),
+                          },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        overlayColor: Colors.transparent,
+                      ),
+                      child: Container(
+                        decoration:
+                            selected == "oldest"
+                                ? BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                      width: 2.5,
+                                    ),
+                                  ),
+                                )
+                                : null,
+                        child: Text(
+                          "Oldest",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed:
+                          () => {
+                            setState(() {
+                              selected = "alphabetically";
+                            }),
+                            Navigator.pop(context),
+                          },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        overlayColor: Colors.transparent,
+                      ),
+                      child: Container(
+                        decoration:
+                            selected == "alphabetically"
+                                ? BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                      width: 2.5,
+                                    ),
+                                  ),
+                                )
+                                : null,
+                        child: Text(
+                          "A to Z",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => {_openSortOptions(context)},
+      style: ButtonStyle(
+        padding: WidgetStatePropertyAll(EdgeInsets.only(left: 15, right: 20)),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.swap_vert, size: 25),
+          SizedBox(width: 5),
+          Text(
+            "Sort",
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+}

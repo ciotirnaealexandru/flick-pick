@@ -100,4 +100,13 @@ final ThemeData appTheme = ThemeData(
   ),
 
   iconTheme: IconThemeData(color: _appColors.onPrimary),
+
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    selectedIconTheme: IconThemeData(color: _appColors.onPrimary),
+    unselectedIconTheme: IconThemeData(color: _appColors.primary),
+    selectedItemColor: _appColors.onPrimary,
+    unselectedItemColor: _appColors.primary,
+    selectedLabelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+    unselectedLabelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+  ),
 );

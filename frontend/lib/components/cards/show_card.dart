@@ -11,7 +11,7 @@ class ShowCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).colorScheme.primary,
       ),
       clipBehavior: Clip.hardEdge,

@@ -1,5 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/components/buttons/filter_button.dart';
+import 'package:frontend/components/buttons/sort_button.dart';
+import 'package:frontend/components/search_bar.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
@@ -58,6 +61,12 @@ class _SearchState extends State<Search> {
   }
 
   Future<void> getShowsByName(text) async {
+    // if the string is empty return the popular shows
+    if (text == "") {
+      await getPopularShows();
+      return;
+    }
+
     final response = await http.get(
       Uri.parse('${dotenv.env['API_URL']!}/show/search/$text'),
       headers: {'Content-Type': 'application/json'},
@@ -94,75 +103,15 @@ class _SearchState extends State<Search> {
         toolbarHeight: 120,
         title: Column(
           children: [
-            Navbar(),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
+            CustomSearchBar(
+              controller: _searchBarController,
+              searchFunction: getShowsByName,
+            ),
+            SizedBox(height: 5),
             Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    height: 42,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 9,
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: TextField(
-                              controller: _searchBarController,
-                              decoration: InputDecoration(
-                                hintText: 'Search me up ...',
-                                hintStyle: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                                border: InputBorder.none,
-                              ),
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium?.copyWith(
-                                decoration: TextDecoration.none,
-                                decorationThickness: 0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        IconButton(
-                          onPressed: () async {
-                            // if the search button is pressed get the text
-                            final text = _searchBarController.text.trim();
-
-                            // send a a request to the backend to get the shows with those names
-                            getShowsByName(text);
-                          },
-                          icon: Icon(Icons.search, size: 28),
-                        ),
-                        SizedBox(width: 4),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 15),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  height: 42,
-                  child: IconButton(
-                    onPressed: () async {
-                      Navigator.pushReplacementNamed(context, '/login');
-                    },
-                    icon: Icon(Icons.local_fire_department_outlined, size: 26),
-                  ),
-                ),
-              ],
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [SortButton(), SizedBox(width: 10), FilterButton()],
             ),
           ],
         ),
@@ -180,6 +129,7 @@ class _SearchState extends State<Search> {
                 ),
               )
               : ShowGrid(shows: shows),
+      bottomNavigationBar: Navbar(),
     );
   }
 }
