@@ -43,12 +43,18 @@ class _NavbarState extends State<Navbar> {
           }
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
+            icon: Icon(Icons.search, size: 25),
+            label: "Search",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmark, size: 25),
             label: "Watchlist",
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, size: 25),
+            label: "Profile",
+          ),
         ],
       ),
     );

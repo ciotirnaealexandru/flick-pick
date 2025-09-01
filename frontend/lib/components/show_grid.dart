@@ -12,7 +12,7 @@ class ShowGrid extends StatelessWidget {
       children: [
         Expanded(
           child: GridView.builder(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: 10,

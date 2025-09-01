@@ -102,6 +102,8 @@ final ThemeData appTheme = ThemeData(
   iconTheme: IconThemeData(color: _appColors.onPrimary),
 
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    elevation: 0,
+    backgroundColor: _appColors.surface.withValues(alpha: 0.95),
     selectedIconTheme: IconThemeData(color: _appColors.onPrimary),
     unselectedIconTheme: IconThemeData(color: _appColors.primary),
     selectedItemColor: _appColors.onPrimary,

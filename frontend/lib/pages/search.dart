@@ -99,8 +99,9 @@ class _SearchState extends State<Search> {
     }
 
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
-        toolbarHeight: 120,
+        toolbarHeight: 130,
         title: Column(
           children: [
             SizedBox(height: 20),
@@ -113,6 +114,7 @@ class _SearchState extends State<Search> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [SortButton(), SizedBox(width: 10), FilterButton()],
             ),
+            SizedBox(height: 10),
           ],
         ),
         centerTitle: true,
