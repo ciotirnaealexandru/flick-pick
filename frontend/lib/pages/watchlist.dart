@@ -1,14 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/buttons/create_deck_button.dart';
-import 'package:frontend/components/buttons/filter_button.dart';
 import 'package:frontend/components/buttons/sort_button.dart';
-import 'package:frontend/components/deck.dart';
-import 'package:frontend/components/navbar.dart';
-import 'package:frontend/components/search_bar.dart';
-import 'package:frontend/components/show_grid.dart';
+import 'package:frontend/components/cards/deck_card.dart';
+import 'package:frontend/components/bars/navbar.dart';
+import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_model.dart';
@@ -209,10 +206,10 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
-            Deck(name: "My Deck", shows: shows),
-            Deck(name: "My Other Deck", shows: shows),
-            Deck(name: "Another One", shows: shows),
-            Deck(name: "And Another One", shows: shows),
+            DeckCard(name: "My Deck", shows: shows),
+            DeckCard(name: "My Other Deck", shows: shows),
+            DeckCard(name: "Another One", shows: shows),
+            DeckCard(name: "And Another One", shows: shows),
           ],
         ),
       ),

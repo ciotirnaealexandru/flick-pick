@@ -14,15 +14,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum WatchStatus {
-  // the user did not put the show on the list
-  NOT_WATCHED
-  // the user put the show on the list but did not watch it yet
-  FUTURE
-  // the user put the show on the list and watched it
-  WATCHED
-}
-
 enum Role {
   ADMIN
   USER
@@ -38,6 +29,7 @@ model User {
   role      Role    @default(USER)
 
   userShows UserShow[]
+  deck      Deck[]
   reviews   Review[]
 
   createdAt DateTime @default(now())
@@ -64,9 +56,8 @@ model Show {
 model UserShow {
   id Int @id @default(autoincrement())
 
-  userRating  Int?
-  watchStatus WatchStatus @default(NOT_WATCHED)
-  reviews     Review[]
+  userRating Int?
+  reviews    Review[]
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
@@ -74,10 +65,26 @@ model UserShow {
   show   Show @relation(fields: [showId], references: [id])
   showId Int
 
+  deck   Deck @relation(fields: [deckId], references: [id])
+  deckId Int
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([userId, showId])
+}
+
+model Deck {
+  id Int @id @default(autoincrement())
+
+  name      String
+  userShows UserShow[]
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Review {

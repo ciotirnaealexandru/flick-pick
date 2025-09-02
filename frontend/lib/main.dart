@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/deck_info.dart';
 import 'package:frontend/pages/login.dart';
 import 'package:frontend/pages/profile.dart';
 import 'package:frontend/pages/update_profile.dart';
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp> {
         '/update_profile': (context) => const UpdateProfile(),
         '/show_info': (context) => const ShowInfo(),
         '/watchlist': (context) => const Watchlist(),
+        '/deck_info': (context) => const DeckInfo(),
       },
     );
   }

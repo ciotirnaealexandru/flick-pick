@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/buttons/filter_button.dart';
 import 'package:frontend/components/buttons/sort_button.dart';
-import 'package:frontend/components/search_bar.dart';
+import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +10,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
 import '../models/show_model.dart';
 import 'dart:convert';
-import "../components/navbar.dart";
+import "../components/bars/navbar.dart";
 
 class Search extends StatefulWidget {
   const Search({super.key});
