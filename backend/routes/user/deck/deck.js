@@ -21,7 +21,11 @@ router.get(
           userId: parseInt(req.params.user_id),
         },
         include: {
-          userShows: true,
+          userShows: {
+            include: {
+              show: true,
+            },
+          },
         },
       });
 
@@ -84,7 +88,11 @@ router.get(
           id: parseInt(req.params.deck_id),
         },
         include: {
-          userShows: true,
+          userShows: {
+            include: {
+              show: true,
+            },
+          },
         },
       });
 
@@ -122,7 +130,11 @@ router.patch(
           userId: parseInt(req.params.user_id),
         },
         include: {
-          userShows: true,
+          userShows: {
+            include: {
+              show: true,
+            },
+          },
         },
       });
 
@@ -167,4 +179,5 @@ router.delete(
     }
   }
 );
+
 module.exports = router;

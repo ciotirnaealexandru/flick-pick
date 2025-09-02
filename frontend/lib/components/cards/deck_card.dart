@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/cards/show_card.dart';
-import 'package:frontend/models/show_model.dart';
+import 'package:frontend/models/deck_model.dart';
 
 class DeckCard extends StatefulWidget {
-  final String name;
+  final Deck deck;
 
-  final List<Show> shows;
-
-  const DeckCard({super.key, required this.name, required this.shows});
+  const DeckCard({super.key, required this.deck});
 
   @override
   State<DeckCard> createState() => _DeckCardState();
@@ -41,7 +39,7 @@ class _DeckCardState extends State<DeckCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    widget.name,
+                    widget.deck.name,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Icon(Icons.arrow_forward_rounded, size: 25),
@@ -56,12 +54,12 @@ class _DeckCardState extends State<DeckCard> {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            itemCount: widget.shows.length,
+            itemCount: widget.deck.userShows.length,
             separatorBuilder: (context, index) => SizedBox(width: 10),
             itemBuilder: (context, i) {
               return ShowCard(
-                apiId: widget.shows[i].apiId,
-                imageUrl: widget.shows[i].imageUrl,
+                apiId: widget.deck.userShows[i].apiId,
+                imageUrl: widget.deck.userShows[i].imageUrl,
               );
             },
           ),

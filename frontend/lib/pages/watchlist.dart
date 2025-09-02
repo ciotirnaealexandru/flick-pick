@@ -7,7 +7,7 @@ import 'package:frontend/components/cards/deck_card.dart';
 import 'package:frontend/components/bars/navbar.dart';
 import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/main.dart';
-import 'package:frontend/models/show_model.dart';
+import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
@@ -22,8 +22,7 @@ class Watchlist extends StatefulWidget {
 
 class _WatchlistState extends State<Watchlist> with RouteAware {
   User? userInfo;
-  String selectedList = "WATCHED";
-  List<Show> shows = [];
+  List<Deck> decks = [];
   bool finishedLoading = false;
 
   @override
@@ -47,7 +46,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
   @override
   void didPopNext() {
     // Called when returning to this page after a pop
-    getShowsByList(selectedList);
+    getDeckInfo();
   }
 
   Future<void> loadUserInfo() async {
@@ -56,14 +55,36 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
       userInfo = user;
     });
     if (user != null) {
-      await getShowsByList(selectedList);
+      await getDeckInfo();
     }
   }
 
-  Future<void> getWatchlists(text) async {
-    // TODO
+  Future<void> getDeckInfo() async {
+    // get the bearer token
+    final secureStorage = FlutterSecureStorage();
+    final token = await secureStorage.read(
+      key: dotenv.env['SECURE_STORAGE_SECRET']!,
+    );
+
+    // get the deck info if it exists
+    final deckResponse = await http.get(
+      Uri.parse('${dotenv.env['API_URL']!}/user/deck/all/${userInfo?.id}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    final List<dynamic> decksJson = json.decode(deckResponse.body);
+
+    setState(() {
+      decks = decksJson.map((json) => Deck.fromJson(json)).toList();
+      finishedLoading = true;
+    });
   }
 
+  Future<void> searchDecks(text) async {}
+  /*
   Future<void> getShowsByList(selectedList) async {
     final secureStorage = FlutterSecureStorage();
     final token = await secureStorage.read(
@@ -93,6 +114,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
       finishedLoading = true;
     });
   }
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +132,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomSearchBar(
                 label: "Search Watchlist",
-                searchFunction: getWatchlists,
+                searchFunction: searchDecks,
               ),
             ),
             SizedBox(height: 5),
@@ -202,15 +224,16 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
         ),
       ),
 
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            DeckCard(name: "My Deck", shows: shows),
-            DeckCard(name: "My Other Deck", shows: shows),
-            DeckCard(name: "Another One", shows: shows),
-            DeckCard(name: "And Another One", shows: shows),
-          ],
+      body: SizedBox(
+        child: ListView.separated(
+          physics: BouncingScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          itemCount: decks.length,
+          separatorBuilder: (context, index) => SizedBox(width: 10),
+          itemBuilder: (context, i) {
+            return DeckCard(deck: decks[i]);
+          },
         ),
       ),
 
