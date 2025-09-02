@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const prisma = require("../../../prismaClient");
-const { WatchStatus } = require("@prisma/client");
 
 const stripHTMLTags = require("../../../helpers/stripHTMLTags");
 
@@ -25,56 +24,7 @@ router.get(
         },
         include: {
           show: true,
-        },
-      });
-
-      res.status(200).json(shows);
-    } catch (error) {
-      console.error("Something went wrong: ", error);
-      res.status(500).json({ message: "Server error." });
-    }
-  }
-);
-
-// READ all the watched shows of the user
-router.get(
-  "/watched/:user_id",
-  authenticateToken,
-  adminOrSelfRequired,
-  async (req, res) => {
-    try {
-      const shows = await prisma.userShow.findMany({
-        where: {
-          userId: parseInt(req.params.user_id),
-          watchStatus: WatchStatus.WATCHED,
-        },
-        include: {
-          show: true,
-        },
-      });
-
-      res.status(200).json(shows);
-    } catch (error) {
-      console.error("Something went wrong: ", error);
-      res.status(500).json({ message: "Server error." });
-    }
-  }
-);
-
-// READ all the shows the user will watch
-router.get(
-  "/future/:user_id",
-  authenticateToken,
-  adminOrSelfRequired,
-  async (req, res) => {
-    try {
-      const shows = await prisma.userShow.findMany({
-        where: {
-          userId: parseInt(req.params.user_id),
-          watchStatus: WatchStatus.FUTURE,
-        },
-        include: {
-          show: true,
+          deck: true,
         },
       });
 
@@ -93,19 +43,21 @@ router.post(
   adminOrSelfRequired,
   async (req, res) => {
     try {
-      const { apiId, name, imageUrl, summary, userRating, watchStatus } =
-        req.body;
+      const { apiId, name, imageUrl, summary, userRating, deckName } = req.body;
 
       if (!apiId)
-        return res.status(500).json({ message: "Api Id is required." });
+        return res.status(404).json({ message: "Api Id is required." });
 
-      if (!name) return res.status(500).json({ message: "Name is required." });
+      if (!name) return res.status(404).json({ message: "Name is required." });
 
       if (!imageUrl)
-        return res.status(500).json({ message: "ImageUrl is required." });
+        return res.status(404).json({ message: "ImageUrl is required." });
 
       if (!summary)
-        return res.status(500).json({ message: "Summary is required." });
+        return res.status(404).json({ message: "Summary is required." });
+
+      if (!deckName)
+        return res.status(404).json({ message: "Deck Name is required." });
 
       // check if the show already exists in my database
       // if not, add it
@@ -126,6 +78,19 @@ router.post(
         },
       });
 
+      // search for the deck
+      const deck = await prisma.deck.findUnique({
+        where: {
+          name_userId: {
+            name: deckName,
+            userId: parseInt(req.params.user_id),
+          },
+        },
+      });
+
+      if (!deck) res.status(404).json({ message: "Deck not found." });
+
+      // add the show for the user
       const userShow = await prisma.userShow.upsert({
         where: {
           userId_showId: {
@@ -135,16 +100,17 @@ router.post(
         },
         update: {
           userRating: userRating,
-          watchStatus: watchStatus,
+          deckId: deck.id,
         },
         create: {
           userId: parseInt(req.params.user_id),
           showId: show.id,
           userRating: userRating,
-          watchStatus: watchStatus,
+          deckId: deck.id,
         },
         include: {
           show: true,
+          deck: true,
         },
       });
 
@@ -180,6 +146,9 @@ router.get(
             userId: parseInt(req.params.user_id),
             showId: show.id,
           },
+        },
+        include: {
+          deck: true,
         },
       });
 
