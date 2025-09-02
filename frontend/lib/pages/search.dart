@@ -83,15 +83,6 @@ class _SearchState extends State<Search> {
     });
   }
 
-  final _searchBarController = TextEditingController();
-
-  @override
-  void dispose() {
-    // Clean up the search bar controller when the widget is disposed.
-    _searchBarController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     if (userInfo == null) {
@@ -101,18 +92,30 @@ class _SearchState extends State<Search> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        toolbarHeight: 130,
+        titleSpacing: 0,
+        toolbarHeight: 120,
         title: Column(
           children: [
-            SizedBox(height: 20),
-            CustomSearchBar(
-              controller: _searchBarController,
-              searchFunction: getShowsByName,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: CustomSearchBar(
+                label: "Search Flick Pick",
+                searchFunction: getShowsByName,
+              ),
             ),
             SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [SortButton(), SizedBox(width: 10), FilterButton()],
+            Align(
+              alignment: Alignment.centerLeft,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [SortButton(), SizedBox(width: 10), FilterButton()],
+                ),
+              ),
             ),
             SizedBox(height: 10),
           ],

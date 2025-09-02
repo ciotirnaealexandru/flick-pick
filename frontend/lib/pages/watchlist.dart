@@ -2,7 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:frontend/components/buttons/create_deck_button.dart';
+import 'package:frontend/components/buttons/filter_button.dart';
+import 'package:frontend/components/buttons/sort_button.dart';
+import 'package:frontend/components/deck.dart';
 import 'package:frontend/components/navbar.dart';
+import 'package:frontend/components/search_bar.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/models/show_model.dart';
@@ -58,6 +63,10 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
     }
   }
 
+  Future<void> getWatchlists(text) async {
+    // TODO
+  }
+
   Future<void> getShowsByList(selectedList) async {
     final secureStorage = FlutterSecureStorage();
     final token = await secureStorage.read(
@@ -96,89 +105,118 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
 
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         toolbarHeight: 120,
         title: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        backgroundColor:
-                            selectedList == "WATCHED"
-                                ? Theme.of(context).colorScheme.onPrimary
-                                : Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          selectedList = "WATCHED";
-                        });
-                        getShowsByList(selectedList);
-                      },
-                      child: Text(
-                        "WATCHED",
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color:
-                              selectedList == "WATCHED"
-                                  ? Theme.of(context).colorScheme.primary
-                                  : null,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 15),
-                Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        backgroundColor:
-                            selectedList == "FUTURE"
-                                ? Theme.of(context).colorScheme.onPrimary
-                                : Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          selectedList = "FUTURE";
-                        });
-                        getShowsByList(selectedList);
-                      },
-                      child: Text(
-                        "FUTURE",
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color:
-                              selectedList == "FUTURE"
-                                  ? Theme.of(context).colorScheme.primary
-                                  : null,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: CustomSearchBar(
+                label: "Search Watchlist",
+                searchFunction: getWatchlists,
+              ),
             ),
+            SizedBox(height: 5),
+            Align(
+              alignment: AlignmentGeometry.centerLeft,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SortButton(),
+                    SizedBox(width: 10),
+                    CreateDeckButton(),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            /*
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          backgroundColor:
+                              selectedList == "WATCHED"
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.primary,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            selectedList = "WATCHED";
+                          });
+                          getShowsByList(selectedList);
+                        },
+                        child: Text(
+                          "WATCHED",
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color:
+                                selectedList == "WATCHED"
+                                    ? Theme.of(context).colorScheme.primary
+                                    : null,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          backgroundColor:
+                              selectedList == "FUTURE"
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.primary,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            selectedList = "FUTURE";
+                          });
+                          getShowsByList(selectedList);
+                        },
+                        child: Text(
+                          "FUTURE",
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color:
+                                selectedList == "FUTURE"
+                                    ? Theme.of(context).colorScheme.primary
+                                    : null,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              */
           ],
         ),
       ),
 
-      body:
-          finishedLoading && shows.isEmpty
-              ? Center(
-                child: Text(
-                  "No shows found.",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                ),
-              )
-              : ShowGrid(shows: shows),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            Deck(name: "My Deck", shows: shows),
+            Deck(name: "My Other Deck", shows: shows),
+            Deck(name: "Another One", shows: shows),
+            Deck(name: "And Another One", shows: shows),
+          ],
+        ),
+      ),
+
       bottomNavigationBar: Navbar(),
     );
   }

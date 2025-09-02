@@ -45,7 +45,7 @@ class _ProfileState extends State<Profile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 40),
+                SizedBox(height: 20),
                 CircleAvatar(
                   radius: 80, // size of the circle
                   backgroundColor:

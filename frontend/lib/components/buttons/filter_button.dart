@@ -103,21 +103,26 @@ class _FilterButtonState extends State<FilterButton> {
                     SizedBox(height: 20),
                     Column(
                       children: [
-                        ElevatedButton(
-                          onPressed: () => {Navigator.pop(context)},
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            overlayColor: Colors.transparent,
-                            padding: EdgeInsets.symmetric(horizontal: 0),
+                        Theme(
+                          data: Theme.of(context).copyWith(
+                            splashFactory: NoSplash.splashFactory,
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
                           ),
-                          child: Text(
-                            "Remove All Filters",
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).colorScheme.error,
+                          child: ElevatedButton(
+                            onPressed: () => {Navigator.pop(context)},
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              overlayColor: Colors.transparent,
+                              padding: EdgeInsets.symmetric(horizontal: 0),
+                            ),
+                            child: Text(
+                              "Remove All Filters",
+                              style: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.normal),
                             ),
                           ),
                         ),
@@ -126,11 +131,8 @@ class _FilterButtonState extends State<FilterButton> {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
-
                               backgroundColor:
                                   Theme.of(context).colorScheme.onPrimary,
-                              shadowColor: Colors.transparent,
-                              overlayColor: Colors.transparent,
                             ),
                             onPressed: () => {Navigator.pop(context)},
                             child: Text(
