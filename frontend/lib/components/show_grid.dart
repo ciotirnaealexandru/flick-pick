@@ -3,9 +3,9 @@ import 'package:frontend/components/cards/show_card.dart';
 import 'package:frontend/models/show_model.dart';
 
 class ShowGrid extends StatelessWidget {
-  final List<Show> shows;
+  final List<Show>? shows;
 
-  const ShowGrid({super.key, required this.shows});
+  const ShowGrid({super.key, this.shows});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,11 +19,11 @@ class ShowGrid extends StatelessWidget {
               mainAxisSpacing: 10,
               childAspectRatio: 210 / 295,
             ),
-            itemCount: shows.length,
+            itemCount: shows?.length,
             itemBuilder: (context, i) {
               return ShowCard(
-                apiId: shows[i].apiId,
-                imageUrl: shows[i].imageUrl,
+                apiId: shows![i].apiId,
+                imageUrl: shows![i].imageUrl,
               );
             },
           ),

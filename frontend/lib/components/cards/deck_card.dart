@@ -23,7 +23,14 @@ class _DeckCardState extends State<DeckCard> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: CustomTransparentButton(
-            onPressed: () => {Navigator.pushNamed(context, "/deck_info")},
+            onPressed:
+                () => {
+                  Navigator.pushNamed(
+                    context,
+                    "/deck_info",
+                    arguments: {"deckId": widget.deck.id},
+                  ),
+                },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -47,8 +54,8 @@ class _DeckCardState extends State<DeckCard> {
             itemBuilder: (context, i) {
               if (i < widget.deck.userShows.length) {
                 return ShowCard(
-                  apiId: widget.deck.userShows[i].apiId,
-                  imageUrl: widget.deck.userShows[i].imageUrl,
+                  apiId: widget.deck.userShows[i].show.apiId,
+                  imageUrl: widget.deck.userShows[i].show.imageUrl,
                 );
               }
               return AddShowCard();

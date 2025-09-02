@@ -46,7 +46,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
   @override
   void didPopNext() {
     // Called when returning to this page after a pop
-    getDeckInfo();
+    getDecksInfo();
   }
 
   Future<void> loadUserInfo() async {
@@ -55,11 +55,11 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
       userInfo = user;
     });
     if (user != null) {
-      await getDeckInfo();
+      await getDecksInfo();
     }
   }
 
-  Future<void> getDeckInfo() async {
+  Future<void> getDecksInfo() async {
     // get the bearer token
     final secureStorage = FlutterSecureStorage();
     final token = await secureStorage.read(
@@ -67,7 +67,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
     );
 
     // get the deck info if it exists
-    final deckResponse = await http.get(
+    final decksResponse = await http.get(
       Uri.parse('${dotenv.env['API_URL']!}/user/deck/all/${userInfo?.id}'),
       headers: {
         'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
       },
     );
 
-    final List<dynamic> decksJson = json.decode(deckResponse.body);
+    final List<dynamic> decksJson = json.decode(decksResponse.body);
 
     setState(() {
       decks = decksJson.map((json) => Deck.fromJson(json)).toList();

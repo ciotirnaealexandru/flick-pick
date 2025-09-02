@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/components/buttons/filled_button.dart';
+import 'package:frontend/components/border_text_field.dart';
+import 'package:frontend/components/buttons/custom_filled_button.dart';
 
 class CreateDeckButton extends StatefulWidget {
   const CreateDeckButton({super.key});
@@ -36,45 +37,9 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
                     mainAxisAlignment: MainAxisAlignment.center,
 
                     children: [
-                      SizedBox(
-                        height: 50,
-                        child: TextField(
-                          // onSubmitted: () {},
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 10,
-                            ),
-                            hintText: "Enter Deck Name",
-                            hintStyle: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                width: 1.5,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                width: 1.5,
-                              ),
-                            ),
-                          ),
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.copyWith(
-                            decoration: TextDecoration.none,
-                            decorationThickness: 0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      BorderTextField(
+                        hintText: "Enter Deck Name",
+                        onSubmitted: (text) => {print(text)},
                       ),
                       SizedBox(height: 10),
                       CustomFilledButton(

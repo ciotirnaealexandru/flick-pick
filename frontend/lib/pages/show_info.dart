@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:frontend/models/user_show_model.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:frontend/components/buttons/watch_status_button.dart';
 import 'package:frontend/components/cards/expandable_text_card.dart';
-import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/show_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -24,12 +24,13 @@ class _ShowInfoState extends State<ShowInfo> {
   User? userInfo;
 
   String? apiId;
-  Show? showInfo;
+  UserShow? userShow;
 
   int? userRating;
   bool showRating = false;
   String? watchStatus;
 
+  bool isLoading = true;
   @override
   void initState() {
     super.initState();
@@ -58,22 +59,20 @@ class _ShowInfoState extends State<ShowInfo> {
   }
 
   Future<void> loadShowInfo(apiId) async {
-    final data = await getShowInfo(
+    final UserShow? data = await getShowInfo(
       apiId: apiId,
       userId: userInfo?.id.toString(),
     );
 
     setState(() {
-      showInfo = data;
-      watchStatus = showInfo?.watchStatus;
-      userRating = showInfo?.userRating;
-      showRating = (watchStatus == "WATCHED" || watchStatus == "FUTURE");
+      userShow = data;
+      userRating = userShow?.userRating;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (showInfo == null || userInfo == null) {
+    if (userShow == null || userInfo == null) {
       return Center(child: CircularProgressIndicator());
     }
 
@@ -95,20 +94,21 @@ class _ShowInfoState extends State<ShowInfo> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          showInfo!.name,
+                          userShow?.show.name ?? "Unknown Show",
                           style: Theme.of(
                             context,
                           ).textTheme.titleMedium?.copyWith(height: 1.1),
                         ),
                         SizedBox(height: 15),
                         Text(
-                          "${(showInfo?.premiered != null || showInfo?.ended != null) ? "${showInfo?.premiered} - ${showInfo?.ended}" : "Years N/A"} • ${showInfo?.network}",
+                          "${(userShow?.show.premiered != null || userShow?.show.ended != null) ? "${userShow?.show.premiered} - ${userShow?.show.ended}" : "Years N/A"} • ${userShow?.show.network}",
                           style: Theme.of(context).textTheme.bodyMedium,
                           softWrap: true,
                         ),
                         Text(
-                          showInfo?.genres?.isNotEmpty == true
-                              ? showInfo!.genres!.take(2).join(" • ")
+                          (userShow?.show.genres != null &&
+                                  userShow!.show.genres!.isNotEmpty)
+                              ? userShow!.show.genres!.take(2).join(" • ")
                               : "No genres available",
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
@@ -149,28 +149,6 @@ class _ShowInfoState extends State<ShowInfo> {
 
                                   print(userRating);
 
-                                  final secureStorage = FlutterSecureStorage();
-                                  final token = await secureStorage.read(
-                                    key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                                  );
-
-                                  await http.post(
-                                    Uri.parse(
-                                      '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}',
-                                    ),
-                                    headers: {
-                                      'Content-Type': 'application/json',
-                                      'Authorization': 'Bearer $token',
-                                    },
-                                    body: jsonEncode({
-                                      'apiId': showInfo?.apiId,
-                                      'name': showInfo?.name,
-                                      'imageUrl': showInfo?.imageUrl,
-                                      'summary': showInfo?.summary,
-                                      'userRating': userRating,
-                                    }),
-                                  );
-
                                   await loadShowInfo(apiId);
                                 }
                               },
@@ -185,17 +163,20 @@ class _ShowInfoState extends State<ShowInfo> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     clipBehavior: Clip.hardEdge,
-                    child: CachedNetworkImage(
-                      imageUrl: showInfo!.imageUrl,
-                      fit: BoxFit.fitHeight,
-                      height: 220,
-                    ),
+                    child:
+                        (userShow?.show.imageUrl != null)
+                            ? CachedNetworkImage(
+                              imageUrl: userShow!.show.imageUrl,
+                              fit: BoxFit.fitHeight,
+                              height: 220,
+                            )
+                            : Placeholder(),
                   ),
                 ],
               ),
               SizedBox(height: 40),
               ExpandableTextCard(
-                text: showInfo!.summary,
+                text: userShow?.show.summary ?? "Unknown summary.",
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(height: 40),

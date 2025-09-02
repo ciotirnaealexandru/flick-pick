@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:frontend/models/show_model.dart';
+import 'package:frontend/models/user_show_model.dart';
 
 Deck deckFromJson(String str) => Deck.fromJson(json.decode(str));
 
@@ -10,24 +11,17 @@ class Deck {
   int id;
 
   String name;
-  List<Show> userShows;
+  List<UserShow> userShows;
 
   Deck({required this.id, required this.name, required this.userShows});
 
   factory Deck.fromJson(Map<String, dynamic> json) {
-    List<Show> parsedShows = [];
+    List<UserShow> parsedShows = [];
 
     if (json["userShows"] is List) {
       parsedShows =
           (json["userShows"] as List)
-              .map((userShow) {
-                final showJson = userShow["show"];
-                if (showJson is Map<String, dynamic>) {
-                  return Show.fromJson(showJson);
-                }
-                return null;
-              })
-              .whereType<Show>()
+              .map((userShowJson) => UserShow.fromJson(userShowJson))
               .toList();
     }
 

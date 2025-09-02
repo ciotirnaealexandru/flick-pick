@@ -1,4 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:frontend/components/no_shows_found.dart';
+import 'package:frontend/components/show_grid.dart';
+import 'package:frontend/models/deck_model.dart';
+import 'package:frontend/models/user_model.dart';
+import 'package:frontend/services/user_service.dart';
+import 'package:http/http.dart' as http;
 
 class DeckInfo extends StatefulWidget {
   const DeckInfo({super.key});
@@ -8,12 +18,74 @@ class DeckInfo extends StatefulWidget {
 }
 
 class _DeckInfoState extends State<DeckInfo> {
+  User? userInfo;
+  Deck? deck;
+  String? deckId;
+  bool finishedLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserInfo();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (deckId == null) {
+      final args = ModalRoute.of(context)!.settings.arguments as Map;
+      deckId = args['deckId'].toString();
+    }
+  }
+
+  Future<void> loadUserInfo() async {
+    final user = await getUserInfo();
+    setState(() {
+      userInfo = user;
+    });
+    if (user != null) {
+      await getDeckInfo();
+    }
+  }
+
+  Future<void> getDeckInfo() async {
+    // get the bearer token
+    final secureStorage = FlutterSecureStorage();
+    final token = await secureStorage.read(
+      key: dotenv.env['SECURE_STORAGE_SECRET']!,
+    );
+
+    // get the deck info if it exists
+    final deckResponse = await http.get(
+      Uri.parse('${dotenv.env['API_URL']!}/user/deck/${userInfo?.id}/$deckId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    final decksJson = json.decode(deckResponse.body);
+
+    setState(() {
+      deck = Deck.fromJson(decksJson);
+      finishedLoading = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(),
-      body: Placeholder(),
+      body:
+          finishedLoading && deck!.userShows.isEmpty
+              ? NoShowsFound()
+              : ShowGrid(
+                shows:
+                    deck?.userShows.map((userShow) => userShow.show).toList() ??
+                    [],
+              ),
     );
   }
 }

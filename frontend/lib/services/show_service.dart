@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'package:flutter/rendering.dart';
 import 'package:frontend/models/show_model.dart';
+import 'package:frontend/models/user_show_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-Future<Show?> getShowInfo({String? userId, String? apiId}) async {
+Future<UserShow?> getShowInfo({String? userId, String? apiId}) async {
   try {
     // get the bearer token
     final secureStorage = FlutterSecureStorage();
@@ -24,10 +24,10 @@ Future<Show?> getShowInfo({String? userId, String? apiId}) async {
 
     final mainInfoJson =
         json.decode(mainInfoResponse.body) as Map<String, dynamic>;
-    print("⭐ MAIN JSON: $mainInfoJson");
 
     // make sure we include an user in the service, if not, return the main info
-    if (userId == null) return Show.fromJson(mainInfoJson);
+    if (userId == null) return UserShow(show: Show.fromJson(mainInfoJson));
+    ;
 
     // get the user info if it exists
     final userShowResponse = await http.get(
@@ -39,16 +39,20 @@ Future<Show?> getShowInfo({String? userId, String? apiId}) async {
     );
 
     // if response failed return the main info
-    if (userShowResponse.statusCode != 200) return Show.fromJson(mainInfoJson);
+    if (userShowResponse.statusCode != 200)
+      return UserShow(show: Show.fromJson(mainInfoJson));
 
-    // if the user has the show or the show exists return the full json
     final userShowJson =
-        json.decode(userShowResponse.body) as Map<String, dynamic>;
-    ;
-    final finalJson = {...mainInfoJson, ...userShowJson};
+        json.decode(mainInfoResponse.body) as Map<String, dynamic>;
 
-    debugPrint("🏁 FINAL JSON: $finalJson", wrapWidth: 1024);
-    return Show.fromJson(finalJson);
+    return (UserShow(
+      id: userShowJson['id'] as int?,
+      userRating: userShowJson['userRating'] as int?,
+      userId: userShowJson['userId'] as int?,
+      showId: userShowJson['showId'] as int?,
+      deckId: userShowJson['deckId'] as int?,
+      show: Show.fromJson(mainInfoJson),
+    ));
   } catch (error) {
     print("Error in show service: $error");
     return null;
