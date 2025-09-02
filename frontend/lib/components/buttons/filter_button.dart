@@ -39,8 +39,7 @@ class _FilterButtonState extends State<FilterButton> {
                           Icon(Icons.arrow_forward_rounded, size: 25),
                         ],
                       ),
-                      onPressedFunction:
-                          () => Navigator.pushNamed(context, '/filter'),
+                      onPressed: () => Navigator.pushNamed(context, '/filter'),
                     ),
                     CustomTransparentButton(
                       child: Row(
@@ -53,8 +52,7 @@ class _FilterButtonState extends State<FilterButton> {
                           Icon(Icons.arrow_forward_rounded, size: 25),
                         ],
                       ),
-                      onPressedFunction:
-                          () => Navigator.pushNamed(context, '/filter'),
+                      onPressed: () => Navigator.pushNamed(context, '/filter'),
                     ),
                     CustomTransparentButton(
                       child: Row(
@@ -67,8 +65,7 @@ class _FilterButtonState extends State<FilterButton> {
                           Icon(Icons.arrow_forward_rounded, size: 25),
                         ],
                       ),
-                      onPressedFunction:
-                          () => Navigator.pushNamed(context, '/filter'),
+                      onPressed: () => Navigator.pushNamed(context, '/filter'),
                     ),
                     SizedBox(height: 20),
                     Column(
@@ -79,7 +76,7 @@ class _FilterButtonState extends State<FilterButton> {
                             style: Theme.of(context).textTheme.bodyLarge
                                 ?.copyWith(fontWeight: FontWeight.normal),
                           ),
-                          onPressedFunction: () => Navigator.pop(context),
+                          onPressed: () => Navigator.pop(context),
                         ),
                         CustomFilledButton(
                           text: "Apply Filters",

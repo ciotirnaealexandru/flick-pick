@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/components/buttons/custom_transparent_button.dart';
 import 'package:frontend/components/cards/add_show_card.dart';
 import 'package:frontend/components/cards/show_card.dart';
 import 'package:frontend/models/deck_model.dart';
@@ -18,34 +19,20 @@ class _DeckCardState extends State<DeckCard> {
     return Column(
       children: [
         SizedBox(height: 20),
-        Theme(
-          data: Theme.of(context).copyWith(
-            splashFactory: NoSplash.splashFactory,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ElevatedButton(
-              onPressed: () => {Navigator.pushNamed(context, "/deck_info")},
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                overlayColor: Colors.transparent,
-                padding: EdgeInsets.symmetric(horizontal: 0),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.deck.name,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Icon(Icons.arrow_forward_rounded, size: 25),
-                ],
-              ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: CustomTransparentButton(
+            onPressed: () => {Navigator.pushNamed(context, "/deck_info")},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  widget.deck.name,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                Icon(Icons.arrow_forward_rounded, size: 25),
+              ],
             ),
           ),
         ),

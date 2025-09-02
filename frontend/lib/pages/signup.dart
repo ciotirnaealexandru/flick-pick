@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/components/buttons/custom_transparent_button.dart';
 import 'package:frontend/components/custom_form_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -102,15 +103,7 @@ class _FormScreenState extends State<FormScreen> {
             },
           ),
           const SizedBox(height: 30),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(Colors.transparent),
-              elevation: WidgetStateProperty.all(0),
-              shadowColor: WidgetStateProperty.all(Colors.transparent),
-              overlayColor: WidgetStateProperty.all(Colors.transparent),
-              splashFactory: NoSplash.splashFactory,
-              padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
-            ),
+          CustomTransparentButton(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

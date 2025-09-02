@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomTransparentButton extends StatelessWidget {
   final Widget child;
-  final VoidCallback onPressedFunction;
+  final VoidCallback onPressed;
 
   const CustomTransparentButton({
     required this.child,
-    required this.onPressedFunction,
+    required this.onPressed,
     super.key,
   });
 
@@ -20,7 +20,7 @@ class CustomTransparentButton extends StatelessWidget {
         hoverColor: Colors.transparent,
       ),
       child: ElevatedButton(
-        onPressed: onPressedFunction,
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
