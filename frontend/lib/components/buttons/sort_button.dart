@@ -29,7 +29,7 @@ class _SortButtonState extends State<SortButton> {
             ),
 
             child: SizedBox(
-              height: 210,
+              height: 200,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

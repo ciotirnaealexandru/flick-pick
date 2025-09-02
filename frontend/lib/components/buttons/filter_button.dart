@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/components/buttons/custom_filled_button.dart';
+import 'package:frontend/components/buttons/custom_transparent_button.dart';
 
 class FilterButton extends StatefulWidget {
   const FilterButton({super.key});
@@ -18,7 +20,6 @@ class _FilterButtonState extends State<FilterButton> {
             color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
-
           child: SizedBox(
             height: 300,
             child: Center(
@@ -27,126 +28,62 @@ class _FilterButtonState extends State<FilterButton> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Theme(
-                      data: Theme.of(context).copyWith(
-                        splashFactory: NoSplash.splashFactory,
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          ElevatedButton(
-                            onPressed:
-                                () => {Navigator.pushNamed(context, '/filter')},
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              overlayColor: Colors.transparent,
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Genre",
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                Icon(Icons.arrow_forward_rounded, size: 25),
-                              ],
-                            ),
+                    CustomTransparentButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Genre",
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          ElevatedButton(
-                            onPressed:
-                                () => {Navigator.pushNamed(context, '/filter')},
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              overlayColor: Colors.transparent,
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Release Year",
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                Icon(Icons.arrow_forward_rounded, size: 25),
-                              ],
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed:
-                                () => {Navigator.pushNamed(context, '/filter')},
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              overlayColor: Colors.transparent,
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Ending Year",
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                Icon(Icons.arrow_forward_rounded, size: 25),
-                              ],
-                            ),
-                          ),
+                          Icon(Icons.arrow_forward_rounded, size: 25),
                         ],
                       ),
+                      onPressedFunction:
+                          () => Navigator.pushNamed(context, '/filter'),
+                    ),
+                    CustomTransparentButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Release Year",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          Icon(Icons.arrow_forward_rounded, size: 25),
+                        ],
+                      ),
+                      onPressedFunction:
+                          () => Navigator.pushNamed(context, '/filter'),
+                    ),
+                    CustomTransparentButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Ending Year",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          Icon(Icons.arrow_forward_rounded, size: 25),
+                        ],
+                      ),
+                      onPressedFunction:
+                          () => Navigator.pushNamed(context, '/filter'),
                     ),
                     SizedBox(height: 20),
                     Column(
                       children: [
-                        Theme(
-                          data: Theme.of(context).copyWith(
-                            splashFactory: NoSplash.splashFactory,
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
+                        CustomTransparentButton(
+                          child: Text(
+                            "Remove all filters",
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(fontWeight: FontWeight.normal),
                           ),
-                          child: ElevatedButton(
-                            onPressed: () => {Navigator.pop(context)},
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              overlayColor: Colors.transparent,
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                            ),
-                            child: Text(
-                              "Remove All Filters",
-                              style: Theme.of(context).textTheme.bodyLarge
-                                  ?.copyWith(fontWeight: FontWeight.normal),
-                            ),
-                          ),
+                          onPressedFunction: () => Navigator.pop(context),
                         ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.onPrimary,
-                            ),
-                            onPressed: () => {Navigator.pop(context)},
-                            child: Text(
-                              "Apply Filters",
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyLarge?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ),
+                        CustomFilledButton(
+                          text: "Apply Filters",
+                          onPressedFunction: () => Navigator.pop(context),
                         ),
                       ],
                     ),
