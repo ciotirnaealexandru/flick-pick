@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/components/cards/add_show_card.dart';
 import 'package:frontend/components/cards/show_card.dart';
 import 'package:frontend/models/deck_model.dart';
 
@@ -54,13 +55,16 @@ class _DeckCardState extends State<DeckCard> {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            itemCount: widget.deck.userShows.length,
+            itemCount: widget.deck.userShows.length + 1,
             separatorBuilder: (context, index) => SizedBox(width: 10),
             itemBuilder: (context, i) {
-              return ShowCard(
-                apiId: widget.deck.userShows[i].apiId,
-                imageUrl: widget.deck.userShows[i].imageUrl,
-              );
+              if (i < widget.deck.userShows.length) {
+                return ShowCard(
+                  apiId: widget.deck.userShows[i].apiId,
+                  imageUrl: widget.deck.userShows[i].imageUrl,
+                );
+              }
+              return AddShowCard();
             },
           ),
         ),

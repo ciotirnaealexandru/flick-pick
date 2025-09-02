@@ -1,11 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class ShowCard extends StatelessWidget {
-  final int apiId;
-  final String imageUrl;
-
-  const ShowCard({super.key, required this.apiId, required this.imageUrl});
+class AddShowCard extends StatelessWidget {
+  const AddShowCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +20,13 @@ class ShowCard extends StatelessWidget {
           overlayColor: Colors.transparent,
           padding: EdgeInsets.zero,
         ),
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
-          fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 200),
-          maxHeightDiskCache: 300,
-          maxWidthDiskCache: 210,
+        child: SizedBox(
+          height: 150,
+          width: 105,
+          child: Center(child: Icon(Icons.add, size: 25)),
         ),
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            '/show_info',
-            arguments: {'apiId': apiId},
-          );
-        },
+
+        onPressed: () {},
       ),
     );
   }
