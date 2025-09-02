@@ -114,53 +114,7 @@ class _ShowInfoState extends State<ShowInfo> {
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 20),
-                        WatchStatusButton(
-                          initialStatus: watchStatus ?? "NOT_WATCHED",
-                          onChanged: (newStatus) async {
-                            watchStatus = newStatus;
-                            final secureStorage = FlutterSecureStorage();
-                            final token = await secureStorage.read(
-                              key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                            );
-
-                            print("✅ $watchStatus");
-
-                            if (watchStatus == "FUTURE" ||
-                                watchStatus == "WATCHED") {
-                              showRating = true;
-
-                              await http.post(
-                                Uri.parse(
-                                  '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}',
-                                ),
-                                headers: {
-                                  'Content-Type': 'application/json',
-                                  'Authorization': 'Bearer $token',
-                                },
-                                body: jsonEncode({
-                                  'apiId': showInfo?.apiId,
-                                  'name': showInfo?.name,
-                                  'imageUrl': showInfo?.imageUrl,
-                                  'summary': showInfo?.summary,
-                                  'watchStatus': watchStatus,
-                                }),
-                              );
-                            } else {
-                              showRating = false;
-                              await http.delete(
-                                Uri.parse(
-                                  '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}/${showInfo?.apiId}',
-                                ),
-                                headers: {
-                                  'Content-Type': 'application/json',
-                                  'Authorization': 'Bearer $token',
-                                },
-                              );
-                            }
-
-                            await loadShowInfo(apiId);
-                          },
-                        ),
+                        WatchStatusButton(),
                         SizedBox(height: 10),
                         IntrinsicWidth(
                           child: Theme(

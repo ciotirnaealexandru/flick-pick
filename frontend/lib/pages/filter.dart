@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class DeckInfo extends StatefulWidget {
-  const DeckInfo({super.key});
+class Filter extends StatefulWidget {
+  const Filter({super.key});
 
   @override
-  State<DeckInfo> createState() => _DeckInfoState();
+  State<Filter> createState() => _FilterState();
 }
 
-class _DeckInfoState extends State<DeckInfo> {
+class _FilterState extends State<Filter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

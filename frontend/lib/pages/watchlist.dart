@@ -228,7 +228,6 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
         child: ListView.separated(
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
           itemCount: decks.length,
           separatorBuilder: (context, index) => SizedBox(width: 10),
           itemBuilder: (context, i) {

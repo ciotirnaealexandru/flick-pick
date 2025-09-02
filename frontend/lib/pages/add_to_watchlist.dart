@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class DeckInfo extends StatefulWidget {
-  const DeckInfo({super.key});
+class AddToWatchlist extends StatefulWidget {
+  const AddToWatchlist({super.key});
 
   @override
-  State<DeckInfo> createState() => _DeckInfoState();
+  State<AddToWatchlist> createState() => _AddToWatchlistState();
 }
 
-class _DeckInfoState extends State<DeckInfo> {
+class _AddToWatchlistState extends State<AddToWatchlist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

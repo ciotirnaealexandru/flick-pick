@@ -18,15 +18,15 @@ class _DeckCardState extends State<DeckCard> {
     return Column(
       children: [
         SizedBox(height: 20),
-        Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              splashFactory: NoSplash.splashFactory,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-            ),
+        Theme(
+          data: Theme.of(context).copyWith(
+            splashFactory: NoSplash.splashFactory,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
               onPressed: () => {Navigator.pushNamed(context, "/deck_info")},
               style: ElevatedButton.styleFrom(
@@ -53,8 +53,8 @@ class _DeckCardState extends State<DeckCard> {
         SizedBox(
           height: 150,
           child: ListView.separated(
-            scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 20),
+            scrollDirection: Axis.horizontal,
             itemCount: widget.deck.userShows.length + 1,
             separatorBuilder: (context, index) => SizedBox(width: 10),
             itemBuilder: (context, i) {

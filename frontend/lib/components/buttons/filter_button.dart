@@ -38,7 +38,8 @@ class _FilterButtonState extends State<FilterButton> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           ElevatedButton(
-                            onPressed: () => {Navigator.pop(context)},
+                            onPressed:
+                                () => {Navigator.pushNamed(context, '/filter')},
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: Colors.transparent,
@@ -58,7 +59,8 @@ class _FilterButtonState extends State<FilterButton> {
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () => {Navigator.pop(context)},
+                            onPressed:
+                                () => {Navigator.pushNamed(context, '/filter')},
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: Colors.transparent,
@@ -78,7 +80,8 @@ class _FilterButtonState extends State<FilterButton> {
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () => {Navigator.pop(context)},
+                            onPressed:
+                                () => {Navigator.pushNamed(context, '/filter')},
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: Colors.transparent,
