@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:frontend/components/no_shows_found.dart';
+import 'package:frontend/components/cards/no_shows_found_card.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
@@ -19,8 +18,10 @@ class DeckInfo extends StatefulWidget {
 
 class _DeckInfoState extends State<DeckInfo> {
   User? userInfo;
+
   Deck? deck;
   String? deckId;
+
   bool finishedLoading = false;
 
   @override
@@ -80,7 +81,7 @@ class _DeckInfoState extends State<DeckInfo> {
       appBar: AppBar(),
       body:
           finishedLoading && deck!.userShows.isEmpty
-              ? NoShowsFound()
+              ? NoShowsFoundCard()
               : ShowGrid(
                 shows:
                     deck?.userShows.map((userShow) => userShow.show).toList() ??

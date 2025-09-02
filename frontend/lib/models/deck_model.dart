@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_show_model.dart';
 
 Deck deckFromJson(String str) => Deck.fromJson(json.decode(str));

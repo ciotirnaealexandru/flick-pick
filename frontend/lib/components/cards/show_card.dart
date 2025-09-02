@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/components/buttons/custom_transparent_button.dart';
 
 class ShowCard extends StatelessWidget {
   final int apiId;
@@ -15,14 +16,7 @@ class ShowCard extends StatelessWidget {
         color: Theme.of(context).colorScheme.primary,
       ),
       clipBehavior: Clip.hardEdge,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          overlayColor: Colors.transparent,
-          padding: EdgeInsets.zero,
-        ),
+      child: CustomTransparentButton(
         child: CachedNetworkImage(
           imageUrl: imageUrl,
           fit: BoxFit.cover,

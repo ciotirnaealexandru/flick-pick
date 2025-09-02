@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NoShowsFound extends StatelessWidget {
-  const NoShowsFound({super.key});
+class NoShowsFoundCard extends StatelessWidget {
+  const NoShowsFoundCard({super.key});
 
   @override
   Widget build(BuildContext context) {

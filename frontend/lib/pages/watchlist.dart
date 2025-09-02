@@ -31,24 +31,6 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
     loadUserInfo();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context)!);
-  }
-
-  @override
-  void dispose() {
-    routeObserver.unsubscribe(this);
-    super.dispose();
-  }
-
-  @override
-  void didPopNext() {
-    // Called when returning to this page after a pop
-    getDecksInfo();
-  }
-
   Future<void> loadUserInfo() async {
     final user = await getUserInfo();
     setState(() {
@@ -84,37 +66,6 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
   }
 
   Future<void> searchDecks(text) async {}
-  /*
-  Future<void> getShowsByList(selectedList) async {
-    final secureStorage = FlutterSecureStorage();
-    final token = await secureStorage.read(
-      key: dotenv.env['SECURE_STORAGE_SECRET']!,
-    );
-
-    String watchType = (selectedList == "WATCHED") ? "watched" : "future";
-
-    final showsResponse = await http.get(
-      Uri.parse(
-        '${dotenv.env['API_URL']!}/user/show/$watchType/${userInfo?.id}',
-      ),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    final List<dynamic> showsJson = json.decode(showsResponse.body);
-
-    setState(() {
-      shows =
-          showsJson
-              .map((json) => Show.fromJson(json['show']))
-              .where((show) => show.hasAllFields)
-              .toList();
-      finishedLoading = true;
-    });
-  }
-  */
 
   @override
   Widget build(BuildContext context) {
@@ -152,74 +103,6 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            /*
-              Row(
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          backgroundColor:
-                              selectedList == "WATCHED"
-                                  ? Theme.of(context).colorScheme.onPrimary
-                                  : Theme.of(context).colorScheme.primary,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            selectedList = "WATCHED";
-                          });
-                          getShowsByList(selectedList);
-                        },
-                        child: Text(
-                          "WATCHED",
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color:
-                                selectedList == "WATCHED"
-                                    ? Theme.of(context).colorScheme.primary
-                                    : null,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          backgroundColor:
-                              selectedList == "FUTURE"
-                                  ? Theme.of(context).colorScheme.onPrimary
-                                  : Theme.of(context).colorScheme.primary,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            selectedList = "FUTURE";
-                          });
-                          getShowsByList(selectedList);
-                        },
-                        child: Text(
-                          "FUTURE",
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color:
-                                selectedList == "FUTURE"
-                                    ? Theme.of(context).colorScheme.primary
-                                    : null,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              */
           ],
         ),
       ),

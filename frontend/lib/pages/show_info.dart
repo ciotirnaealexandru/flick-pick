@@ -11,7 +11,6 @@ import 'package:frontend/services/show_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-//import 'package:frontend/components/cards/review_card.dart';
 
 class ShowInfo extends StatefulWidget {
   const ShowInfo({super.key});
@@ -28,9 +27,9 @@ class _ShowInfoState extends State<ShowInfo> {
 
   int? userRating;
   bool showRating = false;
-  String? watchStatus;
-
+  bool watchStatus = false;
   bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -179,28 +178,6 @@ class _ShowInfoState extends State<ShowInfo> {
                 text: userShow?.show.summary ?? "Unknown summary.",
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              SizedBox(height: 40),
-              /*
-              Text("Reviews", style: Theme.of(context).textTheme.titleMedium),
-              ReviewCard(author: "Alex", content: "Buna, asta e un mesaj."),
-              ReviewCard(
-                author: "Andrei",
-                content:
-                    "Buna, asta e un mesaj, dar mult mult mult mult mult mult mult mult mult mult mult mult mai lung.",
-              ),
-              ReviewCard(author: "Alex", content: "Buna, asta e un mesaj."),
-              ReviewCard(
-                author: "Andrei",
-                content:
-                    "Buna, asta e un mesaj, dar mult mult mult mult mult mult mult mult mult mult mult mult mai lung.",
-              ),
-              ReviewCard(author: "Alex", content: "Buna, asta e un mesaj."),
-              ReviewCard(
-                author: "Andrei",
-                content:
-                    "Buna, asta e un mesaj, dar mult mult mult mult mult mult mult mult mult mult mult mult mai lung.",
-              ),
-              */
             ],
           ),
         ),
