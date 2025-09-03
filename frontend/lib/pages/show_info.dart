@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:frontend/components/buttons/add_to_watchlist_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/models/user_show_model.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -82,22 +82,19 @@ class _ShowInfoState extends State<ShowInfo> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   SizedBox(
-                    width: 210,
+                    width: 190,
                     child: Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             userShow?.show.name ?? "Unknown Show",
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleMedium?.copyWith(height: 1.1),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                           SizedBox(height: 15),
                           Text(
@@ -114,7 +111,14 @@ class _ShowInfoState extends State<ShowInfo> {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 20),
-                          AddToWatchlistButton(),
+                          CustomFilledButton(
+                            onPressedFunction:
+                                () => Navigator.pushNamed(
+                                  context,
+                                  "/add_to_watchlist",
+                                ),
+                            text: "Add Show",
+                          ),
                           SizedBox(height: 10),
                           IntrinsicWidth(
                             child: Theme(
@@ -123,7 +127,7 @@ class _ShowInfoState extends State<ShowInfo> {
                                 highlightColor: Colors.transparent,
                               ),
                               child: StarRating(
-                                size: 40,
+                                size: 38,
                                 rating:
                                     watchStatus != "NOT_WATCHED"
                                         ? (userRating?.toDouble() ?? 0)
@@ -169,7 +173,7 @@ class _ShowInfoState extends State<ShowInfo> {
                             ? CachedNetworkImage(
                               imageUrl: userShow!.show.imageUrl,
                               fit: BoxFit.fitHeight,
-                              height: 210,
+                              height: 220,
                             )
                             : Placeholder(),
                   ),
