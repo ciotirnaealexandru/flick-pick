@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/components/bottom_modal.dart';
 import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
 import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 
@@ -17,131 +18,115 @@ class _SortButtonState extends State<SortButton> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
+        return BottomModal(
+          modalSize: ModalSize.small,
+          children: [
+            CustomTransparentButton(
+              onPressed:
+                  () => {
+                    setState(() {
+                      selected = "popular";
+                    }),
+                    Navigator.pop(context),
+                  },
 
-          child: SizedBox(
-            height: 200,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CustomTransparentButton(
-                    onPressed:
-                        () => {
-                          setState(() {
-                            selected = "popular";
-                          }),
-                          Navigator.pop(context),
-                        },
-
-                    child: Container(
-                      decoration:
-                          selected == "popular"
-                              ? BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    width: 2.5,
-                                  ),
-                                ),
-                              )
-                              : null,
-                      child: Text(
-                        "Popular",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
-                  ),
-                  CustomTransparentButton(
-                    onPressed:
-                        () => {
-                          setState(() {
-                            selected = "newest";
-                          }),
-                          Navigator.pop(context),
-                        },
-                    child: Container(
-                      decoration:
-                          selected == "newest"
-                              ? BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    width: 2.5,
-                                  ),
-                                ),
-                              )
-                              : null,
-                      child: Text(
-                        "Newest",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
-                  ),
-                  CustomTransparentButton(
-                    onPressed:
-                        () => {
-                          setState(() {
-                            selected = "oldest";
-                          }),
-                          Navigator.pop(context),
-                        },
-                    child: Container(
-                      decoration:
-                          selected == "oldest"
-                              ? BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    width: 2.5,
-                                  ),
-                                ),
-                              )
-                              : null,
-                      child: Text(
-                        "Oldest",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
-                  ),
-                  CustomTransparentButton(
-                    onPressed:
-                        () => {
-                          setState(() {
-                            selected = "alphabetically";
-                          }),
-                          Navigator.pop(context),
-                        },
-                    child: Container(
-                      decoration:
-                          selected == "alphabetically"
-                              ? BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    width: 2.5,
-                                  ),
-                                ),
-                              )
-                              : null,
-                      child: Text(
-                        "A to Z",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
-                  ),
-                ],
+              child: Container(
+                decoration:
+                    selected == "popular"
+                        ? BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              width: 2.5,
+                            ),
+                          ),
+                        )
+                        : null,
+                child: Text(
+                  "Popular",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ),
-          ),
+            CustomTransparentButton(
+              onPressed:
+                  () => {
+                    setState(() {
+                      selected = "newest";
+                    }),
+                    Navigator.pop(context),
+                  },
+              child: Container(
+                decoration:
+                    selected == "newest"
+                        ? BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              width: 2.5,
+                            ),
+                          ),
+                        )
+                        : null,
+                child: Text(
+                  "Newest",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            ),
+            CustomTransparentButton(
+              onPressed:
+                  () => {
+                    setState(() {
+                      selected = "oldest";
+                    }),
+                    Navigator.pop(context),
+                  },
+              child: Container(
+                decoration:
+                    selected == "oldest"
+                        ? BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              width: 2.5,
+                            ),
+                          ),
+                        )
+                        : null,
+                child: Text(
+                  "Oldest",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            ),
+            CustomTransparentButton(
+              onPressed:
+                  () => {
+                    setState(() {
+                      selected = "alphabetically";
+                    }),
+                    Navigator.pop(context),
+                  },
+              child: Container(
+                decoration:
+                    selected == "alphabetically"
+                        ? BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              width: 2.5,
+                            ),
+                          ),
+                        )
+                        : null,
+                child: Text(
+                  "A to Z",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

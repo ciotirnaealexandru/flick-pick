@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/border_text_field.dart';
+import 'package:frontend/components/bottom_modal.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
 
@@ -16,43 +17,19 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom:
-                MediaQuery.of(
-                  context,
-                ).viewInsets.bottom, // pushes up on keyboard
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        return BottomModal(
+          modalSize: ModalSize.small,
+          children: [
+            BorderTextField(
+              hintText: "Enter Deck Name",
+              onSubmitted: (text) => {print(text)},
             ),
-
-            child: SizedBox(
-              height: 200,
-              child: Center(
-                child: SizedBox(
-                  width: 300,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-
-                    children: [
-                      BorderTextField(
-                        hintText: "Enter Deck Name",
-                        onSubmitted: (text) => {print(text)},
-                      ),
-                      SizedBox(height: 10),
-                      CustomFilledButton(
-                        onPressedFunction: () => Navigator.pop(context),
-                        text: "Create Deck",
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            SizedBox(height: 10),
+            CustomFilledButton(
+              onPressedFunction: () => Navigator.pop(context),
+              text: "Create Deck",
             ),
-          ),
+          ],
         );
       },
     );

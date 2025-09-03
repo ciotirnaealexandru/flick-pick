@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/components/buttons/icon_buttons/edit_deck_button.dart';
-import 'package:frontend/components/buttons/icon_buttons/filter_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
 import 'package:frontend/components/cards/no_shows_found_card.dart';
 import 'package:frontend/components/show_grid.dart';

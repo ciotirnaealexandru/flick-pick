@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:frontend/components/buttons/add_to_watchlist_button.dart';
 import 'package:frontend/models/user_show_model.dart';
-import 'package:frontend/pages/add_to_watchlist.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
@@ -89,73 +87,76 @@ class _ShowInfoState extends State<ShowInfo> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          userShow?.show.name ?? "Unknown Show",
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(height: 1.1),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          "${(userShow?.show.premiered != null || userShow?.show.ended != null) ? "${userShow?.show.premiered} - ${userShow?.show.ended}" : "Years N/A"} • ${userShow?.show.network}",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                          softWrap: true,
-                        ),
-                        Text(
-                          (userShow?.show.genres != null &&
-                                  userShow!.show.genres!.isNotEmpty)
-                              ? userShow!.show.genres!.take(2).join(" • ")
-                              : "No genres available",
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 20),
-                        AddToWatchlistButton(),
-                        SizedBox(height: 10),
-                        IntrinsicWidth(
-                          child: Theme(
-                            data: Theme.of(context).copyWith(
-                              splashFactory: NoSplash.splashFactory,
-                              highlightColor: Colors.transparent,
-                            ),
-                            child: StarRating(
-                              size: 40,
-                              rating:
-                                  watchStatus != "NOT_WATCHED"
-                                      ? (userRating?.toDouble() ?? 0)
-                                      : 0,
-                              color:
-                                  showRating
-                                      ? Colors.amber.shade300
-                                      : Theme.of(context).colorScheme.primary,
-                              borderColor:
-                                  showRating
-                                      ? Colors.amber.shade300
-                                      : Theme.of(context).colorScheme.primary,
-                              allowHalfRating: true,
-                              onRatingChanged: (newRating) async {
-                                if (showRating) {
-                                  setState(
-                                    () =>
-                                        userRating =
-                                            (userRating == newRating
-                                                ? 0
-                                                : newRating.toInt()),
-                                  );
+                  SizedBox(
+                    width: 210,
+                    child: Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            userShow?.show.name ?? "Unknown Show",
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleMedium?.copyWith(height: 1.1),
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            "${(userShow?.show.premiered != null || userShow?.show.ended != null) ? "${userShow?.show.premiered} - ${userShow?.show.ended}" : "Years N/A"} • ${userShow?.show.network}",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            softWrap: true,
+                          ),
+                          Text(
+                            (userShow?.show.genres != null &&
+                                    userShow!.show.genres!.isNotEmpty)
+                                ? userShow!.show.genres!.take(2).join(" • ")
+                                : "No genres available",
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 20),
+                          AddToWatchlistButton(),
+                          SizedBox(height: 10),
+                          IntrinsicWidth(
+                            child: Theme(
+                              data: Theme.of(context).copyWith(
+                                splashFactory: NoSplash.splashFactory,
+                                highlightColor: Colors.transparent,
+                              ),
+                              child: StarRating(
+                                size: 40,
+                                rating:
+                                    watchStatus != "NOT_WATCHED"
+                                        ? (userRating?.toDouble() ?? 0)
+                                        : 0,
+                                color:
+                                    showRating
+                                        ? Colors.amber.shade300
+                                        : Theme.of(context).colorScheme.primary,
+                                borderColor:
+                                    showRating
+                                        ? Colors.amber.shade300
+                                        : Theme.of(context).colorScheme.primary,
+                                allowHalfRating: true,
+                                onRatingChanged: (newRating) async {
+                                  if (showRating) {
+                                    setState(
+                                      () =>
+                                          userRating =
+                                              (userRating == newRating
+                                                  ? 0
+                                                  : newRating.toInt()),
+                                    );
 
-                                  print(userRating);
+                                    print(userRating);
 
-                                  await loadShowInfo(apiId);
-                                }
-                              },
+                                    await loadShowInfo(apiId);
+                                  }
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -168,7 +169,7 @@ class _ShowInfoState extends State<ShowInfo> {
                             ? CachedNetworkImage(
                               imageUrl: userShow!.show.imageUrl,
                               fit: BoxFit.fitHeight,
-                              height: 220,
+                              height: 210,
                             )
                             : Placeholder(),
                   ),
