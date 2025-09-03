@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class CustomFilledButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressedFunction;
+  final Color? backgroundColor;
 
   const CustomFilledButton({
+    this.backgroundColor,
     required this.text,
     required this.onPressedFunction,
     super.key,
@@ -17,7 +19,8 @@ class CustomFilledButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor:
+              backgroundColor ?? Theme.of(context).colorScheme.onPrimary,
         ),
         onPressed: onPressedFunction,
         child: Text(

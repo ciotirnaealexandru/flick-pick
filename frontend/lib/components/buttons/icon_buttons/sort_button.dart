@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/components/buttons/custom_transparent_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 
 class SortButton extends StatefulWidget {
   const SortButton({super.key});
@@ -148,23 +149,10 @@ class _SortButtonState extends State<SortButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => {_openSortOptions(context)},
-      style: ButtonStyle(
-        padding: WidgetStatePropertyAll(EdgeInsets.only(left: 15, right: 20)),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.swap_vert, size: 25),
-          SizedBox(width: 5),
-          Text(
-            "Sort",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+    return CustomIconButton(
+      text: "Sort",
+      icon: Icons.swap_vert,
+      onPressed: _openSortOptions,
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/components/buttons/filter_button.dart';
-import 'package:frontend/components/buttons/sort_button.dart';
+import 'package:frontend/components/buttons/icon_buttons/filter_button.dart';
+import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
 import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/services/user_service.dart';
@@ -96,6 +96,7 @@ class _SearchState extends State<Search> {
         toolbarHeight: 120,
         title: Column(
           children: [
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomSearchBar(

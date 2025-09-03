@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/components/buttons/custom_transparent_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 
 class ShowCard extends StatelessWidget {
   final int apiId;

@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:frontend/components/bars/search_bar.dart';
+import 'package:frontend/components/buttons/icon_buttons/edit_deck_button.dart';
+import 'package:frontend/components/buttons/icon_buttons/filter_button.dart';
+import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
 import 'package:frontend/components/cards/no_shows_found_card.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/models/deck_model.dart';
@@ -74,19 +78,67 @@ class _DeckInfoState extends State<DeckInfo> {
     });
   }
 
+  Future<void> searchDeck(text) async {}
+
   @override
   Widget build(BuildContext context) {
+    if (deck == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(),
-      body:
-          finishedLoading && deck!.userShows.isEmpty
-              ? NoShowsFoundCard()
-              : ShowGrid(
-                shows:
-                    deck?.userShows.map((userShow) => userShow.show).toList() ??
-                    [],
+
+      appBar: AppBar(
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(110),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: CustomSearchBar(
+                  label: "Search ${deck?.name}",
+                  searchFunction: searchDeck,
+                ),
               ),
+              SizedBox(height: 5),
+              Align(
+                alignment: AlignmentGeometry.centerLeft,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SortButton(),
+                      SizedBox(width: 10),
+                      EditDeckButton(),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child:
+                finishedLoading && deck!.userShows.isEmpty
+                    ? NoShowsFoundCard()
+                    : ShowGrid(
+                      shows:
+                          deck?.userShows
+                              .map((userShow) => userShow.show)
+                              .toList() ??
+                          [],
+                    ),
+          ),
+        ],
+      ),
     );
   }
 }

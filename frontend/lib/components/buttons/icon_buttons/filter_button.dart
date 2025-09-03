@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/components/buttons/custom_filled_button.dart';
-import 'package:frontend/components/buttons/custom_transparent_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 
 class FilterButton extends StatefulWidget {
   const FilterButton({super.key});
@@ -96,23 +97,10 @@ class _FilterButtonState extends State<FilterButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => {_openFilterOptions(context)},
-      style: ButtonStyle(
-        padding: WidgetStatePropertyAll(EdgeInsets.only(left: 15, right: 20)),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.filter_alt_outlined, size: 25),
-          SizedBox(width: 6),
-          Text(
-            "Filter",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+    return CustomIconButton(
+      text: "Filter",
+      icon: Icons.filter_alt_outlined,
+      onPressed: _openFilterOptions,
     );
   }
 }

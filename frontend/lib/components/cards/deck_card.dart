@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/components/buttons/custom_transparent_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/cards/add_show_card.dart';
 import 'package:frontend/components/cards/show_card.dart';
 import 'package:frontend/models/deck_model.dart';
@@ -18,8 +18,6 @@ class _DeckCardState extends State<DeckCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 20),
-
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: CustomTransparentButton(

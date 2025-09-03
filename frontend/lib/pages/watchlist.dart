@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:frontend/components/buttons/create_deck_button.dart';
-import 'package:frontend/components/buttons/sort_button.dart';
+import 'package:frontend/components/buttons/icon_buttons/create_deck_button.dart';
+import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
 import 'package:frontend/components/cards/deck_card.dart';
 import 'package:frontend/components/bars/navbar.dart';
 import 'package:frontend/components/bars/search_bar.dart';
-import 'package:frontend/main.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/user_service.dart';
@@ -65,7 +64,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
     });
   }
 
-  Future<void> searchDecks(text) async {}
+  Future<void> searchWatchlist(text) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +78,12 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
         toolbarHeight: 120,
         title: Column(
           children: [
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomSearchBar(
                 label: "Search Watchlist",
-                searchFunction: searchDecks,
+                searchFunction: searchWatchlist,
               ),
             ),
             SizedBox(height: 5),
@@ -103,20 +103,30 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                 ),
               ),
             ),
+            SizedBox(height: 10),
           ],
         ),
       ),
 
-      body: SizedBox(
-        child: ListView.separated(
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemCount: decks.length,
-          separatorBuilder: (context, index) => SizedBox(width: 10),
-          itemBuilder: (context, i) {
-            return DeckCard(deck: decks[i]);
-          },
-        ),
+      body: Column(
+        children: [
+          SizedBox(height: 10),
+          Expanded(
+            child: SizedBox(
+              child: ListView.separated(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: decks.length,
+                separatorBuilder: (context, index) => SizedBox(),
+                itemBuilder: (context, i) {
+                  return Column(
+                    children: [DeckCard(deck: decks[i]), SizedBox(height: 20)],
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
 
       bottomNavigationBar: Navbar(),

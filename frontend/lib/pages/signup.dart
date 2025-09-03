@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/components/buttons/custom_transparent_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/custom_form_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';

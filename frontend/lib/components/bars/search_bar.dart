@@ -32,7 +32,6 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 20),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),

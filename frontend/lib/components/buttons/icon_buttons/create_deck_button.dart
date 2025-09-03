@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/border_text_field.dart';
-import 'package:frontend/components/buttons/custom_filled_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
 
 class CreateDeckButton extends StatefulWidget {
   const CreateDeckButton({super.key});
@@ -59,23 +60,10 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => {_openCreateDeckOptions(context)},
-      style: ButtonStyle(
-        padding: WidgetStatePropertyAll(EdgeInsets.only(left: 15, right: 20)),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.add, size: 25),
-          SizedBox(width: 6),
-          Text(
-            "Create Deck",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+    return CustomIconButton(
+      text: "Create Deck",
+      icon: Icons.add,
+      onPressed: _openCreateDeckOptions,
     );
   }
 }
