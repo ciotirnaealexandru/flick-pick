@@ -61,7 +61,11 @@ class _FormScreenState extends State<FormScreen> {
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 SizedBox(width: 10),
-                Icon(Icons.arrow_forward_rounded),
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 25,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ],
             ),
             onPressed: () {

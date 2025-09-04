@@ -88,79 +88,79 @@ class _ShowInfoState extends State<ShowInfo> {
                 children: [
                   SizedBox(
                     width: 190,
-                    child: Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            userShow?.show.name ?? "Unknown Show",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          SizedBox(height: 15),
-                          Text(
-                            "${(userShow?.show.premiered != null || userShow?.show.ended != null) ? "${userShow?.show.premiered} - ${userShow?.show.ended}" : "Years N/A"} • ${userShow?.show.network}",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            softWrap: true,
-                          ),
-                          Text(
-                            (userShow?.show.genres != null &&
-                                    userShow!.show.genres!.isNotEmpty)
-                                ? userShow!.show.genres!.take(2).join(" • ")
-                                : "No genres available",
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 20),
-                          CustomFilledButton(
-                            onPressed:
-                                () => Navigator.pushNamed(
-                                  context,
-                                  "/add_to_watchlist",
-                                ),
-                            child: Text("Add Show"),
-                          ),
-                          SizedBox(height: 10),
-                          IntrinsicWidth(
-                            child: Theme(
-                              data: Theme.of(context).copyWith(
-                                splashFactory: NoSplash.splashFactory,
-                                highlightColor: Colors.transparent,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userShow?.show.name ?? "Unknown Show",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          "${(userShow?.show.premiered != null || userShow?.show.ended != null) ? "${userShow?.show.premiered} - ${userShow?.show.ended}" : "Years N/A"} • ${userShow?.show.network}",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          softWrap: true,
+                        ),
+                        Text(
+                          (userShow?.show.genres != null &&
+                                  userShow!.show.genres!.isNotEmpty)
+                              ? userShow!.show.genres!.take(2).join(" • ")
+                              : "No genres available",
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 20),
+                        CustomFilledButton(
+                          onPressed:
+                              () => Navigator.pushNamed(
+                                context,
+                                '/add_to_watchlist',
+                                arguments: {'userId': userInfo?.id},
                               ),
-                              child: StarRating(
-                                size: 38,
-                                rating:
-                                    watchStatus != "NOT_WATCHED"
-                                        ? (userRating?.toDouble() ?? 0)
-                                        : 0,
-                                color:
-                                    showRating
-                                        ? Colors.amber.shade300
-                                        : Theme.of(context).colorScheme.primary,
-                                borderColor:
-                                    showRating
-                                        ? Colors.amber.shade300
-                                        : Theme.of(context).colorScheme.primary,
-                                allowHalfRating: true,
-                                onRatingChanged: (newRating) async {
-                                  if (showRating) {
-                                    setState(
-                                      () =>
-                                          userRating =
-                                              (userRating == newRating
-                                                  ? 0
-                                                  : newRating.toInt()),
-                                    );
 
-                                    print(userRating);
+                          child: Text("Add Show"),
+                        ),
+                        SizedBox(height: 10),
+                        IntrinsicWidth(
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              splashFactory: NoSplash.splashFactory,
+                              highlightColor: Colors.transparent,
+                            ),
+                            child: StarRating(
+                              size: 38,
+                              rating:
+                                  watchStatus != "NOT_WATCHED"
+                                      ? (userRating?.toDouble() ?? 0)
+                                      : 0,
+                              color:
+                                  showRating
+                                      ? Colors.amber.shade300
+                                      : Theme.of(context).colorScheme.primary,
+                              borderColor:
+                                  showRating
+                                      ? Colors.amber.shade300
+                                      : Theme.of(context).colorScheme.primary,
+                              allowHalfRating: true,
+                              onRatingChanged: (newRating) async {
+                                if (showRating) {
+                                  setState(
+                                    () =>
+                                        userRating =
+                                            (userRating == newRating
+                                                ? 0
+                                                : newRating.toInt()),
+                                  );
 
-                                    await loadShowInfo(apiId);
-                                  }
-                                },
-                              ),
+                                  print(userRating);
+
+                                  await loadShowInfo(apiId);
+                                }
+                              },
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   Container(

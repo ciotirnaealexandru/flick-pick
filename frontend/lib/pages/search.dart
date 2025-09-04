@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/buttons/icon_buttons/filter_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
 import 'package:frontend/components/bars/search_bar.dart';
+import 'package:frontend/components/cards/no_shows_found_card.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
@@ -126,14 +127,7 @@ class _SearchState extends State<Search> {
 
       body:
           finishedLoading && shows.isEmpty
-              ? Center(
-                child: Text(
-                  "No shows found.",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                ),
-              )
+              ? Center(child: NoShowsFoundCard())
               : ShowGrid(shows: shows),
       bottomNavigationBar: Navbar(),
     );

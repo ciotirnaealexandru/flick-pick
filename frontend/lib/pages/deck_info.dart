@@ -137,22 +137,14 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child:
-                finishedLoading && deck!.userShows.isEmpty
-                    ? NoShowsFoundCard()
-                    : ShowGrid(
-                      shows:
-                          deck?.userShows
-                              .map((userShow) => userShow.show)
-                              .toList() ??
-                          [],
-                    ),
-          ),
-        ],
-      ),
+      body:
+          finishedLoading && deck!.userShows.isEmpty
+              ? Center(child: NoShowsFoundCard())
+              : ShowGrid(
+                shows:
+                    deck?.userShows.map((userShow) => userShow.show).toList() ??
+                    [],
+              ),
     );
   }
 }

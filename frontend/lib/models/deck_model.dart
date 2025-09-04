@@ -7,11 +7,16 @@ String deckToJson(Deck data) => json.encode(data.toJson());
 
 class Deck {
   int id;
-
   String name;
+  int userId;
   List<UserShow> userShows;
 
-  Deck({required this.id, required this.name, required this.userShows});
+  Deck({
+    required this.id,
+    required this.name,
+    required this.userId,
+    required this.userShows,
+  });
 
   factory Deck.fromJson(Map<String, dynamic> json) {
     List<UserShow> parsedShows = [];
@@ -26,6 +31,7 @@ class Deck {
     return Deck(
       id: json["id"] as int,
       name: json["name"] ?? '',
+      userId: json["id"] as int,
       userShows: parsedShows,
     );
   }
@@ -33,6 +39,7 @@ class Deck {
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
+    "userId": userId,
     "userShows": userShows,
   };
 }

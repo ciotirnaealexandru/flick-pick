@@ -11,7 +11,25 @@ class AddToWatchlist extends StatefulWidget {
 }
 
 class _AddToWatchlistState extends State<AddToWatchlist> {
+  int? userId;
+  int? selectedValue;
+
   Future<void> searchDecks(text) async {}
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (userId == null) {
+      final args = ModalRoute.of(context)!.settings.arguments as Map;
+      userId = args['userId'];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +57,9 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SortButton(),
+                      if (userId != null) SortButton(),
                       SizedBox(width: 10),
-                      // CreateDeckButton(),
+                      if (userId != null) CreateDeckButton(userId: userId!),
                     ],
                   ),
                 ),
@@ -52,7 +70,20 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
         ),
       ),
 
-      body: Placeholder(),
+      body: RadioGroup<int>(
+        groupValue: selectedValue,
+        onChanged: (int? value) {
+          setState(() {
+            selectedValue = value;
+          });
+        },
+        child: Column(
+          children: [
+            RadioListTile<int>(value: 1, title: Text("Option 1")),
+            RadioListTile<int>(value: 2, title: Text("Option 2")),
+          ],
+        ),
+      ),
     );
   }
 }
