@@ -17,10 +17,9 @@ class _FilterState extends State<Filter> {
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
               Text("Filter", style: Theme.of(context).textTheme.titleMedium),
+              SizedBox(height: 20),
             ],
           ),
         ),

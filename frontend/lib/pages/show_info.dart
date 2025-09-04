@@ -27,12 +27,11 @@ class _ShowInfoState extends State<ShowInfo> {
   int? userRating;
   bool showRating = false;
   bool watchStatus = false;
-  bool isLoading = true;
+  bool finishedLoading = false;
 
   @override
   void initState() {
     super.initState();
-    loadUserInfo();
   }
 
   @override
@@ -42,6 +41,7 @@ class _ShowInfoState extends State<ShowInfo> {
     if (apiId == null) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
       apiId = args['apiId'].toString();
+      loadUserInfo();
     }
   }
 
@@ -65,12 +65,13 @@ class _ShowInfoState extends State<ShowInfo> {
     setState(() {
       userShow = data;
       userRating = userShow?.userRating;
+      finishedLoading = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (userShow == null || userInfo == null) {
+    if (!finishedLoading) {
       return Center(child: CircularProgressIndicator());
     }
 

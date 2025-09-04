@@ -86,7 +86,7 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    if (userInfo == null) {
+    if (!finishedLoading) {
       return Center(child: CircularProgressIndicator());
     }
 
@@ -126,7 +126,7 @@ class _SearchState extends State<Search> {
       ),
 
       body:
-          finishedLoading && shows.isEmpty
+          shows.isEmpty
               ? Center(child: NoShowsFoundCard())
               : ShowGrid(shows: shows),
       bottomNavigationBar: Navbar(),

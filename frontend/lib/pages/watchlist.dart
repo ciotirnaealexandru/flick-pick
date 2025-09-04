@@ -9,6 +9,7 @@ import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
+import 'package:frontend/services/deck_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,7 +23,7 @@ class Watchlist extends StatefulWidget {
 
 class _WatchlistState extends State<Watchlist> with RouteAware {
   User? userInfo;
-  List<Deck> decks = [];
+  List<Deck>? decksInfo = [];
   bool finishedLoading = false;
 
   @override
@@ -46,7 +47,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
   @override
   void didPopNext() {
     super.didPopNext();
-    getDecksInfo();
+    loadDecksInfo();
   }
 
   Future<void> loadUserInfo() async {
@@ -55,30 +56,14 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
       userInfo = user;
     });
     if (user != null) {
-      await getDecksInfo();
+      loadDecksInfo();
     }
   }
 
-  Future<void> getDecksInfo() async {
-    // get the bearer token
-    final secureStorage = FlutterSecureStorage();
-    final token = await secureStorage.read(
-      key: dotenv.env['SECURE_STORAGE_SECRET']!,
-    );
-
-    // get the deck info if it exists
-    final decksResponse = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/user/deck/all/${userInfo?.id}'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    final List<dynamic> decksJson = json.decode(decksResponse.body);
-
+  Future<void> loadDecksInfo() async {
+    final decks = await getDecksInfo(userId: userInfo!.id);
     setState(() {
-      decks = decksJson.map((json) => Deck.fromJson(json)).toList();
+      decksInfo = decks;
       finishedLoading = true;
     });
   }
@@ -87,7 +72,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    if (userInfo == null) {
+    if (!finishedLoading) {
       return Center(child: CircularProgressIndicator());
     }
 
@@ -136,11 +121,14 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
               child: ListView.separated(
                 physics: BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
-                itemCount: decks.length,
+                itemCount: decksInfo!.length,
                 separatorBuilder: (context, index) => SizedBox(),
                 itemBuilder: (context, i) {
                   return Column(
-                    children: [DeckCard(deck: decks[i]), SizedBox(height: 20)],
+                    children: [
+                      DeckCard(deck: decksInfo![i]),
+                      SizedBox(height: 20),
+                    ],
                   );
                 },
               ),

@@ -54,7 +54,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
   @override
   void didPopNext() {
     super.didPopNext();
-    getDeckInfo();
+    getIndividualDeckInfo();
   }
 
   Future<void> loadUserInfo() async {
@@ -63,11 +63,11 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
       userInfo = user;
     });
     if (user != null) {
-      await getDeckInfo();
+      await getIndividualDeckInfo();
     }
   }
 
-  Future<void> getDeckInfo() async {
+  Future<void> getIndividualDeckInfo() async {
     // get the bearer token
     final secureStorage = FlutterSecureStorage();
     final token = await secureStorage.read(
@@ -95,7 +95,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    if (deck == null) {
+    if (!finishedLoading) {
       return Center(child: CircularProgressIndicator());
     }
 
