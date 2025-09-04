@@ -90,7 +90,7 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
                 // send a a request to the backend
                 await createDeckFunction(deckName);
               },
-              text: "Create Deck",
+              child: Text("Create Deck"),
             ),
           ],
         );

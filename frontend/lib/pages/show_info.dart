@@ -117,7 +117,7 @@ class _ShowInfoState extends State<ShowInfo> {
                                   context,
                                   "/add_to_watchlist",
                                 ),
-                            text: "Add Show",
+                            child: Text("Add Show"),
                           ),
                           SizedBox(height: 10),
                           IntrinsicWidth(

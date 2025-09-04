@@ -36,7 +36,11 @@ class _DeckCardState extends State<DeckCard> {
                   widget.deck.name,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Icon(Icons.arrow_forward_rounded, size: 25),
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 25,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ],
             ),
           ),

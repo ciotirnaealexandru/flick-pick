@@ -99,6 +99,8 @@ final ThemeData appTheme = ThemeData(
     color: _appColors.onPrimary,
   ),
 
+  iconTheme: IconThemeData(color: _appColors.onPrimary),
+
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
     backgroundColor: _appColors.surface.withValues(alpha: 0.95),

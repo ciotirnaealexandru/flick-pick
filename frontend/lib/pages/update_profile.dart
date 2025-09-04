@@ -118,7 +118,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
             child: SizedBox(
               width: double.infinity,
               child: CustomFilledButton(
-                text: "UPDATE",
+                child: Text("UPDATE"),
                 onPressed: () async {
                   final form = _formKey.currentState!;
 
@@ -191,7 +191,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
         width: double.infinity,
         child: CustomFilledButton(
           backgroundColor: Theme.of(context).colorScheme.error,
-          text: "DELETE",
+          child: Text("DELETE"),
           onPressed: () async {
             showModalBottomSheet(
               context: context,
@@ -209,7 +209,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                     SizedBox(height: 10),
                     CustomFilledButton(
                       backgroundColor: Theme.of(context).colorScheme.error,
-                      text: "DELETE PROFILE",
+                      child: Text("DELETE PROFILE"),
                       onPressed: () async {
                         final secureStorage = FlutterSecureStorage();
                         final token = await secureStorage.read(

@@ -25,7 +25,11 @@ class _FilterButtonState extends State<FilterButton> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Genre", style: Theme.of(context).textTheme.bodyLarge),
-                  Icon(Icons.arrow_forward_rounded, size: 25),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 25,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ],
               ),
               onPressed: () => Navigator.pushNamed(context, '/filter'),
@@ -38,7 +42,11 @@ class _FilterButtonState extends State<FilterButton> {
                     "Release Year",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Icon(Icons.arrow_forward_rounded, size: 25),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 25,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ],
               ),
               onPressed: () => Navigator.pushNamed(context, '/filter'),
@@ -51,7 +59,11 @@ class _FilterButtonState extends State<FilterButton> {
                     "Ending Year",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Icon(Icons.arrow_forward_rounded, size: 25),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 25,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ],
               ),
               onPressed: () => Navigator.pushNamed(context, '/filter'),
@@ -69,7 +81,7 @@ class _FilterButtonState extends State<FilterButton> {
                   onPressed: () => Navigator.pop(context),
                 ),
                 CustomFilledButton(
-                  text: "Apply Filters",
+                  child: Text("Apply Filters"),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],

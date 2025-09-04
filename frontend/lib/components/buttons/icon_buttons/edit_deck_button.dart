@@ -93,7 +93,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
                 // send a a request to the backend
                 await changeNameFunction(deckName);
               },
-              text: "Change Name",
+              child: Text("Change Name"),
             ),
           ],
         );
@@ -153,7 +153,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
             CustomFilledButton(
               backgroundColor: Theme.of(context).colorScheme.error,
               onPressed: () async => deleteDeckFunction(),
-              text: "Delete",
+              child: Text("Delete"),
             ),
           ],
         );
@@ -179,7 +179,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
                       _changeNameOptions(rootContext);
                     }),
                   },
-              text: "Change Name",
+              child: Text("Change Name"),
             ),
             SizedBox(height: 10),
             CustomFilledButton(
@@ -190,7 +190,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
                       _deleteDeckOptions(rootContext);
                     }),
                   },
-              text: "Delete Deck",
+              child: Text("Delete Deck"),
             ),
           ],
         );
