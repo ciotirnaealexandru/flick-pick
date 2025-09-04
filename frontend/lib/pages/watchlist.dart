@@ -96,9 +96,13 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SortButton(),
+                    if (userInfo != null) SortButton(),
                     SizedBox(width: 10),
-                    CreateDeckButton(),
+                    if (userInfo != null)
+                      CreateDeckButton(
+                        userId: userInfo!.id,
+                        reloadFunction: () => getDecksInfo(),
+                      ),
                   ],
                 ),
               ),

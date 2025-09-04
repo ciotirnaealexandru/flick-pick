@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/custom_form_field.dart';
+import 'package:frontend/components/show_message.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -150,16 +151,8 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
                     );
 
                     if (response.statusCode == 200) {
-                      print("Profile changed successfully.");
-
                       await widget.loadUserInfo();
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Profile changed successfully."),
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
+                      showMessage(context, "Profile changed successfully.");
                     } else {
                       print("Response body: ${response.body}");
 
@@ -167,13 +160,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
                       final message =
                           responseData['message'] ?? 'Something went wrong.';
 
-                      // show a message of the error
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(message),
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
+                      showMessage(context, message);
                     }
                   }
                 },
@@ -290,13 +277,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                 final message =
                     responseData['message'] ?? 'Something went wrong.';
 
-                // show a message of the error
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(message),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
+                showMessage(context, message);
               }
             }
           },

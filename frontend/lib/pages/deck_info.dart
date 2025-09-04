@@ -96,7 +96,7 @@ class _DeckInfoState extends State<DeckInfo> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: CustomSearchBar(
-                  label: "Search ${deck?.name}",
+                  label: "Search Deck",
                   searchFunction: searchDeck,
                 ),
               ),

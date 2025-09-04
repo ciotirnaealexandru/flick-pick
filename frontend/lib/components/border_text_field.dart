@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class BorderTextField extends StatelessWidget {
   final String hintText;
-  final ValueChanged<String> onSubmitted;
+  final Future<void> Function(String) onSubmitted;
+  final TextEditingController? controller;
 
   const BorderTextField({
+    this.controller,
     required this.hintText,
     required this.onSubmitted,
     super.key,
@@ -15,6 +17,7 @@ class BorderTextField extends StatelessWidget {
     return SizedBox(
       height: 50,
       child: TextField(
+        controller: controller,
         onSubmitted: (value) {
           onSubmitted(value);
           FocusScope.of(context).unfocus();

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/custom_form_field.dart';
+import 'package:frontend/components/show_message.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -101,13 +102,7 @@ class _FormScreenState extends State<FormScreen> {
 
                     Navigator.pushReplacementNamed(context, '/search');
                   } else {
-                    print("Login failed: ${response.body}");
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Login failed.'),
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
+                    showMessage(context, "Login failed.");
                   }
                 }
               },

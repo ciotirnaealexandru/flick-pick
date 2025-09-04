@@ -41,7 +41,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                     children: [
                       SortButton(),
                       SizedBox(width: 10),
-                      CreateDeckButton(),
+                      // CreateDeckButton(),
                     ],
                   ),
                 ),

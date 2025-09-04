@@ -13,6 +13,7 @@ class EditDeckButton extends StatefulWidget {
 
 class _EditDeckButtonState extends State<EditDeckButton> {
   void _changeNameOptions(BuildContext context) {
+    Future<void> changeNameFunction(deckName) async {}
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -22,7 +23,9 @@ class _EditDeckButtonState extends State<EditDeckButton> {
           children: [
             BorderTextField(
               hintText: "Enter Deck Name",
-              onSubmitted: (text) => {print(text)},
+              onSubmitted: (deckName) async {
+                await changeNameFunction(deckName);
+              },
             ),
             SizedBox(height: 10),
             CustomFilledButton(
