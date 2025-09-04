@@ -22,7 +22,13 @@ class AddShowCard extends StatelessWidget {
         child: SizedBox(
           height: 150,
           width: 105,
-          child: Center(child: Icon(Icons.add, size: 25)),
+          child: Center(
+            child: Icon(
+              Icons.add,
+              size: 25,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+          ),
         ),
 
         onPressed: () {},

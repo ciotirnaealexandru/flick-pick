@@ -43,7 +43,7 @@ Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
       return UserShow(show: Show.fromJson(mainInfoJson));
 
     final userShowJson =
-        json.decode(mainInfoResponse.body) as Map<String, dynamic>;
+        json.decode(userShowResponse.body) as Map<String, dynamic>;
 
     return (UserShow(
       id: userShowJson['id'] as int?,

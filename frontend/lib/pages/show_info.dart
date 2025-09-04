@@ -122,7 +122,9 @@ class _ShowInfoState extends State<ShowInfo> {
                                 },
                               ),
 
-                          child: Text("Add Show"),
+                          child: Text(
+                            (userShow?.userId != null) ? "Added" : "Add Show",
+                          ),
                         ),
                         SizedBox(height: 10),
                         IntrinsicWidth(

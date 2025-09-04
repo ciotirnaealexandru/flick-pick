@@ -61,6 +61,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
     setState(() {
       userShow = data;
       finishedLoading = true;
+      if (userShow?.userId != null) selectedDeckId = userShow?.deckId;
     });
   }
 
@@ -104,6 +105,49 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                 ),
               ),
             ),
+            if (userShow?.userId != null)
+              Column(
+                children: [
+                  SizedBox(height: 10),
+                  CustomFilledButton(
+                    onPressed: () async {
+                      final secureStorage = FlutterSecureStorage();
+                      final token = await secureStorage.read(
+                        key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                      );
+
+                      final changeUserShowInfoResponse = await http.delete(
+                        Uri.parse(
+                          '${dotenv.env['API_URL']!}/user/show/$userId/${userShow?.show.apiId}',
+                        ),
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Authorization': 'Bearer $token',
+                        },
+                      );
+
+                      if (changeUserShowInfoResponse.statusCode == 200) {
+                        showMessage(context, "Removed show.");
+                      } else {
+                        print(
+                          "Response body: ${changeUserShowInfoResponse.body}",
+                        );
+
+                        final responseData = jsonDecode(
+                          changeUserShowInfoResponse.body,
+                        );
+                        final message =
+                            responseData['message'] ?? 'Something went wrong.';
+
+                        showMessage(context, message);
+                      }
+
+                      Navigator.pop(context);
+                    },
+                    child: Text("Remove Show"),
+                  ),
+                ],
+              ),
             SizedBox(height: 10),
             CustomFilledButton(
               onPressed: () async {
