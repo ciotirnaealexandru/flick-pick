@@ -1,0 +1,31 @@
+import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:frontend/models/deck_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+Future<List<Deck>?> getDecksInfo({int? userId}) async {
+  final secureStorage = FlutterSecureStorage();
+  final token = await secureStorage.read(
+    key: dotenv.env['SECURE_STORAGE_SECRET']!,
+  );
+
+  // get the deck info if it exists
+  final decksResponse = await http.get(
+    Uri.parse('${dotenv.env['API_URL']!}/user/deck/all/$userId'),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    },
+  );
+
+  if (decksResponse.statusCode == 200) {
+    final List<dynamic> decksJson = json.decode(decksResponse.body);
+    final List<Deck> decks =
+        decksJson.map((json) => Deck.fromJson(json)).toList();
+
+    return decks;
+  } else {
+    return null;
+  }
+}
