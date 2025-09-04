@@ -96,7 +96,7 @@ class _DeckInfoState extends State<DeckInfo> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: CustomSearchBar(
-                  label: "Search Deck",
+                  label: "Search ${deck?.name}",
                   searchFunction: searchDeck,
                 ),
               ),
@@ -112,7 +112,12 @@ class _DeckInfoState extends State<DeckInfo> {
                     children: [
                       SortButton(),
                       SizedBox(width: 10),
-                      EditDeckButton(),
+                      if (finishedLoading == true)
+                        EditDeckButton(
+                          userId: userInfo!.id,
+                          deckId: deck!.id,
+                          reloadFunction: () => getDeckInfo(),
+                        ),
                     ],
                   ),
                 ),

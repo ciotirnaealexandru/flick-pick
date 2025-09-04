@@ -55,7 +55,9 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
 
     await widget.reloadFunction();
 
-    if (createDeckResponse.statusCode != 200) {
+    if (createDeckResponse.statusCode == 200) {
+      showMessage(context, "Deck successfully created.");
+    } else {
       print("Response body: ${createDeckResponse.body}");
 
       final responseData = jsonDecode(createDeckResponse.body);
@@ -82,17 +84,18 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
               controller: controller,
               hintText: "Enter Deck Name",
               onSubmitted: (deckName) async {
+                deckName = deckName.trim();
                 await createDeckFunction(deckName);
               },
             ),
             SizedBox(height: 10),
             CustomFilledButton(
               onPressedFunction: () async {
-                // if the search button is pressed get the text
-                final text = controller.text.trim();
+                // get the text
+                final deckName = controller.text.trim();
 
-                // send a a request to the backend to get the shows with those names
-                await createDeckFunction(text);
+                // send a a request to the backend
+                await createDeckFunction(deckName);
               },
               text: "Create Deck",
             ),

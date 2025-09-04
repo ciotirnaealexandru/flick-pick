@@ -46,7 +46,7 @@ router.post(
       const { deckName } = req.body;
 
       if (!deckName)
-        return res.status(404).json({ message: "Deck Name is required." });
+        return res.status(404).json({ message: "Deck name is required." });
 
       // check if the deck already exists in the database
       const deck = await prisma.deck.findUnique({
@@ -116,7 +116,19 @@ router.patch(
       const { deckName } = req.body;
 
       if (!deckName)
-        return res.status(404).json({ message: "Deck Name is required." });
+        return res.status(404).json({ message: "Deck name is required." });
+
+      const existingDeck = await prisma.deck.findUnique({
+        where: {
+          name_userId: {
+            name: deckName,
+            userId: parseInt(req.params.user_id),
+          },
+        },
+      });
+
+      if (existingDeck != null)
+        return res.status(500).json({ message: "Deck name already in use." });
 
       const deck = await prisma.deck.upsert({
         where: {
