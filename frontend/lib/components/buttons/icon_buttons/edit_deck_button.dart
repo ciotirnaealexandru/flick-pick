@@ -13,14 +13,8 @@ import 'package:http/http.dart' as http;
 class EditDeckButton extends StatefulWidget {
   final int userId;
   final int deckId;
-  final Future<void> Function() reloadFunction;
 
-  const EditDeckButton({
-    required this.userId,
-    required this.deckId,
-    required this.reloadFunction,
-    super.key,
-  });
+  const EditDeckButton({required this.userId, required this.deckId, super.key});
 
   @override
   State<EditDeckButton> createState() => _EditDeckButtonState();
@@ -60,8 +54,6 @@ class _EditDeckButtonState extends State<EditDeckButton> {
         },
         body: jsonEncode({'deckName': deckName}),
       );
-
-      await widget.reloadFunction();
 
       if (updateDeckResponse.statusCode == 200) {
         showMessage(context, "Changed deck name.");

@@ -7,6 +7,7 @@ import 'package:frontend/components/buttons/icon_buttons/edit_deck_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
 import 'package:frontend/components/cards/no_shows_found_card.dart';
 import 'package:frontend/components/show_grid.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/user_service.dart';
@@ -19,7 +20,7 @@ class DeckInfo extends StatefulWidget {
   State<DeckInfo> createState() => _DeckInfoState();
 }
 
-class _DeckInfoState extends State<DeckInfo> {
+class _DeckInfoState extends State<DeckInfo> with RouteAware {
   User? userInfo;
 
   Deck? deck;
@@ -36,11 +37,24 @@ class _DeckInfoState extends State<DeckInfo> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
 
     if (deckId == null) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
       deckId = args['deckId'].toString();
     }
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    getDeckInfo();
   }
 
   Future<void> loadUserInfo() async {
@@ -113,11 +127,7 @@ class _DeckInfoState extends State<DeckInfo> {
                       SortButton(),
                       SizedBox(width: 10),
                       if (finishedLoading == true)
-                        EditDeckButton(
-                          userId: userInfo!.id,
-                          deckId: deck!.id,
-                          reloadFunction: () => getDeckInfo(),
-                        ),
+                        EditDeckButton(userId: userInfo!.id, deckId: deck!.id),
                     ],
                   ),
                 ),

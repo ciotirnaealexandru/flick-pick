@@ -6,6 +6,7 @@ import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
 import 'package:frontend/components/cards/deck_card.dart';
 import 'package:frontend/components/bars/navbar.dart';
 import 'package:frontend/components/bars/search_bar.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/user_service.dart';
@@ -28,6 +29,24 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
   void initState() {
     super.initState();
     loadUserInfo();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    getDecksInfo();
   }
 
   Future<void> loadUserInfo() async {
@@ -99,10 +118,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                     if (userInfo != null) SortButton(),
                     SizedBox(width: 10),
                     if (userInfo != null)
-                      CreateDeckButton(
-                        userId: userInfo!.id,
-                        reloadFunction: () => getDecksInfo(),
-                      ),
+                      CreateDeckButton(userId: userInfo!.id),
                   ],
                 ),
               ),

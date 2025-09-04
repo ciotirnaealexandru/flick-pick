@@ -12,13 +12,8 @@ import 'package:http/http.dart' as http;
 
 class CreateDeckButton extends StatefulWidget {
   final int userId;
-  final Future<void> Function() reloadFunction;
 
-  const CreateDeckButton({
-    required this.userId,
-    required this.reloadFunction,
-    super.key,
-  });
+  const CreateDeckButton({required this.userId, super.key});
 
   @override
   State<CreateDeckButton> createState() => _CreateDeckButtonState();
@@ -52,8 +47,6 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
       },
       body: jsonEncode({'deckName': deckName}),
     );
-
-    await widget.reloadFunction();
 
     if (createDeckResponse.statusCode == 200) {
       showMessage(context, "Deck successfully created.");
