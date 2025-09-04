@@ -75,10 +75,10 @@ final ThemeData appTheme = ThemeData(
   // Buttons: use surface as button background and primary as text color
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: _appColors.primary,
-      foregroundColor: _appColors.onPrimary,
+      backgroundColor: _appColors.onPrimary,
+      foregroundColor: _appColors.primary,
       textStyle: TextStyle(
-        fontSize: 22,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
         fontFamily: AppFonts.primary,
       ),
@@ -98,8 +98,6 @@ final ThemeData appTheme = ThemeData(
   progressIndicatorTheme: ProgressIndicatorThemeData(
     color: _appColors.onPrimary,
   ),
-
-  iconTheme: IconThemeData(color: _appColors.onPrimary),
 
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,

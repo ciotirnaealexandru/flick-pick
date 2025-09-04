@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class CustomFilledButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressedFunction;
+  final VoidCallback onPressed;
   final Color? backgroundColor;
 
   const CustomFilledButton({
     this.backgroundColor,
     required this.text,
-    required this.onPressedFunction,
+    required this.onPressed,
     super.key,
   });
 
@@ -22,13 +22,9 @@ class CustomFilledButton extends StatelessWidget {
           backgroundColor:
               backgroundColor ?? Theme.of(context).colorScheme.onPrimary,
         ),
-        onPressed: onPressedFunction,
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
+
+        onPressed: onPressed,
+        child: Text(text),
       ),
     );
   }

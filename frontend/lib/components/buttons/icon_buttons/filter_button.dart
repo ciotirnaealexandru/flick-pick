@@ -70,7 +70,7 @@ class _FilterButtonState extends State<FilterButton> {
                 ),
                 CustomFilledButton(
                   text: "Apply Filters",
-                  onPressedFunction: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ],
             ),

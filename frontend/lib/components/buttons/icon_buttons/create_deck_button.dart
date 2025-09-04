@@ -83,7 +83,7 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
             ),
             SizedBox(height: 10),
             CustomFilledButton(
-              onPressedFunction: () async {
+              onPressed: () async {
                 // get the text
                 final deckName = controller.text.trim();
 

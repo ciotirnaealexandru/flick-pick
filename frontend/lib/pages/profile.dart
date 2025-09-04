@@ -70,7 +70,11 @@ class _ProfileState extends State<Profile> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.email, size: 30),
+                          Icon(
+                            Icons.email,
+                            size: 25,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
                           SizedBox(width: 15),
                           Text(
                             userInfo!.email,
@@ -81,7 +85,11 @@ class _ProfileState extends State<Profile> {
                       SizedBox(height: 10),
                       Row(
                         children: [
-                          Icon(Icons.phone, size: 30),
+                          Icon(
+                            Icons.phone,
+                            size: 25,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
                           SizedBox(width: 15),
                           Text(
                             userInfo!.phone ?? "No phone number.",
@@ -99,10 +107,7 @@ class _ProfileState extends State<Profile> {
                   child: ElevatedButton(
                     onPressed:
                         () => {Navigator.pushNamed(context, '/update_profile')},
-                    child: Text(
-                      "UPDATE PROFILE",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                    child: Text("UPDATE PROFILE"),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -120,12 +125,7 @@ class _ProfileState extends State<Profile> {
                       Navigator.pushReplacementNamed(context, '/login');
                     },
 
-                    child: Text(
-                      "LOGOUT",
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                    ),
+                    child: Text("LOGOUT"),
                   ),
                 ),
               ],

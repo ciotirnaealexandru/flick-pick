@@ -18,10 +18,13 @@ class CustomIconButton extends StatelessWidget {
       onPressed: () => onPressed(context),
       style: ButtonStyle(
         padding: WidgetStatePropertyAll(EdgeInsets.only(left: 15, right: 20)),
+        backgroundColor: WidgetStatePropertyAll(
+          Theme.of(context).colorScheme.primary,
+        ),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 25),
+          Icon(icon, size: 25, color: Theme.of(context).colorScheme.onPrimary),
           SizedBox(width: 6),
           Text(
             text,

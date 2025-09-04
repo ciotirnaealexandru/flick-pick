@@ -86,7 +86,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
             ),
             SizedBox(height: 10),
             CustomFilledButton(
-              onPressedFunction: () async {
+              onPressed: () async {
                 // get the text
                 final deckName = controller.text.trim();
 
@@ -152,7 +152,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
             SizedBox(height: 10),
             CustomFilledButton(
               backgroundColor: Theme.of(context).colorScheme.error,
-              onPressedFunction: () async => deleteDeckFunction(),
+              onPressed: () async => deleteDeckFunction(),
               text: "Delete",
             ),
           ],
@@ -172,7 +172,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
           modalSize: ModalSize.small,
           children: [
             CustomFilledButton(
-              onPressedFunction:
+              onPressed:
                   () => {
                     Navigator.pop(context),
                     Future.delayed(const Duration(milliseconds: 300), () {
@@ -183,7 +183,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
             ),
             SizedBox(height: 10),
             CustomFilledButton(
-              onPressedFunction:
+              onPressed:
                   () => {
                     Navigator.pop(context),
                     Future.delayed(const Duration(milliseconds: 300), () {

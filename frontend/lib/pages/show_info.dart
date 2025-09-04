@@ -112,7 +112,7 @@ class _ShowInfoState extends State<ShowInfo> {
                           ),
                           SizedBox(height: 20),
                           CustomFilledButton(
-                            onPressedFunction:
+                            onPressed:
                                 () => Navigator.pushNamed(
                                   context,
                                   "/add_to_watchlist",
