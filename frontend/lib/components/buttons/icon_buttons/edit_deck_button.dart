@@ -110,6 +110,39 @@ class _EditDeckButtonState extends State<EditDeckButton> {
   }
 
   void _deleteDeckOptions(BuildContext context) {
+    final rootContext = Navigator.of(context, rootNavigator: true).context;
+
+    Future<void> deleteDeckFunction() async {
+      final secureStorage = FlutterSecureStorage();
+      final token = await secureStorage.read(
+        key: dotenv.env['SECURE_STORAGE_SECRET']!,
+      );
+
+      final deleteDeckResponse = await http.delete(
+        Uri.parse(
+          '${dotenv.env['API_URL']!}/user/deck/${widget.userId}/${widget.deckId}',
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (deleteDeckResponse.statusCode == 200) {
+        showMessage(context, "Successfully deleted deck.");
+      } else {
+        print("Response body: ${deleteDeckResponse.body}");
+
+        final responseData = jsonDecode(deleteDeckResponse.body);
+        final message = responseData['message'] ?? 'Something went wrong.';
+
+        showMessage(context, message);
+      }
+
+      Navigator.pop(context);
+      Navigator.pop(rootContext);
+    }
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -127,7 +160,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
             SizedBox(height: 10),
             CustomFilledButton(
               backgroundColor: Theme.of(context).colorScheme.error,
-              onPressedFunction: () => Navigator.pop(context),
+              onPressedFunction: () async => deleteDeckFunction(),
               text: "Delete",
             ),
           ],
