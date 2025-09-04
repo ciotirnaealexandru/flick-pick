@@ -21,7 +21,7 @@ class ShowInfo extends StatefulWidget {
 class _ShowInfoState extends State<ShowInfo> {
   User? userInfo;
 
-  String? apiId;
+  int? apiId;
   UserShow? userShow;
 
   int? userRating;
@@ -40,7 +40,7 @@ class _ShowInfoState extends State<ShowInfo> {
 
     if (apiId == null) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
-      apiId = args['apiId'].toString();
+      apiId = args['apiId'];
       loadUserInfo();
     }
   }
@@ -59,7 +59,7 @@ class _ShowInfoState extends State<ShowInfo> {
   Future<void> loadShowInfo(apiId) async {
     final UserShow? data = await getShowInfo(
       apiId: apiId,
-      userId: userInfo?.id.toString(),
+      userId: userInfo?.id,
     );
 
     setState(() {
@@ -116,7 +116,10 @@ class _ShowInfoState extends State<ShowInfo> {
                               () => Navigator.pushNamed(
                                 context,
                                 '/add_to_watchlist',
-                                arguments: {'userId': userInfo?.id},
+                                arguments: {
+                                  'userId': userInfo?.id,
+                                  'apiId': userShow?.show.apiId,
+                                },
                               ),
 
                           child: Text("Add Show"),

@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:frontend/components/bars/navbar.dart';
-import 'package:frontend/components/bars/search_bar.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
-import 'package:frontend/components/buttons/icon_buttons/create_deck_button.dart';
-import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
+import 'package:frontend/components/show_message.dart';
 import 'package:frontend/models/deck_model.dart';
+import 'package:frontend/models/user_show_model.dart';
 import 'package:frontend/services/deck_service.dart';
+import 'package:frontend/services/show_service.dart';
+import 'package:http/http.dart' as http;
 
 class AddToWatchlist extends StatefulWidget {
   const AddToWatchlist({super.key});
@@ -16,10 +20,13 @@ class AddToWatchlist extends StatefulWidget {
 
 class _AddToWatchlistState extends State<AddToWatchlist> {
   int? userId;
+  int? apiId;
+
+  UserShow? userShow;
   List<Deck>? decksInfo;
   bool finishedLoading = false;
 
-  int? selectedValue;
+  int? selectedDeckId;
 
   Future<void> searchDecks(text) async {}
 
@@ -35,7 +42,9 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
     if (userId == null) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
       userId = args['userId'];
+      apiId = args['apiId'];
       loadDecksInfo();
+      loadShowInfo();
     }
   }
 
@@ -43,6 +52,14 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
     final decks = await getDecksInfo(userId: userId);
     setState(() {
       decksInfo = decks;
+    });
+  }
+
+  Future<void> loadShowInfo() async {
+    final UserShow? data = await getShowInfo(apiId: apiId, userId: userId);
+
+    setState(() {
+      userShow = data;
       finishedLoading = true;
     });
   }
@@ -67,10 +84,10 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                 scrollDirection: Axis.vertical,
                 physics: BouncingScrollPhysics(),
                 child: RadioGroup<int>(
-                  groupValue: selectedValue,
+                  groupValue: selectedDeckId,
                   onChanged: (int? value) {
                     setState(() {
-                      selectedValue = value;
+                      selectedDeckId = value;
                     });
                   },
                   child: Column(
@@ -89,7 +106,43 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
             ),
             SizedBox(height: 10),
             CustomFilledButton(
-              onPressed: () async => {},
+              onPressed: () async {
+                final secureStorage = FlutterSecureStorage();
+                final token = await secureStorage.read(
+                  key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                );
+
+                final changeUserShowInfoResponse = await http.post(
+                  Uri.parse('${dotenv.env['API_URL']!}/user/show/$userId'),
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer $token',
+                  },
+                  body: jsonEncode({
+                    'apiId': userShow?.show.apiId,
+                    'name': userShow?.show.name,
+                    'imageUrl': userShow?.show.imageUrl,
+                    'summary': userShow?.show.summary,
+                    'deckId': selectedDeckId,
+                  }),
+                );
+
+                if (changeUserShowInfoResponse.statusCode == 200) {
+                  showMessage(context, "Added show to deck.");
+                } else {
+                  print("Response body: ${changeUserShowInfoResponse.body}");
+
+                  final responseData = jsonDecode(
+                    changeUserShowInfoResponse.body,
+                  );
+                  final message =
+                      responseData['message'] ?? 'Something went wrong.';
+
+                  showMessage(context, message);
+                }
+
+                Navigator.pop(context);
+              },
               child: Text("Add to Deck"),
             ),
             SizedBox(height: 40),

@@ -24,7 +24,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
   User? userInfo;
 
   Deck? deck;
-  String? deckId;
+  int? deckId;
 
   bool finishedLoading = false;
 
@@ -41,7 +41,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
 
     if (deckId == null) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
-      deckId = args['deckId'].toString();
+      deckId = args['deckId'];
     }
   }
 

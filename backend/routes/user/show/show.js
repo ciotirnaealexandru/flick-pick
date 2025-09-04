@@ -43,7 +43,7 @@ router.post(
   adminOrSelfRequired,
   async (req, res) => {
     try {
-      const { apiId, name, imageUrl, summary, userRating, deckName } = req.body;
+      const { apiId, name, imageUrl, summary, userRating, deckId } = req.body;
 
       if (!apiId)
         return res.status(404).json({ message: "Api Id is required." });
@@ -56,8 +56,8 @@ router.post(
       if (!summary)
         return res.status(404).json({ message: "Summary is required." });
 
-      if (!deckName)
-        return res.status(404).json({ message: "Deck Name is required." });
+      if (!deckId)
+        return res.status(404).json({ message: "Deck Id is required." });
 
       // check if the show already exists in my database
       // if not, add it
@@ -81,14 +81,11 @@ router.post(
       // search for the deck
       const deck = await prisma.deck.findUnique({
         where: {
-          name_userId: {
-            name: deckName,
-            userId: parseInt(req.params.user_id),
-          },
+          id: deckId,
         },
       });
 
-      if (!deck) res.status(404).json({ message: "Deck not found." });
+      if (!deck) return res.status(404).json({ message: "Deck not found." });
 
       // add the show for the user
       const userShow = await prisma.userShow.upsert({
@@ -100,13 +97,13 @@ router.post(
         },
         update: {
           userRating: userRating,
-          deckId: deck.id,
+          deckId: deckId,
         },
         create: {
           userId: parseInt(req.params.user_id),
           showId: show.id,
           userRating: userRating,
-          deckId: deck.id,
+          deckId: deckId,
         },
         include: {
           show: true,

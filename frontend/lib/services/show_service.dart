@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-Future<UserShow?> getShowInfo({String? userId, String? apiId}) async {
+Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
   try {
     // get the bearer token
     final secureStorage = FlutterSecureStorage();
