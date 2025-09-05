@@ -58,10 +58,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
 
   Future<void> loadDecksInfo() async {
     final decks = await getDecksInfo(userId: userInfo!.id);
-    final fullDeck = await getFullDeckInfo(
-      decksInfo: decks,
-      userId: userInfo!.id,
-    );
+    final fullDeck = await getFullDeckInfo(userId: userInfo!.id);
 
     setState(() {
       decksInfo = [fullDeck!, ...decks!];

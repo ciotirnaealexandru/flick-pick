@@ -31,15 +31,34 @@ Future<List<Deck>?> getDecksInfo({int? userId}) async {
   }
 }
 
-Future<Deck?> getFullDeckInfo({List<Deck>? decksInfo, int? userId}) async {
-  List<UserShow> shows = [];
-  Deck fullDeck;
+Future<Deck?> getFullDeckInfo({required int userId}) async {
+  try {
+    final secureStorage = FlutterSecureStorage();
+    final token = await secureStorage.read(
+      key: dotenv.env['SECURE_STORAGE_SECRET']!,
+    );
 
-  for (final deck in decksInfo!) {
-    shows.addAll(deck.userShows);
+    final showsResponse = await http.get(
+      Uri.parse('${dotenv.env['API_URL']!}/user/show/all/$userId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (showsResponse.statusCode != 200) {
+      return Deck(id: 0, name: "All Shows", userId: userId, userShows: []);
+    }
+
+    final List<dynamic> showsJson = jsonDecode(showsResponse.body);
+    final List<UserShow> shows =
+        showsJson
+            .map((json) => UserShow.fromJson(json as Map<String, dynamic>))
+            .toList();
+
+    return Deck(id: 0, name: "All Shows", userId: userId, userShows: shows);
+  } catch (error) {
+    print("Error fetching full deck: $error");
+    return null;
   }
-
-  fullDeck = Deck(id: 0, name: "All Shows", userId: userId!, userShows: shows);
-
-  return fullDeck;
 }

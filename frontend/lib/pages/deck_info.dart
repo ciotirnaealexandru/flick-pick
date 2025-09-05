@@ -71,11 +71,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
   Future<void> getIndividualDeckInfo() async {
     // check for the full deck
     if (deckId == 0) {
-      final decks = await getDecksInfo(userId: userInfo!.id);
-      final fullDeck = await getFullDeckInfo(
-        decksInfo: decks,
-        userId: userInfo!.id,
-      );
+      final fullDeck = await getFullDeckInfo(userId: userInfo!.id);
 
       setState(() {
         deckInfo = fullDeck;
