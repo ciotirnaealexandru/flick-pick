@@ -127,6 +127,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                       );
 
                       if (changeUserShowInfoResponse.statusCode == 200) {
+                        if (!context.mounted) return;
                         showMessage(context, "Removed show.");
                       } else {
                         print(
@@ -139,6 +140,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                         final message =
                             responseData['message'] ?? 'Something went wrong.';
 
+                        if (!context.mounted) return;
                         showMessage(context, message);
                       }
 
@@ -172,6 +174,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                 );
 
                 if (changeUserShowInfoResponse.statusCode == 200) {
+                  if (!context.mounted) return;
                   showMessage(context, "Added show to deck.");
                 } else {
                   print("Response body: ${changeUserShowInfoResponse.body}");
@@ -182,6 +185,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                   final message =
                       responseData['message'] ?? 'Something went wrong.';
 
+                  if (!context.mounted) return;
                   showMessage(context, message);
                 }
 

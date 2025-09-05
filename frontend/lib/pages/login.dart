@@ -103,8 +103,10 @@ class _FormScreenState extends State<FormScreen> {
                     value: token,
                   );
 
+                  if (!context.mounted) return;
                   Navigator.pushReplacementNamed(context, '/search');
                 } else {
+                  if (!context.mounted) return;
                   showMessage(context, "Login failed.");
                 }
               }

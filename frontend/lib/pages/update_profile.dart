@@ -151,6 +151,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
 
                     if (response.statusCode == 200) {
                       await widget.loadUserInfo();
+                      if (!context.mounted) return;
                       showMessage(context, "Profile changed successfully.");
                     } else {
                       print("Response body: ${response.body}");
@@ -159,6 +160,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
                       final message =
                           responseData['message'] ?? 'Something went wrong.';
 
+                      if (!context.mounted) return;
                       showMessage(context, message);
                     }
                   }
@@ -234,6 +236,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                             key: dotenv.env['SECURE_STORAGE_SECRET']!,
                           );
 
+                          if (!context.mounted) return;
                           Navigator.pushReplacementNamed(context, '/login');
                         } else {
                           print("Response body: ${response.body}");
@@ -243,6 +246,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                               responseData['message'] ??
                               'Something went wrong.';
 
+                          if (!context.mounted) return;
                           showMessage(context, message);
                         }
                       },

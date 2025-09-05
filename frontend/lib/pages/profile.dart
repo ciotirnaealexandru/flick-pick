@@ -115,6 +115,7 @@ class _ProfileState extends State<Profile> {
                     key: dotenv.env['SECURE_STORAGE_SECRET']!,
                   );
 
+                  if (!context.mounted) return;
                   Navigator.pushReplacementNamed(context, '/login');
                 },
 

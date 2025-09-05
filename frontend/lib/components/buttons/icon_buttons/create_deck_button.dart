@@ -49,6 +49,7 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
     );
 
     if (createDeckResponse.statusCode == 200) {
+      if (!mounted) return;
       showMessage(context, "Deck successfully created.");
     } else {
       print("Response body: ${createDeckResponse.body}");
@@ -56,6 +57,7 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
       final responseData = jsonDecode(createDeckResponse.body);
       final message = responseData['message'] ?? 'Something went wrong.';
 
+      if (!mounted) return;
       showMessage(context, message);
     }
 

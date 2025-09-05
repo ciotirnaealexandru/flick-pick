@@ -220,6 +220,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                                         responseData['message'] ??
                                         'Something went wrong.';
 
+                                    if (!context.mounted) return;
                                     showMessage(context, message);
                                   }
 

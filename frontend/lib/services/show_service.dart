@@ -27,7 +27,6 @@ Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
 
     // make sure we include an user in the service, if not, return the main info
     if (userId == null) return UserShow(show: Show.fromJson(mainInfoJson));
-    ;
 
     // get the user info if it exists
     final userShowResponse = await http.get(
@@ -39,8 +38,9 @@ Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
     );
 
     // if response failed return the main info
-    if (userShowResponse.statusCode != 200)
+    if (userShowResponse.statusCode != 200) {
       return UserShow(show: Show.fromJson(mainInfoJson));
+    }
 
     final userShowJson =
         json.decode(userShowResponse.body) as Map<String, dynamic>;

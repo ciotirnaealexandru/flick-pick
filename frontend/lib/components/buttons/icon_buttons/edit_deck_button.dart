@@ -56,6 +56,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
       );
 
       if (updateDeckResponse.statusCode == 200) {
+        if (!context.mounted) return;
         showMessage(context, "Changed deck name.");
       } else {
         print("Response body: ${updateDeckResponse.body}");
@@ -63,6 +64,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
         final responseData = jsonDecode(updateDeckResponse.body);
         final message = responseData['message'] ?? 'Something went wrong.';
 
+        if (!context.mounted) return;
         showMessage(context, message);
       }
 
@@ -121,6 +123,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
       );
 
       if (deleteDeckResponse.statusCode == 200) {
+        if (!context.mounted) return;
         showMessage(context, "Successfully deleted deck.");
       } else {
         print("Response body: ${deleteDeckResponse.body}");
@@ -128,6 +131,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
         final responseData = jsonDecode(deleteDeckResponse.body);
         final message = responseData['message'] ?? 'Something went wrong.';
 
+        if (!context.mounted) return;
         showMessage(context, message);
       }
 
@@ -176,6 +180,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
                   () => {
                     Navigator.pop(context),
                     Future.delayed(const Duration(milliseconds: 300), () {
+                      if (!rootContext.mounted) return;
                       _changeNameOptions(rootContext);
                     }),
                   },
@@ -187,6 +192,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
                   () => {
                     Navigator.pop(context),
                     Future.delayed(const Duration(milliseconds: 300), () {
+                      if (!context.mounted) return;
                       _deleteDeckOptions(rootContext);
                     }),
                   },

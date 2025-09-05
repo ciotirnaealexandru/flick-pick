@@ -6,7 +6,6 @@ import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/components/buttons/icon_buttons/add_show_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/edit_deck_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
-import 'package:frontend/components/cards/add_show_card.dart';
 import 'package:frontend/components/cards/no_shows_found_card.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/main.dart';
@@ -143,10 +142,11 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
                     children: [
                       SortButton(),
                       SizedBox(width: 10),
-                      EditDeckButton(
-                        userId: userInfo!.id,
-                        deckId: deckInfo!.id,
-                      ),
+                      if (deckId != 0)
+                        EditDeckButton(
+                          userId: userInfo!.id,
+                          deckId: deckInfo!.id,
+                        ),
                       SizedBox(width: 10),
                       AddShowButton(),
                     ],

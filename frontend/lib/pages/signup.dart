@@ -149,12 +149,14 @@ class _FormScreenState extends State<FormScreen> {
                 );
 
                 if (response.statusCode == 200) {
+                  if (!context.mounted) return;
                   Navigator.pushReplacementNamed(context, '/login');
                 } else {
                   final responseData = jsonDecode(response.body);
                   final message =
                       responseData['message'] ?? 'Something went wrong';
 
+                  if (!context.mounted) return;
                   showMessage(context, message);
                 }
               }
