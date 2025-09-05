@@ -26,7 +26,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
   List<Deck>? decksInfo;
   bool finishedLoading = false;
 
-  int? selectedDeckId;
+  int? selectedDeckId = 0;
 
   Future<void> searchDecks(text) async {}
 
@@ -153,6 +153,9 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
             SizedBox(height: 10),
             CustomFilledButton(
               onPressed: () async {
+                // make sure the user selected a deck
+                if (selectedDeckId == 0) return;
+
                 final secureStorage = FlutterSecureStorage();
                 final token = await secureStorage.read(
                   key: dotenv.env['SECURE_STORAGE_SECRET']!,
