@@ -32,19 +32,23 @@ TV Show app for for TV Show lovers.
 
 `/user/login` - POST (_any_) ✅
 
+`/user/me` - GET (_JWT Required_) ✅
+
 `/user/all` - GET (_ADMIN_) ✅
 
 `/user/:user_id` - GET, PATCH, DELETE (_ADMIN_ or _USER_) ✅
 
-`/user/me` - GET (_JWT Required_) ✅
+### /user/deck
+
+`/user/deck/all/:user_id` - GET (_ADMIN_ or _USER_) ✅
+
+`/user/deck/:user_id` - POST (_ADMIN_ or _USER_) ✅
+
+`/user/deck/:user_id/:deck_id` - GET, PATCH, DELETE (_ADMIN_ or _USER_) ✅
 
 ### /user/show
 
 `/user/show/all/:user_id` - GET (_ADMIN_ or _USER_) ✅
-
-`/user/show/watched/:user_id` - GET (_ADMIN_ or _USER_) ✅
-
-`/user/show/future/:user_id` - GET (_ADMIN_ or _USER_) ✅
 
 `/user/show/:user_id` - POST (_ADMIN_ or _USER_) ✅
 
