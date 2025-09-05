@@ -10,6 +10,7 @@ import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
+import 'package:frontend/services/deck_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,7 +24,7 @@ class DeckInfo extends StatefulWidget {
 class _DeckInfoState extends State<DeckInfo> with RouteAware {
   User? userInfo;
 
-  Deck? deck;
+  Deck? deckInfo;
   int? deckId;
 
   bool finishedLoading = false;
@@ -68,27 +69,42 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
   }
 
   Future<void> getIndividualDeckInfo() async {
-    // get the bearer token
-    final secureStorage = FlutterSecureStorage();
-    final token = await secureStorage.read(
-      key: dotenv.env['SECURE_STORAGE_SECRET']!,
-    );
+    if (deckId == 0) {
+      final decks = await getDecksInfo(userId: userInfo!.id);
+      final fullDeck = await getFullDeckInfo(
+        decksInfo: decks,
+        userId: userInfo!.id,
+      );
 
-    // get the deck info if it exists
-    final deckResponse = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/user/deck/${userInfo?.id}/$deckId'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
+      setState(() {
+        deckInfo = fullDeck;
+        finishedLoading = true;
+      });
+    } else {
+      // get the bearer token
+      final secureStorage = FlutterSecureStorage();
+      final token = await secureStorage.read(
+        key: dotenv.env['SECURE_STORAGE_SECRET']!,
+      );
 
-    final decksJson = json.decode(deckResponse.body);
+      // get the deck info if it exists
+      final deckResponse = await http.get(
+        Uri.parse(
+          '${dotenv.env['API_URL']!}/user/deck/${userInfo?.id}/$deckId',
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-    setState(() {
-      deck = Deck.fromJson(decksJson);
-      finishedLoading = true;
-    });
+      final decksJson = json.decode(deckResponse.body);
+
+      setState(() {
+        deckInfo = Deck.fromJson(decksJson);
+        finishedLoading = true;
+      });
+    }
   }
 
   Future<void> searchDeck(text) async {}
@@ -110,7 +126,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: CustomSearchBar(
-                  label: "Search ${deck?.name}",
+                  label: "Search ${deckInfo?.name}",
                   searchFunction: searchDeck,
                 ),
               ),
@@ -127,7 +143,10 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
                       SortButton(),
                       SizedBox(width: 10),
                       if (finishedLoading == true)
-                        EditDeckButton(userId: userInfo!.id, deckId: deck!.id),
+                        EditDeckButton(
+                          userId: userInfo!.id,
+                          deckId: deckInfo!.id,
+                        ),
                     ],
                   ),
                 ),
@@ -138,11 +157,13 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
         ),
       ),
       body:
-          finishedLoading && deck!.userShows.isEmpty
+          finishedLoading && deckInfo!.userShows.isEmpty
               ? Center(child: NoShowsFoundCard())
               : ShowGrid(
                 shows:
-                    deck?.userShows.map((userShow) => userShow.show).toList() ??
+                    deckInfo?.userShows
+                        .map((userShow) => userShow.show)
+                        .toList() ??
                     [],
               ),
     );

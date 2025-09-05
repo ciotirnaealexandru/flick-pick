@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/models/deck_model.dart';
+import 'package:frontend/models/user_show_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -28,4 +29,17 @@ Future<List<Deck>?> getDecksInfo({int? userId}) async {
   } else {
     return null;
   }
+}
+
+Future<Deck?> getFullDeckInfo({List<Deck>? decksInfo, int? userId}) async {
+  List<UserShow> shows = [];
+  Deck fullDeck;
+
+  for (final deck in decksInfo!) {
+    shows.addAll(deck.userShows);
+  }
+
+  fullDeck = Deck(id: 0, name: "All Shows", userId: userId!, userShows: shows);
+
+  return fullDeck;
 }

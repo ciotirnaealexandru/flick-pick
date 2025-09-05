@@ -52,14 +52,19 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
       userInfo = user;
     });
     if (user != null) {
-      loadDecksInfo();
+      await loadDecksInfo();
     }
   }
 
   Future<void> loadDecksInfo() async {
     final decks = await getDecksInfo(userId: userInfo!.id);
+    final fullDeck = await getFullDeckInfo(
+      decksInfo: decks,
+      userId: userInfo!.id,
+    );
+
     setState(() {
-      decksInfo = decks;
+      decksInfo = [fullDeck!, ...decks!];
       finishedLoading = true;
     });
   }

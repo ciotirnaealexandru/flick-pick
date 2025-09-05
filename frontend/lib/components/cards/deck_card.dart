@@ -3,6 +3,7 @@ import 'package:frontend/components/buttons/button_models/custom_transparent_but
 import 'package:frontend/components/cards/add_show_card.dart';
 import 'package:frontend/components/cards/show_card.dart';
 import 'package:frontend/models/deck_model.dart';
+import 'package:frontend/pages/deck_info.dart';
 
 class DeckCard extends StatefulWidget {
   final Deck deck;
