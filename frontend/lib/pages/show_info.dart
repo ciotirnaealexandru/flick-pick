@@ -90,7 +90,6 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
         showRating = false;
       }
 
-      print(userShow?.toJson());
       finishedLoading = true;
     });
   }

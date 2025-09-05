@@ -69,6 +69,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
   }
 
   Future<void> getIndividualDeckInfo() async {
+    // check for the full deck
     if (deckId == 0) {
       final decks = await getDecksInfo(userId: userInfo!.id);
       final fullDeck = await getFullDeckInfo(
@@ -80,7 +81,9 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
         deckInfo = fullDeck;
         finishedLoading = true;
       });
-    } else {
+    }
+    // if not, then it's a normal deck
+    else {
       // get the bearer token
       final secureStorage = FlutterSecureStorage();
       final token = await secureStorage.read(
