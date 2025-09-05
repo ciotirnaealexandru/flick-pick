@@ -2,31 +2,47 @@ const express = require("express");
 const router = express.Router();
 
 // this is used to strip HTML formatting from things like show summaries
-const stripHTMLTags = require("../../helpers/stripHTMLTags");
 const getYear = require("../../helpers/getYear");
-
-const prisma = require("../../prismaClient");
-
-// middlewares
-const {
-  authenticateToken,
-  adminRequired,
-  adminOrSelfRequired,
-} = require("../middlewares");
 
 // gets a list of the default popular shows from the API
 router.get("/popular", async (req, res) => {
   try {
-    const response = await fetch("https://api.tvmaze.com/shows");
-    const data = await response.json();
+    const requests = [];
+
+    for (let i = 1; i <= 3; i++) {
+      requests.push(
+        fetch(
+          `https://api.themoviedb.org/3/tv/popular?include_adult=false&language=en-US&page=${i}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.API_READ_ACCESS_TOKEN}`,
+              accept: "application/json",
+            },
+          }
+        ).then((res) => res.json())
+      );
+    }
+
+    const data = await Promise.all(requests);
+    const allResults = data.flatMap((page) => page.results);
+
+    const baseUrl = "https://image.tmdb.org/t/p/";
+    const size = "w185";
 
     // get only the fields i like
-    const simplified = data.map((show) => ({
-      apiId: show.id,
-      name: show.name,
-      imageUrl: show.image?.medium,
-      summary: show.summary,
-    }));
+    const simplified = allResults.map((show) => {
+      const posterPath = show.poster_path;
+      const fullPosterUrl = posterPath
+        ? `${baseUrl}${size}${posterPath}`
+        : null;
+
+      return {
+        apiId: show.id,
+        name: show.name,
+        imageUrl: fullPosterUrl,
+        summary: show.overview,
+      };
+    });
 
     res.status(200).json(simplified);
   } catch (error) {
@@ -35,22 +51,39 @@ router.get("/popular", async (req, res) => {
   }
 });
 
-// gets a list of 10 (this is the default of the API)
 router.get("/search/:name", async (req, res) => {
   try {
     const parsedName = encodeURIComponent(req.params.name);
+
     const response = await fetch(
-      `https://api.tvmaze.com/search/shows?q=${parsedName}`
+      `https://api.themoviedb.org/3/search/tv?include_adult=false&language=en-US&page=1&query=${parsedName}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.API_READ_ACCESS_TOKEN}`,
+          accept: "application/json",
+        },
+      }
     );
+
     const data = await response.json();
 
+    const baseUrl = "https://image.tmdb.org/t/p/";
+    const size = "w185";
+
     // get only the fields i like
-    const simplified = data.map((show) => ({
-      apiId: show.show.id,
-      name: show.show.name,
-      imageUrl: show.show.image?.medium,
-      summary: show.show.summary,
-    }));
+    const simplified = data.results.map((show) => {
+      const posterPath = show.poster_path;
+      const fullPosterUrl = posterPath
+        ? `${baseUrl}${size}${posterPath}`
+        : null;
+
+      return {
+        apiId: show.id,
+        name: show.name,
+        imageUrl: fullPosterUrl,
+        summary: show.overview,
+      };
+    });
 
     res.status(200).json(simplified);
   } catch (error) {
@@ -64,46 +97,36 @@ router.get("/more/:api_id", async (req, res) => {
   try {
     // get the main show info
     const showsIdResponse = await fetch(
-      `https://api.tvmaze.com/shows/${req.params.api_id}`
+      `https://api.themoviedb.org/3/tv/${req.params.api_id}?language=en-US`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.API_READ_ACCESS_TOKEN}`,
+          accept: "application/json",
+        },
+      }
     );
+
     const mainData = await showsIdResponse.json();
 
-    const networkName =
-      mainData.network?.name ?? mainData.webChannel?.name ?? "Unknown Network";
-    const endingYear =
-      mainData.status === "Ended" ? getYear(mainData.ended) : "2025";
+    const networkName = mainData.networks?.[0]?.name ?? "Unknown Network";
+    const baseUrl = "https://image.tmdb.org/t/p/";
+    const size = "w185";
 
-    // get the seasons info
-    const seasonsResponse = await fetch(
-      `https://api.tvmaze.com/shows/${req.params.api_id}/seasons`
-    );
-    const seasonsData = await seasonsResponse.json();
+    const posterPath = mainData.poster_path;
+    const fullPosterUrl = posterPath ? `${baseUrl}${size}${posterPath}` : null;
 
-    // get only the seasons info that i like
-    const seasonsArray = Array.isArray(seasonsData) ? seasonsData : [];
-    const seasonsInfo = seasonsArray.map((seasonsData) => ({
-      id: seasonsData.id,
-      number: seasonsData.number,
-      name: seasonsData.name,
-      imageUrl: seasonsData.image?.medium,
-      summary: stripHTMLTags(seasonsData.summary),
-      episodeOrder: seasonsData.episodeOrder,
-    }));
-
-    // get only the show info that i like
-    const showInfo = {
+    const simplified = {
       apiId: mainData.id,
       name: mainData.name,
-      imageUrl: mainData.image?.medium,
-      summary: stripHTMLTags(mainData.summary),
-      genres: mainData.genres,
-      premiered: getYear(mainData.premiered),
-      ended: endingYear,
+      imageUrl: fullPosterUrl,
+      summary: mainData.overview,
+      genres: mainData.genres?.map((g) => g.name) || [],
+      premiered: getYear(mainData.first_air_date),
+      ended: getYear(mainData.last_air_date),
       network: networkName,
-      seasonsInfo: seasonsInfo,
     };
 
-    res.status(200).json(showInfo);
+    res.status(200).json(simplified);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch show." });

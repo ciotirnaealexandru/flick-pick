@@ -14,7 +14,7 @@ class ShowGrid extends StatelessWidget {
         crossAxisCount: 3,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 210 / 295,
+        childAspectRatio: 2 / 3,
       ),
       itemCount: shows?.length,
       itemBuilder: (context, i) {

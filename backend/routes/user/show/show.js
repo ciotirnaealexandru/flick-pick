@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const prisma = require("../../../prismaClient");
 
-const stripHTMLTags = require("../../../helpers/stripHTMLTags");
-
 // middlewares
 const {
   authenticateToken,
@@ -68,13 +66,13 @@ router.post(
         update: {
           name: name,
           imageUrl: imageUrl,
-          summary: stripHTMLTags(summary),
+          summary: summary,
         },
         create: {
           apiId: parseInt(apiId),
           name: name,
           imageUrl: imageUrl,
-          summary: stripHTMLTags(summary),
+          summary: summary,
         },
       });
 

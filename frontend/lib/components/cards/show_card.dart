@@ -17,12 +17,13 @@ class ShowCard extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: CustomTransparentButton(
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
-          fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 200),
-          maxHeightDiskCache: 300,
-          maxWidthDiskCache: 210,
+        child: AspectRatio(
+          aspectRatio: 2 / 3,
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.cover,
+            fadeInDuration: Duration(milliseconds: 200),
+          ),
         ),
         onPressed: () {
           Navigator.pushNamed(
