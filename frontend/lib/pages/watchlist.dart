@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:frontend/components/buttons/icon_buttons/create_deck_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
@@ -11,9 +9,6 @@ import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/deck_service.dart';
 import 'package:frontend/services/user_service.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Watchlist extends StatefulWidget {
   const Watchlist({super.key});

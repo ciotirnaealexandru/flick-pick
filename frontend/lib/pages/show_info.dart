@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
+import 'package:frontend/components/show_message.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/models/user_show_model.dart';
 import 'package:frontend/services/user_service.dart';
@@ -26,8 +29,8 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
   UserShow? userShow;
 
   int? userRating;
-  bool showRating = false;
   String watchStatus = "Add Show";
+  bool showRating = false;
   bool finishedLoading = false;
 
   @override
@@ -81,8 +84,10 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
       userRating = userShow?.userRating;
       if (userShow?.deckId != null) {
         watchStatus = "Added";
+        showRating = true;
       } else {
         watchStatus = "Add Show";
+        showRating = false;
       }
 
       print(userShow?.toJson());
@@ -155,7 +160,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                             child: StarRating(
                               size: 38,
                               rating:
-                                  watchStatus != "Add Show"
+                                  watchStatus == "Added"
                                       ? (userRating?.toDouble() ?? 0)
                                       : 0,
                               color:
@@ -178,6 +183,46 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                                   );
 
                                   print(userRating);
+
+                                  final secureStorage = FlutterSecureStorage();
+                                  final token = await secureStorage.read(
+                                    key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                                  );
+
+                                  final changeUserShowInfoResponse = await http
+                                      .post(
+                                        Uri.parse(
+                                          '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}',
+                                        ),
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer $token',
+                                        },
+                                        body: jsonEncode({
+                                          'apiId': userShow?.show.apiId,
+                                          'name': userShow?.show.name,
+                                          'imageUrl': userShow?.show.imageUrl,
+                                          'summary': userShow?.show.summary,
+                                          'deckId': userShow?.deckId,
+                                          'userRating': userRating,
+                                        }),
+                                      );
+
+                                  if (changeUserShowInfoResponse.statusCode !=
+                                      200) {
+                                    print(
+                                      "Response body: ${changeUserShowInfoResponse.body}",
+                                    );
+
+                                    final responseData = jsonDecode(
+                                      changeUserShowInfoResponse.body,
+                                    );
+                                    final message =
+                                        responseData['message'] ??
+                                        'Something went wrong.';
+
+                                    showMessage(context, message);
+                                  }
 
                                   await loadShowInfo(apiId);
                                 }
