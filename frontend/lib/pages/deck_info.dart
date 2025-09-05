@@ -140,7 +140,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SortButton(),
+                      //SortButton(),
                       SizedBox(width: 10),
                       if (deckId != 0)
                         EditDeckButton(

@@ -71,7 +71,7 @@ router.get("/more/:api_id", async (req, res) => {
     const networkName =
       mainData.network?.name ?? mainData.webChannel?.name ?? "Unknown Network";
     const endingYear =
-      mainData.status === "Ended" ? getYear(mainData.ended) : "Present";
+      mainData.status === "Ended" ? getYear(mainData.ended) : "2025";
 
     // get the seasons info
     const seasonsResponse = await fetch(

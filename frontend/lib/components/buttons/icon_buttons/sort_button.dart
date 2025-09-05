@@ -4,15 +4,20 @@ import 'package:frontend/components/buttons/button_models/custom_icon_button.dar
 import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 
 class SortButton extends StatefulWidget {
-  const SortButton({super.key});
+  final String sortField;
+  final Future<void> Function(String) changeSortField;
+
+  const SortButton({
+    required this.sortField,
+    required this.changeSortField,
+    super.key,
+  });
 
   @override
   State<SortButton> createState() => _SortButtonState();
 }
 
 class _SortButtonState extends State<SortButton> {
-  String selected = "popular";
-
   void _openSortOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -24,41 +29,12 @@ class _SortButtonState extends State<SortButton> {
             CustomTransparentButton(
               onPressed:
                   () => {
-                    setState(() {
-                      selected = "popular";
-                    }),
-                    Navigator.pop(context),
-                  },
-
-              child: Container(
-                decoration:
-                    selected == "popular"
-                        ? BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              width: 2.5,
-                            ),
-                          ),
-                        )
-                        : null,
-                child: Text(
-                  "Popular",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ),
-            ),
-            CustomTransparentButton(
-              onPressed:
-                  () => {
-                    setState(() {
-                      selected = "newest";
-                    }),
+                    widget.changeSortField("Newest"),
                     Navigator.pop(context),
                   },
               child: Container(
                 decoration:
-                    selected == "newest"
+                    widget.sortField == "Newest"
                         ? BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
@@ -77,14 +53,12 @@ class _SortButtonState extends State<SortButton> {
             CustomTransparentButton(
               onPressed:
                   () => {
-                    setState(() {
-                      selected = "oldest";
-                    }),
+                    widget.changeSortField("Oldest"),
                     Navigator.pop(context),
                   },
               child: Container(
                 decoration:
-                    selected == "oldest"
+                    widget.sortField == "Oldest"
                         ? BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
@@ -103,14 +77,12 @@ class _SortButtonState extends State<SortButton> {
             CustomTransparentButton(
               onPressed:
                   () => {
-                    setState(() {
-                      selected = "alphabetically";
-                    }),
+                    widget.changeSortField("A to Z"),
                     Navigator.pop(context),
                   },
               child: Container(
                 decoration:
-                    selected == "alphabetically"
+                    widget.sortField == "A to Z"
                         ? BoxDecoration(
                           border: Border(
                             bottom: BorderSide(

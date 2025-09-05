@@ -23,6 +23,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   User? userInfo;
   List<Show> shows = [];
+  String sortField = "Newest";
   bool finishedLoading = false;
 
   @override
@@ -44,6 +45,8 @@ class _SearchState extends State<Search> {
     });
   }
 
+  void _sortShows() {}
+
   Future<void> getPopularShows() async {
     final response = await http.get(
       Uri.parse('${dotenv.env['API_URL']!}/show/popular'),
@@ -58,6 +61,7 @@ class _SearchState extends State<Search> {
               .map((json) => Show.fromJson(json))
               .where((show) => show.hasAllFields)
               .toList();
+      _sortShows();
       finishedLoading = true;
     });
   }
@@ -82,6 +86,13 @@ class _SearchState extends State<Search> {
               .map((json) => Show.fromJson(json))
               .where((show) => show.hasAllFields)
               .toList();
+      _sortShows();
+    });
+  }
+
+  Future<void> changeSortField(newSortField) async {
+    setState(() {
+      sortField = newSortField;
     });
   }
 
@@ -117,7 +128,14 @@ class _SearchState extends State<Search> {
 
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [SortButton(), SizedBox(width: 10), FilterButton()],
+                  children: [
+                    SortButton(
+                      sortField: sortField,
+                      changeSortField: changeSortField,
+                    ),
+                    SizedBox(width: 10),
+                    FilterButton(),
+                  ],
                 ),
               ),
             ),
