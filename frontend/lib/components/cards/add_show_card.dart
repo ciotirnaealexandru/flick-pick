@@ -31,7 +31,9 @@ class AddShowCard extends StatelessWidget {
           ),
         ),
 
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/search');
+        },
       ),
     );
   }

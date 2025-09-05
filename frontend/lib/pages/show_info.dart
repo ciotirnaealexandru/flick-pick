@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/models/user_show_model.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class ShowInfo extends StatefulWidget {
   State<ShowInfo> createState() => _ShowInfoState();
 }
 
-class _ShowInfoState extends State<ShowInfo> {
+class _ShowInfoState extends State<ShowInfo> with RouteAware {
   User? userInfo;
 
   int? apiId;
@@ -26,7 +27,7 @@ class _ShowInfoState extends State<ShowInfo> {
 
   int? userRating;
   bool showRating = false;
-  bool watchStatus = false;
+  String watchStatus = "Add Show";
   bool finishedLoading = false;
 
   @override
@@ -37,12 +38,25 @@ class _ShowInfoState extends State<ShowInfo> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
 
     if (apiId == null) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
       apiId = args['apiId'];
       loadUserInfo();
     }
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    loadUserInfo();
   }
 
   Future<void> loadUserInfo() async {
@@ -65,6 +79,13 @@ class _ShowInfoState extends State<ShowInfo> {
     setState(() {
       userShow = data;
       userRating = userShow?.userRating;
+      if (userShow?.deckId != null) {
+        watchStatus = "Added";
+      } else {
+        watchStatus = "Add Show";
+      }
+
+      print(userShow?.toJson());
       finishedLoading = true;
     });
   }
@@ -122,9 +143,7 @@ class _ShowInfoState extends State<ShowInfo> {
                                 },
                               ),
 
-                          child: Text(
-                            (userShow?.userId != null) ? "Added" : "Add Show",
-                          ),
+                          child: Text(watchStatus),
                         ),
                         SizedBox(height: 10),
                         IntrinsicWidth(
@@ -136,7 +155,7 @@ class _ShowInfoState extends State<ShowInfo> {
                             child: StarRating(
                               size: 38,
                               rating:
-                                  watchStatus != "NOT_WATCHED"
+                                  watchStatus != "Add Show"
                                       ? (userRating?.toDouble() ?? 0)
                                       : 0,
                               color:
