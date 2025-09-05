@@ -13,8 +13,8 @@ async function seedDatabase() {
       update: {},
       create: {
         email: "admin@gmail.com",
-        firstName: "Admin_firstName",
-        lastName: "Admin_lastName",
+        firstName: "Admin First",
+        lastName: "Admin Last",
         phone: "0000 000 000",
         password: await bcrypt.hash("admin", 12),
         role: Role.ADMIN,
@@ -34,8 +34,8 @@ async function seedDatabase() {
         update: {},
         create: {
           email: `user${i}@gmail.com`,
-          firstName: `User${i}_firstName`,
-          lastName: `User${i}_lastName`,
+          firstName: `User_${i} First`,
+          lastName: `User_${i} Last`,
           phone: `0000 000 000`,
           password: await bcrypt.hash("pass", 12),
           role: Role.USER,
