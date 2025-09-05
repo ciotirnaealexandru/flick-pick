@@ -217,7 +217,21 @@ router.delete(
         return res.status(404).json({ message: "User does not exist." });
       }
 
-      // if the user does exist, delete it
+      // delete the shows of that user
+      await prisma.userShow.deleteMany({
+        where: {
+          userId: parseInt(req.params.user_id),
+        },
+      });
+
+      // delete the decks of that user
+      await prisma.deck.deleteMany({
+        where: {
+          userId: parseInt(req.params.user_id),
+        },
+      });
+
+      // delete the user
       await prisma.user.delete({
         where: {
           id: parseInt(req.params.user_id),

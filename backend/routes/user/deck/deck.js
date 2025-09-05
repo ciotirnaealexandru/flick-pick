@@ -178,6 +178,14 @@ router.delete(
 
       if (!deck) return res.status(404).json({ message: "Deck not found." });
 
+      // delete the shows of those decks
+      await prisma.userShow.deleteMany({
+        where: {
+          deckId: parseInt(req.params.deck_id),
+        },
+      });
+
+      // delete the deck
       await prisma.deck.delete({
         where: {
           id: parseInt(req.params.deck_id),
