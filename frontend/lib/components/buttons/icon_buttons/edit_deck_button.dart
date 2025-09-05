@@ -192,7 +192,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
                   () => {
                     Navigator.pop(context),
                     Future.delayed(const Duration(milliseconds: 300), () {
-                      if (!context.mounted) return;
+                      if (!rootContext.mounted) return;
                       _deleteDeckOptions(rootContext);
                     }),
                   },
