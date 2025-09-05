@@ -76,6 +76,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         titleSpacing: 0,
         toolbarHeight: 120,
         title: Column(

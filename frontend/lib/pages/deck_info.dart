@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/bars/search_bar.dart';
+import 'package:frontend/components/buttons/icon_buttons/add_show_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/edit_deck_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
+import 'package:frontend/components/cards/add_show_card.dart';
 import 'package:frontend/components/cards/no_shows_found_card.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/main.dart';
@@ -141,11 +143,12 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
                     children: [
                       SortButton(),
                       SizedBox(width: 10),
-                      if (finishedLoading == true)
-                        EditDeckButton(
-                          userId: userInfo!.id,
-                          deckId: deckInfo!.id,
-                        ),
+                      EditDeckButton(
+                        userId: userInfo!.id,
+                        deckId: deckInfo!.id,
+                      ),
+                      SizedBox(width: 10),
+                      AddShowButton(),
                     ],
                   ),
                 ),

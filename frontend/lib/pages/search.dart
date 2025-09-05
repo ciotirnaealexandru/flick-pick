@@ -93,6 +93,7 @@ class _SearchState extends State<Search> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         titleSpacing: 0,
         toolbarHeight: 120,
         title: Column(
