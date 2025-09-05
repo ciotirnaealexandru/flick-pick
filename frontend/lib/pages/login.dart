@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/custom_form_field.dart';
 import 'package:frontend/components/show_message.dart';
@@ -73,44 +74,41 @@ class _FormScreenState extends State<FormScreen> {
             },
           ),
           const SizedBox(height: 20),
-          SizedBox(
-            width: double.infinity,
-            height: 40,
-            child: ElevatedButton(
-              child: Text("LOGIN"),
-              onPressed: () async {
-                final form = _formKey.currentState!;
 
-                if (form.validate()) {
-                  final email = _emailController.text.trim();
-                  final password = _passwordController.text;
+          CustomFilledButton(
+            child: Text("LOGIN"),
+            onPressed: () async {
+              final form = _formKey.currentState!;
 
-                  final response = await http.post(
-                    Uri.parse('${dotenv.env['API_URL']!}/user/login'),
-                    headers: {'Content-Type': 'application/json'},
-                    body: jsonEncode({'email': email, 'password': password}),
+              if (form.validate()) {
+                final email = _emailController.text.trim();
+                final password = _passwordController.text;
+
+                final response = await http.post(
+                  Uri.parse('${dotenv.env['API_URL']!}/user/login'),
+                  headers: {'Content-Type': 'application/json'},
+                  body: jsonEncode({'email': email, 'password': password}),
+                );
+
+                if (response.statusCode == 200) {
+                  final responseData = jsonDecode(response.body);
+                  final token = responseData['token'];
+
+                  // save the JWT to the Secure Storage
+                  print("Login successful! Token: $token");
+
+                  final secureStorage = FlutterSecureStorage();
+                  await secureStorage.write(
+                    key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                    value: token,
                   );
 
-                  if (response.statusCode == 200) {
-                    final responseData = jsonDecode(response.body);
-                    final token = responseData['token'];
-
-                    // save the JWT to the Secure Storage
-                    print("Login successful! Token: $token");
-
-                    final secureStorage = FlutterSecureStorage();
-                    await secureStorage.write(
-                      key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                      value: token,
-                    );
-
-                    Navigator.pushReplacementNamed(context, '/search');
-                  } else {
-                    showMessage(context, "Login failed.");
-                  }
+                  Navigator.pushReplacementNamed(context, '/search');
+                } else {
+                  showMessage(context, "Login failed.");
                 }
-              },
-            ),
+              }
+            },
           ),
           // a temporary button to skip the login
           SizedBox(height: 200),

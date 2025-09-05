@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/custom_form_field.dart';
 import 'package:frontend/components/show_message.dart';
@@ -125,43 +126,39 @@ class _FormScreenState extends State<FormScreen> {
             },
           ),
           const SizedBox(height: 15),
-          SizedBox(
-            width: double.infinity,
-            height: 40,
-            child: ElevatedButton(
-              child: Text("SIGN UP"),
-              onPressed: () async {
-                final form = _formKey.currentState!;
+          CustomFilledButton(
+            child: Text("SIGN UP"),
+            onPressed: () async {
+              final form = _formKey.currentState!;
 
-                if (form.validate()) {
-                  final firstName = _firstNameController.text.trim();
-                  final lastName = _lastNameController.text.trim();
-                  final email = _emailController.text.trim();
-                  final password = _passwordController.text;
+              if (form.validate()) {
+                final firstName = _firstNameController.text.trim();
+                final lastName = _lastNameController.text.trim();
+                final email = _emailController.text.trim();
+                final password = _passwordController.text;
 
-                  final response = await http.post(
-                    Uri.parse('${dotenv.env['API_URL']!}/user/signup'),
-                    headers: {'Content-Type': 'application/json'},
-                    body: jsonEncode({
-                      'firstName': firstName,
-                      'lastName': lastName,
-                      'email': email,
-                      'password': password,
-                    }),
-                  );
+                final response = await http.post(
+                  Uri.parse('${dotenv.env['API_URL']!}/user/signup'),
+                  headers: {'Content-Type': 'application/json'},
+                  body: jsonEncode({
+                    'firstName': firstName,
+                    'lastName': lastName,
+                    'email': email,
+                    'password': password,
+                  }),
+                );
 
-                  if (response.statusCode == 200) {
-                    Navigator.pushReplacementNamed(context, '/login');
-                  } else {
-                    final responseData = jsonDecode(response.body);
-                    final message =
-                        responseData['message'] ?? 'Something went wrong';
+                if (response.statusCode == 200) {
+                  Navigator.pushReplacementNamed(context, '/login');
+                } else {
+                  final responseData = jsonDecode(response.body);
+                  final message =
+                      responseData['message'] ?? 'Something went wrong';
 
-                    showMessage(context, message);
-                  }
+                  showMessage(context, message);
                 }
-              },
-            ),
+              }
+            },
           ),
         ],
       ),
