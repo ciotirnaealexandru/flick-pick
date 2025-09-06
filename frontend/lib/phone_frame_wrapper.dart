@@ -77,7 +77,7 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
                           ),
                         ),
                         Text(
-                          "Your Next Binge, \nOne Tap Away.",
+                          "Your Next Binge,\nOne Tap Away.",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
@@ -87,7 +87,7 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
                         ),
                         SizedBox(height: constraints.minHeight / 20),
                         Text(
-                          "by Alexandru-Cosmin Ciotirnae",
+                          "Developed by\nAlexandru-Cosmin Ciotirnae",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
