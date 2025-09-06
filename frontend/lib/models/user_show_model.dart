@@ -11,7 +11,7 @@ class UserShow {
   int? userId;
   int? showId;
   int? deckId;
-  DateTime? createdAt;
+  DateTime? updatedAt;
 
   Show show;
 
@@ -21,7 +21,7 @@ class UserShow {
     this.userId,
     this.showId,
     this.deckId,
-    this.createdAt,
+    this.updatedAt,
 
     required this.show,
   });
@@ -32,9 +32,9 @@ class UserShow {
     userId: json["userId"] as int?,
     showId: json["showId"] as int?,
     deckId: json["deckId"] as int?,
-    createdAt:
-        json["createdAt"] != null
-            ? DateTime.parse(json["createdAt"] as String)
+    updatedAt:
+        json["updatedAt"] != null
+            ? DateTime.parse(json["updatedAt"] as String)
             : null,
 
     show:

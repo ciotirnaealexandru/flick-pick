@@ -24,6 +24,7 @@ router.get(
           show: true,
           deck: true,
         },
+        orderBy: { updatedAt: "asc" },
       });
 
       res.status(200).json(shows);

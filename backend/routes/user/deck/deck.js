@@ -25,6 +25,7 @@ router.get(
             include: {
               show: true,
             },
+            orderBy: { updatedAt: "asc" },
           },
         },
       });

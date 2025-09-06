@@ -195,10 +195,10 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
     final sortedShows = shows;
 
     if (sortField == "Newest") {
-      sortedShows.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+      sortedShows.sort((a, b) => b.updatedAt!.compareTo(a.updatedAt!));
     }
     if (sortField == "Oldest") {
-      sortedShows.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+      sortedShows.sort((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
     }
     if (sortField == "A to Z") {
       sortedShows.sort(
