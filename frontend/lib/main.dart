@@ -12,7 +12,7 @@ import 'package:frontend/pages/watchlist.dart';
 import 'package:frontend/pages/add_to_watchlist.dart';
 
 import 'theme.dart';
-import 'phone_frame_wrapper.dart';
+import 'wrappers/phone_frame_wrapper.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> {
     return PhoneFrameWrapper(
       child: MaterialApp(
         navigatorObservers: [routeObserver],
+        scrollBehavior: NoScrollbarScrollBehavior(),
         debugShowCheckedModeBanner: false,
         title: 'Flick Pick',
         theme: appTheme,

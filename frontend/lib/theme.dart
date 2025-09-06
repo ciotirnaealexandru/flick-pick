@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,7 +38,7 @@ final ThemeData appTheme = ThemeData(
   textTheme: TextTheme(
     displayLarge: TextStyle(
       fontSize: 30,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w900,
       color: _appColors.onPrimary,
       fontFamily: AppFonts.primary,
     ),
@@ -112,3 +113,20 @@ final ThemeData appTheme = ThemeData(
     unselectedLabelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
   ),
 );
+
+class NoScrollbarScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildScrollbar(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
+    return child;
+  }
+
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
+}
