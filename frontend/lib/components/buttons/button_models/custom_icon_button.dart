@@ -25,7 +25,7 @@ class CustomIconButton extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, size: 25, color: Theme.of(context).colorScheme.onPrimary),
-          SizedBox(width: 6),
+          SizedBox(width: 8),
           Text(
             text,
             style: Theme.of(

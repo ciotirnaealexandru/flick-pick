@@ -32,34 +32,38 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             color: Theme.of(context).colorScheme.primary,
           ),
           height: 50,
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () async => await widget.searchFunction(),
-                icon: Icon(Icons.search, size: 25),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  alignment: Alignment.centerLeft,
-                  child: TextField(
-                    controller: widget.controller,
-                    decoration: InputDecoration(
-                      hintText: widget.label,
-                      hintStyle: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                      border: InputBorder.none,
-                    ),
-                    onSubmitted: (text) async => await widget.searchFunction(),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      decoration: TextDecoration.none,
-                      decorationThickness: 0,
-                      fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () async => await widget.searchFunction(),
+                  icon: Icon(Icons.search, size: 25),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: TextField(
+                      controller: widget.controller,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(vertical: 5),
+                        hintText: widget.label,
+                        hintStyle: Theme.of(context).textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                        border: InputBorder.none,
+                      ),
+                      onSubmitted:
+                          (text) async => await widget.searchFunction(),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        decoration: TextDecoration.none,
+                        decorationThickness: 0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
