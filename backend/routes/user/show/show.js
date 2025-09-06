@@ -42,7 +42,8 @@ router.post(
   adminOrSelfRequired,
   async (req, res) => {
     try {
-      const { apiId, name, imageUrl, summary, userRating, deckId } = req.body;
+      const { apiId, name, imageUrl, summary, userRating, premiered, deckId } =
+        req.body;
 
       if (!apiId)
         return res.status(404).json({ message: "Api Id is required." });
@@ -54,6 +55,9 @@ router.post(
 
       if (!summary)
         return res.status(404).json({ message: "Summary is required." });
+
+      if (!premiered)
+        return res.status(404).json({ message: "Premiered is required." });
 
       if (!deckId)
         return res.status(404).json({ message: "Deck Id is required." });
@@ -68,12 +72,14 @@ router.post(
           name: name,
           imageUrl: imageUrl,
           summary: summary,
+          premiered: premiered,
         },
         create: {
           apiId: parseInt(apiId),
           name: name,
           imageUrl: imageUrl,
           summary: summary,
+          premiered: premiered,
         },
       });
 

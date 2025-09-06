@@ -5,10 +5,12 @@ import 'package:frontend/components/buttons/button_models/custom_transparent_but
 
 class SortButton extends StatefulWidget {
   final String sortField;
+  final List<String> sortFieldOptions;
   final Future<void> Function(String) changeSortField;
 
   const SortButton({
     required this.sortField,
+    required this.sortFieldOptions,
     required this.changeSortField,
     super.key,
   });
@@ -25,78 +27,33 @@ class _SortButtonState extends State<SortButton> {
       builder: (context) {
         return BottomModal(
           modalSize: ModalSize.small,
-          children: [
-            CustomTransparentButton(
-              onPressed: () async {
-                widget.changeSortField("Oldest");
-                Navigator.pop(context);
-              },
-              child: Container(
-                decoration:
-                    widget.sortField == "Oldest"
-                        ? BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              width: 2.5,
-                            ),
-                          ),
-                        )
-                        : null,
-                child: Text(
-                  "Oldest",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ),
-            ),
-
-            CustomTransparentButton(
-              onPressed: () async {
-                widget.changeSortField("Newest");
-                Navigator.pop(context);
-              },
-              child: Container(
-                decoration:
-                    widget.sortField == "Newest"
-                        ? BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              width: 2.5,
-                            ),
-                          ),
-                        )
-                        : null,
-                child: Text(
-                  "Newest",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ),
-            ),
-            CustomTransparentButton(
-              onPressed: () {
-                widget.changeSortField("A to Z");
-                Navigator.pop(context);
-              },
-              child: Container(
-                decoration:
-                    widget.sortField == "A to Z"
-                        ? BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              width: 2.5,
-                            ),
-                          ),
-                        )
-                        : null,
-                child: Text(
-                  "A to Z",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ),
-            ),
-          ],
+          children:
+              widget.sortFieldOptions.map((option) {
+                return CustomTransparentButton(
+                  onPressed: () async {
+                    await widget.changeSortField(option);
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    decoration:
+                        widget.sortField == option
+                            ? BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  width: 2.5,
+                                ),
+                              ),
+                            )
+                            : null,
+                    child: Text(
+                      option,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ),
+                );
+              }).toList(),
         );
       },
     );

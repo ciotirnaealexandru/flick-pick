@@ -123,7 +123,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                         ),
                         SizedBox(height: 15),
                         Text(
-                          "${(userShow?.show.premiered != null || userShow?.show.ended != null) ? "${userShow?.show.premiered} - ${userShow?.show.ended}" : "Years N/A"} • ${userShow?.show.network}",
+                          "${(userShow?.show.premiered != null || userShow?.show.ended != null) ? "${userShow?.show.premiered.substring(0, 4)} - ${userShow?.show.ended!.substring(0, 4)}" : "Years N/A"} • ${userShow?.show.network}",
                           style: Theme.of(context).textTheme.bodyMedium,
                           softWrap: true,
                         ),
@@ -202,6 +202,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                                           'name': userShow?.show.name,
                                           'imageUrl': userShow?.show.imageUrl,
                                           'summary': userShow?.show.summary,
+                                          'premiered': userShow?.show.premiered,
                                           'deckId': userShow?.deckId,
                                           'userRating': userRating,
                                         }),

@@ -172,6 +172,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                     'name': userShow?.show.name,
                     'imageUrl': userShow?.show.imageUrl,
                     'summary': userShow?.show.summary,
+                    'premiered': userShow?.show.premiered,
                     'deckId': selectedDeckId,
                   }),
                 );

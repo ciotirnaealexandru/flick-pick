@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-// this is used to strip HTML formatting from things like show summaries
-const getYear = require("../../helpers/getYear");
-
 // gets a list of the default popular shows from the API
 router.get("/popular", async (req, res) => {
   try {
@@ -41,6 +38,7 @@ router.get("/popular", async (req, res) => {
         name: show.name,
         imageUrl: fullPosterUrl,
         summary: show.overview,
+        premiered: show.first_air_date,
       };
     });
 
@@ -82,6 +80,7 @@ router.get("/search/:name", async (req, res) => {
         name: show.name,
         imageUrl: fullPosterUrl,
         summary: show.overview,
+        premiered: show.first_air_date,
       };
     });
 
@@ -121,8 +120,8 @@ router.get("/more/:api_id", async (req, res) => {
       imageUrl: fullPosterUrl,
       summary: mainData.overview,
       genres: mainData.genres?.map((g) => g.name) || [],
-      premiered: getYear(mainData.first_air_date),
-      ended: getYear(mainData.last_air_date),
+      premiered: mainData.first_air_date,
+      ended: mainData.last_air_date,
       network: networkName,
     };
 

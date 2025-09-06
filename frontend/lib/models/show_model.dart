@@ -9,8 +9,8 @@ class Show {
   String name;
   String imageUrl;
   String summary;
+  String premiered;
 
-  String? premiered;
   String? ended;
   String? network;
   List<String>? genres;
@@ -19,8 +19,8 @@ class Show {
     required this.name,
     required this.imageUrl,
     required this.summary,
+    required this.premiered,
 
-    this.premiered,
     this.ended,
     this.network,
     this.genres,
@@ -31,11 +31,11 @@ class Show {
     name: json["name"] ?? '',
     imageUrl: json["imageUrl"] ?? '',
     summary: json["summary"] ?? '',
+    premiered: json["premiered"] ?? '',
 
-    genres: json["genres"] != null ? List<String>.from(json["genres"]) : [],
-    premiered: json["premiered"] as String?,
     ended: json["ended"] as String?,
     network: json["network"] as String?,
+    genres: json["genres"] != null ? List<String>.from(json["genres"]) : [],
   );
 
   Map<String, dynamic> toJson() => {
@@ -43,13 +43,16 @@ class Show {
     "name": name,
     "imageUrl": imageUrl,
     "summary": summary,
-
     "premiered": premiered,
+
     "ended": ended,
     "network": network,
     "genres": genres,
   };
 
   bool get hasAllFields =>
-      name.isNotEmpty && imageUrl.isNotEmpty && summary.isNotEmpty;
+      name.isNotEmpty &&
+      imageUrl.isNotEmpty &&
+      summary.isNotEmpty &&
+      premiered.isNotEmpty;
 }

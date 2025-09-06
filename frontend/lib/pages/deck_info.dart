@@ -27,7 +27,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
   User? userInfo;
   Deck? deckInfo;
   int? deckId;
-  String sortField = "Oldest";
+  String sortField = "First Added";
   final searchBarController = TextEditingController();
   bool finishedLoading = false;
 
@@ -194,10 +194,10 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
   List<UserShow> _sortUserShows(List<UserShow> shows) {
     final sortedShows = shows;
 
-    if (sortField == "Newest") {
+    if (sortField == "Last Added") {
       sortedShows.sort((a, b) => b.updatedAt!.compareTo(a.updatedAt!));
     }
-    if (sortField == "Oldest") {
+    if (sortField == "First Added") {
       sortedShows.sort((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
     }
     if (sortField == "A to Z") {
@@ -249,6 +249,11 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SortButton(
+                        sortFieldOptions: [
+                          "First Added",
+                          "Last Added",
+                          "A to Z",
+                        ],
                         sortField: sortField,
                         changeSortField: changeSortField,
                       ),
