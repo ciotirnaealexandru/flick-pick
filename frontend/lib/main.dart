@@ -12,6 +12,7 @@ import 'package:frontend/pages/watchlist.dart';
 import 'package:frontend/pages/add_to_watchlist.dart';
 
 import 'theme.dart';
+import 'phone_frame_wrapper.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
@@ -32,24 +33,26 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorObservers: [routeObserver],
-      debugShowCheckedModeBanner: false,
-      title: 'Flick Pick',
-      theme: appTheme,
-      home: const Login(),
-      routes: {
-        '/login': (context) => const Login(),
-        '/signup': (context) => const Signup(),
-        '/search': (context) => const Search(),
-        '/profile': (context) => const Profile(),
-        '/update_profile': (context) => const UpdateProfile(),
-        '/show_info': (context) => const ShowInfo(),
-        '/watchlist': (context) => const Watchlist(),
-        '/add_to_watchlist': (context) => const AddToWatchlist(),
-        '/deck_info': (context) => const DeckInfo(),
-        '/filter': (context) => const Filter(),
-      },
+    return PhoneFrameWrapper(
+      child: MaterialApp(
+        navigatorObservers: [routeObserver],
+        debugShowCheckedModeBanner: false,
+        title: 'Flick Pick',
+        theme: appTheme,
+        home: const Login(),
+        routes: {
+          '/login': (context) => const Login(),
+          '/signup': (context) => const Signup(),
+          '/search': (context) => const Search(),
+          '/profile': (context) => const Profile(),
+          '/update_profile': (context) => const UpdateProfile(),
+          '/show_info': (context) => const ShowInfo(),
+          '/watchlist': (context) => const Watchlist(),
+          '/add_to_watchlist': (context) => const AddToWatchlist(),
+          '/deck_info': (context) => const DeckInfo(),
+          '/filter': (context) => const Filter(),
+        },
+      ),
     );
   }
 }

@@ -6,7 +6,7 @@ TV Show app for for TV Show lovers.
 
 **Login / SignUp Pages** (form validation, working endpoints)
 
-**Search Page** (connected with the _TVMaze API_, displays popular shows (with images), can search for shows by name)
+**Search Page** (connected with the The Movie Database API\_, displays popular shows (with images), can search for shows by name)
 
 **Show info Page** (can display info about the show)
 
