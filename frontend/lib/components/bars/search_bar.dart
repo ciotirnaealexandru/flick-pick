@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomSearchBar extends StatefulWidget {
-  final Future<void> Function(String) searchFunction;
+  final TextEditingController controller;
   final String label;
+  final Future<void> Function() searchFunction;
 
   const CustomSearchBar({
     super.key,
+    required this.controller,
     required this.label,
     required this.searchFunction,
   });
@@ -15,17 +17,9 @@ class CustomSearchBar extends StatefulWidget {
 }
 
 class _CustomSearchBarState extends State<CustomSearchBar> {
-  final controller = TextEditingController();
-
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -41,13 +35,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           child: Row(
             children: [
               IconButton(
-                onPressed: () async {
-                  // if the search button is pressed get the text
-                  final text = controller.text.trim();
-
-                  // send a a request to the backend to get the shows with those names
-                  await widget.searchFunction(text);
-                },
+                onPressed: () async => await widget.searchFunction(),
                 icon: Icon(Icons.search, size: 25),
               ),
               Expanded(
@@ -55,18 +43,14 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   alignment: Alignment.centerLeft,
                   child: TextField(
-                    controller: controller,
+                    controller: widget.controller,
                     decoration: InputDecoration(
                       hintText: widget.label,
                       hintStyle: Theme.of(context).textTheme.bodyMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
                       border: InputBorder.none,
                     ),
-                    onSubmitted: (text) async {
-                      // if the user pressed enter on keyboard
-                      // send a a request to the backend to get the shows with those names
-                      await widget.searchFunction(text);
-                    },
+                    onSubmitted: (text) async => await widget.searchFunction(),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       decoration: TextDecoration.none,
                       decorationThickness: 0,

@@ -24,6 +24,7 @@ class _SearchState extends State<Search> {
   User? userInfo;
   List<Show> shows = [];
   String sortField = "Newest";
+  final searchBarController = TextEditingController();
   bool finishedLoading = false;
 
   @override
@@ -48,6 +49,13 @@ class _SearchState extends State<Search> {
   void _sortShows() {}
 
   Future<void> getPopularShows() async {
+    final showName = searchBarController.text;
+
+    if (showName != "") {
+      await searchFlickPick();
+      return;
+    }
+
     final response = await http.get(
       Uri.parse('${dotenv.env['API_URL']!}/show/popular'),
       headers: {'Content-Type': 'application/json'},
@@ -66,15 +74,16 @@ class _SearchState extends State<Search> {
     });
   }
 
-  Future<void> getShowsByName(text) async {
-    // if the string is empty return the popular shows
-    if (text == "") {
+  Future<void> searchFlickPick() async {
+    final showName = searchBarController.text;
+
+    if (showName == "") {
       await getPopularShows();
       return;
     }
 
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/show/search/$text'),
+      Uri.parse('${dotenv.env['API_URL']!}/show/search/$showName'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -114,8 +123,9 @@ class _SearchState extends State<Search> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomSearchBar(
+                controller: searchBarController,
                 label: "Search Flick Pick",
-                searchFunction: getShowsByName,
+                searchFunction: searchFlickPick,
               ),
             ),
             SizedBox(height: 5),

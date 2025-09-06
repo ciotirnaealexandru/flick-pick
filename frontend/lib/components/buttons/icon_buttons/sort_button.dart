@@ -27,11 +27,34 @@ class _SortButtonState extends State<SortButton> {
           modalSize: ModalSize.small,
           children: [
             CustomTransparentButton(
-              onPressed:
-                  () => {
-                    widget.changeSortField("Newest"),
-                    Navigator.pop(context),
-                  },
+              onPressed: () async {
+                widget.changeSortField("Oldest");
+                Navigator.pop(context);
+              },
+              child: Container(
+                decoration:
+                    widget.sortField == "Oldest"
+                        ? BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              width: 2.5,
+                            ),
+                          ),
+                        )
+                        : null,
+                child: Text(
+                  "Oldest",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            ),
+
+            CustomTransparentButton(
+              onPressed: () async {
+                widget.changeSortField("Newest");
+                Navigator.pop(context);
+              },
               child: Container(
                 decoration:
                     widget.sortField == "Newest"
@@ -51,35 +74,10 @@ class _SortButtonState extends State<SortButton> {
               ),
             ),
             CustomTransparentButton(
-              onPressed:
-                  () => {
-                    widget.changeSortField("Oldest"),
-                    Navigator.pop(context),
-                  },
-              child: Container(
-                decoration:
-                    widget.sortField == "Oldest"
-                        ? BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              width: 2.5,
-                            ),
-                          ),
-                        )
-                        : null,
-                child: Text(
-                  "Oldest",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ),
-            ),
-            CustomTransparentButton(
-              onPressed:
-                  () => {
-                    widget.changeSortField("A to Z"),
-                    Navigator.pop(context),
-                  },
+              onPressed: () {
+                widget.changeSortField("A to Z");
+                Navigator.pop(context);
+              },
               child: Container(
                 decoration:
                     widget.sortField == "A to Z"

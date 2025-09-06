@@ -21,7 +21,7 @@ class ShowCard extends StatelessWidget {
           aspectRatio: 2 / 3,
           child: CachedNetworkImage(
             imageUrl: imageUrl,
-            fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
             fadeInDuration: Duration(milliseconds: 200),
           ),
         ),

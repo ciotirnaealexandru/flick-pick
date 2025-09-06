@@ -20,6 +20,8 @@ class Watchlist extends StatefulWidget {
 class _WatchlistState extends State<Watchlist> with RouteAware {
   User? userInfo;
   List<Deck>? decksInfo = [];
+  String sortField = "Oldest";
+  final searchBarController = TextEditingController();
   bool finishedLoading = false;
 
   @override
@@ -57,16 +59,75 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
   }
 
   Future<void> loadDecksInfo() async {
+    final deckName = searchBarController.text;
+
+    if (deckName != "") {
+      await searchWatchlist();
+      return;
+    }
+
     final decks = await getDecksInfo(userId: userInfo!.id);
+    final sortedDecks = _sortDecks(decks: decks);
+
     final fullDeck = await getFullDeckInfo(userId: userInfo!.id);
 
     setState(() {
-      decksInfo = [fullDeck!, ...decks!];
+      decksInfo = [fullDeck!, ...sortedDecks!];
       finishedLoading = true;
     });
   }
 
-  Future<void> searchWatchlist(text) async {}
+  Future<void> searchWatchlist() async {
+    final deckName = searchBarController.text;
+
+    if (deckName == "") {
+      await loadDecksInfo();
+      return;
+    }
+
+    final decks = await getDecksInfo(userId: userInfo!.id);
+    final sortedDecks = _sortDecks(decks: decks);
+
+    final lowerQuery = deckName.toLowerCase().trim();
+
+    final searchedDecks =
+        sortedDecks!
+            .where(
+              (deck) => deck.name.toLowerCase().trim().contains(lowerQuery),
+            )
+            .toList();
+
+    setState(() {
+      decksInfo = searchedDecks;
+      finishedLoading = true;
+    });
+  }
+
+  Future<void> changeSortField(newSortField) async {
+    setState(() {
+      sortField = newSortField;
+    });
+  }
+
+  List<Deck>? _sortDecks({List<Deck>? decks}) {
+    if (decks == null) return null;
+
+    if (sortField == "Newest") {
+      decks.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    }
+
+    if (sortField == "Oldest") {
+      decks.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    }
+
+    if (sortField == "A to Z") {
+      decks.sort(
+        (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+      );
+    }
+
+    return decks;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +136,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
     }
 
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         titleSpacing: 0,
@@ -85,6 +147,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomSearchBar(
+                controller: searchBarController,
                 label: "Search Watchlist",
                 searchFunction: searchWatchlist,
               ),
@@ -99,7 +162,11 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    // if (userInfo != null) SortButton(),
+                    if (userInfo != null)
+                      SortButton(
+                        sortField: sortField,
+                        changeSortField: changeSortField,
+                      ),
                     SizedBox(width: 10),
                     if (userInfo != null)
                       CreateDeckButton(userId: userInfo!.id),

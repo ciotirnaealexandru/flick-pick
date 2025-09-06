@@ -51,6 +51,10 @@ Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
       userId: userShowJson['userId'] as int?,
       showId: userShowJson['showId'] as int?,
       deckId: userShowJson['deckId'] as int?,
+      createdAt:
+          userShowJson['createdAt'] != null
+              ? DateTime.parse(userShowJson['createdAt'] as String)
+              : null,
       show: Show.fromJson(mainInfoJson),
     ));
   } catch (error) {

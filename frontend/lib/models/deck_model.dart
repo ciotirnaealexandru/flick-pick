@@ -9,12 +9,14 @@ class Deck {
   int id;
   String name;
   int userId;
+  DateTime createdAt;
   List<UserShow> userShows;
 
   Deck({
     required this.id,
     required this.name,
     required this.userId,
+    required this.createdAt,
     required this.userShows,
   });
 
@@ -30,8 +32,9 @@ class Deck {
 
     return Deck(
       id: json["id"] as int,
-      name: json["name"] ?? '',
+      name: json["name"] as String,
       userId: json["id"] as int,
+      createdAt: DateTime.parse(json["createdAt"]),
       userShows: parsedShows,
     );
   }
@@ -40,6 +43,7 @@ class Deck {
     "id": id,
     "name": name,
     "userId": userId,
+    "createdAt": createdAt.toIso8601String(),
     "userShows": userShows,
   };
 }

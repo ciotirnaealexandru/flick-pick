@@ -47,7 +47,13 @@ Future<Deck?> getFullDeckInfo({required int userId}) async {
     );
 
     if (showsResponse.statusCode != 200) {
-      return Deck(id: 0, name: "All Shows", userId: userId, userShows: []);
+      return Deck(
+        id: 0,
+        name: "All Shows",
+        userId: userId,
+        userShows: [],
+        createdAt: DateTime(2025, 1, 1),
+      );
     }
 
     final List<dynamic> showsJson = jsonDecode(showsResponse.body);
@@ -56,7 +62,13 @@ Future<Deck?> getFullDeckInfo({required int userId}) async {
             .map((json) => UserShow.fromJson(json as Map<String, dynamic>))
             .toList();
 
-    return Deck(id: 0, name: "All Shows", userId: userId, userShows: shows);
+    return Deck(
+      id: 0,
+      name: "All Shows",
+      userId: userId,
+      userShows: shows,
+      createdAt: DateTime(2025, 1, 1),
+    );
   } catch (error) {
     print("Error fetching full deck: $error");
     return null;
