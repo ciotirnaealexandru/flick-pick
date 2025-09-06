@@ -238,7 +238,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
                   searchFunction: searchDeck,
                 ),
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 10),
               Align(
                 alignment: AlignmentGeometry.centerLeft,
                 child: SingleChildScrollView(
@@ -264,7 +264,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
             ],
           ),
         ),

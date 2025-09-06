@@ -14,25 +14,32 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => onPressed(context),
-      style: ButtonStyle(
-        padding: WidgetStatePropertyAll(EdgeInsets.only(left: 15, right: 20)),
-        backgroundColor: WidgetStatePropertyAll(
-          Theme.of(context).colorScheme.primary,
-        ),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 25, color: Theme.of(context).colorScheme.onPrimary),
-          SizedBox(width: 8),
-          Text(
-            text,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+    return SizedBox(
+      height: 40,
+      child: ElevatedButton(
+        onPressed: () => onPressed(context),
+        style: ButtonStyle(
+          padding: WidgetStatePropertyAll(EdgeInsets.only(left: 15, right: 20)),
+          backgroundColor: WidgetStatePropertyAll(
+            Theme.of(context).colorScheme.primary,
           ),
-        ],
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 25,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+            SizedBox(width: 8),
+            Text(
+              text,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     );
   }

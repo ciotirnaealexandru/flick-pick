@@ -23,7 +23,10 @@ class PhoneFrameWrapper extends StatelessWidget {
             child: DeviceFrame(
               device: Devices.ios.iPhone16,
               isFrameVisible: true,
-              screen: child,
+              screen: Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: child,
+              ),
             ),
           ),
         ),

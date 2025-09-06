@@ -94,9 +94,6 @@ class _FormScreenState extends State<FormScreen> {
                   final responseData = jsonDecode(response.body);
                   final token = responseData['token'];
 
-                  // save the JWT to the Secure Storage
-                  print("Login successful! Token: $token");
-
                   final secureStorage = FlutterSecureStorage();
                   await secureStorage.write(
                     key: dotenv.env['SECURE_STORAGE_SECRET']!,

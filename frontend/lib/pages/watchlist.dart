@@ -152,7 +152,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                 searchFunction: searchWatchlist,
               ),
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 10),
             Align(
               alignment: AlignmentGeometry.centerLeft,
               child: SingleChildScrollView(

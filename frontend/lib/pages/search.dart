@@ -128,16 +128,16 @@ class _SearchState extends State<Search> {
                 searchFunction: searchFlickPick,
               ),
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 10),
             Align(
               alignment: Alignment.centerLeft,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 scrollDirection: Axis.horizontal,
                 physics: BouncingScrollPhysics(),
-
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     SortButton(
                       sortField: sortField,
@@ -152,7 +152,6 @@ class _SearchState extends State<Search> {
             SizedBox(height: 10),
           ],
         ),
-        centerTitle: true,
       ),
 
       body:
