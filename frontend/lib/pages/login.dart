@@ -110,7 +110,7 @@ class _FormScreenState extends State<FormScreen> {
             },
           ),
           // a temporary button to skip the login
-          SizedBox(height: 200),
+          SizedBox(height: 180),
           ElevatedButton(
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/search');
