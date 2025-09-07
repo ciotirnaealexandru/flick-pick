@@ -77,11 +77,11 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
                           ),
                         ),
                         Text(
-                          "Your Next Binge, One Tap Away.",
+                          "Your Next Binge,\nOne Tap Away.",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
-                            fontSize: constraints.minHeight / 33,
+                            fontSize: constraints.minHeight / 25,
                             color: const Color.fromARGB(255, 5, 12, 28),
                           ),
                         ),
@@ -91,7 +91,7 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
-                            fontSize: constraints.minHeight / 33,
+                            fontSize: constraints.minHeight / 30,
                             color: const Color.fromARGB(255, 5, 12, 28),
                           ),
                         ),
