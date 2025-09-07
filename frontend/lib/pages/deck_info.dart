@@ -27,8 +27,11 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
   User? userInfo;
   Deck? deckInfo;
   int? deckId;
-  String sortField = "First Added";
   final searchBarController = TextEditingController();
+
+  String sortField = "First Added";
+  List<String> sortFieldOptions = ["First Added", "Last Added", "A to Z"];
+
   bool finishedLoading = false;
 
   @override
@@ -249,11 +252,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SortButton(
-                        sortFieldOptions: [
-                          "First Added",
-                          "Last Added",
-                          "A to Z",
-                        ],
+                        sortFieldOptions: sortFieldOptions,
                         sortField: sortField,
                         changeSortField: changeSortField,
                       ),

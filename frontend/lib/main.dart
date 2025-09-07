@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/deck_info.dart';
-import 'package:frontend/pages/filter.dart';
 import 'package:frontend/pages/login.dart';
 import 'package:frontend/pages/profile.dart';
 import 'package:frontend/pages/update_profile.dart';
@@ -51,7 +50,6 @@ class _MyAppState extends State<MyApp> {
           '/watchlist': (context) => const Watchlist(),
           '/add_to_watchlist': (context) => const AddToWatchlist(),
           '/deck_info': (context) => const DeckInfo(),
-          '/filter': (context) => const Filter(),
         },
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/components/buttons/icon_buttons/filter_button.dart';
+import 'package:frontend/components/buttons/icon_buttons/genre_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/sort_button.dart';
 import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/components/cards/no_shows_found_card.dart';
@@ -24,15 +24,25 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> with RouteAware {
   User? userInfo;
   List<Show> showsInfo = [];
-  String sortField = "Most Relevant";
   final searchBarController = TextEditingController();
+
+  String sortField = "Most Relevant";
+  List<String> sortFieldOptions = [
+    "Most Relevant",
+    "Last Premiered",
+    "First Premiered",
+    "A to Z",
+  ];
+
+  Genre genre = Genre(genreName: "All", genreId: 0);
+
   bool finishedLoading = false;
 
   @override
   void initState() {
     super.initState();
     loadUserInfo();
-    getPopularShows().then((_) {
+    getShows().then((_) {
       for (var show in showsInfo) {
         if (!mounted) return;
         precacheImage(CachedNetworkImageProvider(show.imageUrl), context);
@@ -55,7 +65,7 @@ class _SearchState extends State<Search> with RouteAware {
   @override
   void didPopNext() {
     super.didPopNext();
-    getPopularShows();
+    getShows();
   }
 
   Future<void> loadUserInfo() async {
@@ -65,7 +75,7 @@ class _SearchState extends State<Search> with RouteAware {
     });
   }
 
-  Future<void> getPopularShows() async {
+  Future<void> getShows() async {
     final showName = searchBarController.text;
 
     if (showName != "") {
@@ -73,8 +83,10 @@ class _SearchState extends State<Search> with RouteAware {
       return;
     }
 
+    print(genre.genreId);
+
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/show/popular'),
+      Uri.parse('${dotenv.env['API_URL']!}/show/search/genre/${genre.genreId}'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -98,12 +110,15 @@ class _SearchState extends State<Search> with RouteAware {
     final showName = searchBarController.text;
 
     if (showName == "") {
-      await getPopularShows();
+      await getShows();
       return;
     }
 
+    // if searching reset genre
+    changeGenre(Genre(genreName: "All", genreId: 0));
+
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/show/search/$showName'),
+      Uri.parse('${dotenv.env['API_URL']!}/show/search/name/$showName'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -167,9 +182,15 @@ class _SearchState extends State<Search> with RouteAware {
     return sortedShows;
   }
 
-  Future<void> changeSortField(newSortField) async {
+  Future<void> changeSortField(String newSortField) async {
     setState(() {
       sortField = newSortField;
+    });
+  }
+
+  Future<void> changeGenre(Genre newGenre) async {
+    setState(() {
+      genre = newGenre;
     });
   }
 
@@ -208,17 +229,12 @@ class _SearchState extends State<Search> with RouteAware {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SortButton(
-                      sortFieldOptions: [
-                        "Most Relevant",
-                        "Last Premiered",
-                        "First Premiered",
-                        "A to Z",
-                      ],
+                      sortFieldOptions: sortFieldOptions,
                       sortField: sortField,
                       changeSortField: changeSortField,
                     ),
                     SizedBox(width: 10),
-                    FilterButton(),
+                    GenreButton(genre: genre, changeGenre: changeGenre),
                   ],
                 ),
               ),

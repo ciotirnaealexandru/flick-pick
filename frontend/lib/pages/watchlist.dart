@@ -20,8 +20,11 @@ class Watchlist extends StatefulWidget {
 class _WatchlistState extends State<Watchlist> with RouteAware {
   User? userInfo;
   List<Deck>? decksInfo = [];
-  String sortField = "First Added";
   final searchBarController = TextEditingController();
+
+  String sortField = "First Added";
+  List<String> sortFieldOptions = ["First Added", "Last Added", "A to Z"];
+
   bool finishedLoading = false;
 
   @override
@@ -164,11 +167,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                   children: [
                     if (userInfo != null)
                       SortButton(
-                        sortFieldOptions: [
-                          "First Added",
-                          "Last Added",
-                          "A to Z",
-                        ],
+                        sortFieldOptions: sortFieldOptions,
                         sortField: sortField,
                         changeSortField: changeSortField,
                       ),
