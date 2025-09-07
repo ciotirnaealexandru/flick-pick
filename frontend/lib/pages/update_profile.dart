@@ -195,66 +195,70 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
           backgroundColor: Theme.of(context).colorScheme.error,
           child: Text("DELETE"),
           onPressed: () async {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (context) {
-                return BottomModal(
-                  modalSize: ModalSize.small,
-                  children: [
-                    Text(
-                      "Are you sure you want to delete your profile?",
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.error,
+            FocusScope.of(context).unfocus();
+
+            Future.delayed(const Duration(milliseconds: 200), () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return BottomModal(
+                    modalSize: ModalSize.small,
+                    children: [
+                      Text(
+                        "Are you sure you want to delete your profile?",
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    CustomFilledButton(
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      child: Text("DELETE PROFILE"),
-                      onPressed: () async {
-                        final secureStorage = FlutterSecureStorage();
-                        final token = await secureStorage.read(
-                          key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                        );
-
-                        final response = await http.delete(
-                          Uri.parse(
-                            '${dotenv.env['API_URL']!}/user/${widget.userInfo.id}',
-                          ),
-                          headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer $token',
-                          },
-                        );
-
-                        if (response.statusCode == 200) {
-                          print("Profile deleted successfully!");
-
-                          // remove the JWT token
-                          await secureStorage.delete(
+                      SizedBox(height: 10),
+                      CustomFilledButton(
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                        child: Text("DELETE PROFILE"),
+                        onPressed: () async {
+                          final secureStorage = FlutterSecureStorage();
+                          final token = await secureStorage.read(
                             key: dotenv.env['SECURE_STORAGE_SECRET']!,
                           );
 
-                          if (!context.mounted) return;
-                          Navigator.pushReplacementNamed(context, '/login');
-                        } else {
-                          print("Response body: ${response.body}");
+                          final response = await http.delete(
+                            Uri.parse(
+                              '${dotenv.env['API_URL']!}/user/${widget.userInfo.id}',
+                            ),
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Authorization': 'Bearer $token',
+                            },
+                          );
 
-                          final responseData = jsonDecode(response.body);
-                          final message =
-                              responseData['message'] ??
-                              'Something went wrong.';
+                          if (response.statusCode == 200) {
+                            print("Profile deleted successfully!");
 
-                          if (!context.mounted) return;
-                          showMessage(context, message);
-                        }
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
+                            // remove the JWT token
+                            await secureStorage.delete(
+                              key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                            );
+
+                            if (!context.mounted) return;
+                            Navigator.pushReplacementNamed(context, '/login');
+                          } else {
+                            print("Response body: ${response.body}");
+
+                            final responseData = jsonDecode(response.body);
+                            final message =
+                                responseData['message'] ??
+                                'Something went wrong.';
+
+                            if (!context.mounted) return;
+                            showMessage(context, message);
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            });
           },
         ),
       ),

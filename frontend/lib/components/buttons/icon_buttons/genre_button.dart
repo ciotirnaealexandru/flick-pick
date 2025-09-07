@@ -68,42 +68,46 @@ class _GenreButtonState extends State<GenreButton> {
   void _openGenreOptions(BuildContext context) {
     if (!finishedLoading) return;
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return BottomModal(
-          modalSize: ModalSize.big,
-          children:
-              genreOptions!.map((option) {
-                return CustomTransparentButton(
-                  onPressed: () async {
-                    await widget.changeGenre(option);
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    decoration:
-                        widget.genre.genreId == option.genreId
-                            ? BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                  width: 2.5,
+    FocusScope.of(context).unfocus();
+
+    Future.delayed(const Duration(milliseconds: 200), () {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return BottomModal(
+            modalSize: ModalSize.big,
+            children:
+                genreOptions!.map((option) {
+                  return CustomTransparentButton(
+                    onPressed: () async {
+                      await widget.changeGenre(option);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration:
+                          widget.genre.genreId == option.genreId
+                              ? BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    width: 2.5,
+                                  ),
                                 ),
-                              ),
-                            )
-                            : null,
-                    child: Text(
-                      option.genreName,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                              )
+                              : null,
+                      child: Text(
+                        option.genreName,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
-        );
-      },
-    );
+                  );
+                }).toList(),
+          );
+        },
+      );
+    });
   }
 
   @override

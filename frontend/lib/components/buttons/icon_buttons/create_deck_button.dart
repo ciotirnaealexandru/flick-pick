@@ -68,36 +68,40 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
     // clear the text
     controller.clear();
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return BottomModal(
-          modalSize: ModalSize.small,
-          children: [
-            BorderTextField(
-              controller: controller,
-              hintText: "Enter Deck Name",
-              onSubmitted: (deckName) async {
-                deckName = deckName.trim();
-                await createDeckFunction(deckName);
-              },
-            ),
-            SizedBox(height: 10),
-            CustomFilledButton(
-              onPressed: () async {
-                // get the text
-                final deckName = controller.text.trim();
+    FocusScope.of(context).unfocus();
 
-                // send a a request to the backend
-                await createDeckFunction(deckName);
-              },
-              child: Text("Create Deck"),
-            ),
-          ],
-        );
-      },
-    );
+    Future.delayed(const Duration(milliseconds: 200), () {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return BottomModal(
+            modalSize: ModalSize.small,
+            children: [
+              BorderTextField(
+                controller: controller,
+                hintText: "Enter Deck Name",
+                onSubmitted: (deckName) async {
+                  deckName = deckName.trim();
+                  await createDeckFunction(deckName);
+                },
+              ),
+              SizedBox(height: 10),
+              CustomFilledButton(
+                onPressed: () async {
+                  // get the text
+                  final deckName = controller.text.trim();
+
+                  // send a a request to the backend
+                  await createDeckFunction(deckName);
+                },
+                child: Text("Create Deck"),
+              ),
+            ],
+          );
+        },
+      );
+    });
   }
 
   @override

@@ -21,42 +21,46 @@ class SortButton extends StatefulWidget {
 
 class _SortButtonState extends State<SortButton> {
   void _openSortOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return BottomModal(
-          modalSize: ModalSize.small,
-          children:
-              widget.sortFieldOptions.map((option) {
-                return CustomTransparentButton(
-                  onPressed: () async {
-                    await widget.changeSortField(option);
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    decoration:
-                        widget.sortField == option
-                            ? BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                  width: 2.5,
+    FocusScope.of(context).unfocus();
+
+    Future.delayed(const Duration(milliseconds: 200), () {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return BottomModal(
+            modalSize: ModalSize.small,
+            children:
+                widget.sortFieldOptions.map((option) {
+                  return CustomTransparentButton(
+                    onPressed: () async {
+                      await widget.changeSortField(option);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration:
+                          widget.sortField == option
+                              ? BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    width: 2.5,
+                                  ),
                                 ),
-                              ),
-                            )
-                            : null,
-                    child: Text(
-                      option,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                              )
+                              : null,
+                      child: Text(
+                        option,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
-        );
-      },
-    );
+                  );
+                }).toList(),
+          );
+        },
+      );
+    });
   }
 
   @override
