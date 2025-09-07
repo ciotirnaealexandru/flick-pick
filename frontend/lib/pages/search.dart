@@ -83,8 +83,6 @@ class _SearchState extends State<Search> with RouteAware {
       return;
     }
 
-    print(genre.genreId);
-
     final response = await http.get(
       Uri.parse('${dotenv.env['API_URL']!}/show/search/genre/${genre.genreId}'),
       headers: {'Content-Type': 'application/json'},
@@ -244,10 +242,16 @@ class _SearchState extends State<Search> with RouteAware {
         ),
       ),
 
-      body:
-          showsInfo.isEmpty
-              ? Center(child: NoShowsFoundCard())
-              : ShowGrid(shows: showsInfo),
+      body: SafeArea(
+        child:
+            finishedLoading && showsInfo.isEmpty
+                ? Center(child: NoShowsFoundCard())
+                : SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: ShowGrid(shows: showsInfo),
+                ),
+      ),
+
       bottomNavigationBar: Navbar(),
     );
   }

@@ -15,7 +15,7 @@ Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
 
     // get the main info of the show
     final mainInfoResponse = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/show/more/$apiId'),
+      Uri.parse('${dotenv.env['API_URL']!}/show/details/$apiId'),
       headers: {'Content-Type': 'application/json'},
     );
 

@@ -2,18 +2,21 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
+import 'package:frontend/components/cards/no_shows_found_card.dart';
+import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/components/show_message.dart';
 import 'package:frontend/main.dart';
+import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_show_model.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
-import 'package:frontend/components/cards/expandable_text_card.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/show_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:expandable_text/expandable_text.dart';
 
 class ShowInfo extends StatefulWidget {
   const ShowInfo({super.key});
@@ -26,7 +29,8 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
   User? userInfo;
 
   int? apiId;
-  UserShow? userShow;
+  UserShow? userShowInfo;
+  List<Show>? similarShowsInfo;
 
   int? userRating;
   String watchStatus = "Add Show";
@@ -46,6 +50,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
     if (apiId == null) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
       apiId = args['apiId'];
+
       loadUserInfo();
     }
   }
@@ -70,6 +75,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
 
     if (apiId != null) {
       await loadShowInfo(apiId);
+      await getSimilarShows(apiId);
     }
   }
 
@@ -80,16 +86,34 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
     );
 
     setState(() {
-      userShow = data;
-      userRating = userShow?.userRating;
-      if (userShow?.deckId != null) {
+      userShowInfo = data;
+      userRating = userShowInfo?.userRating;
+      if (userShowInfo?.deckId != null) {
         watchStatus = "Added";
         showRating = true;
       } else {
         watchStatus = "Add Show";
         showRating = false;
       }
+    });
+  }
 
+  Future<void> getSimilarShows(apiId) async {
+    final response = await http.get(
+      Uri.parse('${dotenv.env['API_URL']!}/show/similar/$apiId'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    final List<dynamic> showsJson = json.decode(response.body);
+
+    final shows =
+        showsJson
+            .map((json) => Show.fromJson(json))
+            .where((show) => show.hasAllFields)
+            .toList();
+
+    setState(() {
+      similarShowsInfo = shows;
       finishedLoading = true;
     });
   }
@@ -101,7 +125,19 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
     }
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            while (Navigator.canPop(context)) {
+              final route = ModalRoute.of(context);
+              if (route?.settings.name != '/show_info') break;
+              Navigator.pop(context);
+            }
+          },
+        ),
+      ),
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -118,19 +154,19 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          userShow?.show.name ?? "Unknown Show",
+                          userShowInfo?.show.name ?? "Unknown Show",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         SizedBox(height: 15),
                         Text(
-                          "${(userShow?.show.premiered != null || userShow?.show.ended != null) ? "${userShow?.show.premiered.substring(0, 4)} - ${userShow?.show.ended!.substring(0, 4)}" : "Years N/A"} • ${userShow?.show.network}",
+                          "${(userShowInfo?.show.premiered != null || userShowInfo?.show.ended != null) ? "${userShowInfo?.show.premiered.substring(0, 4)} - ${userShowInfo?.show.ended!.substring(0, 4)}" : "Years N/A"} • ${userShowInfo?.show.network}",
                           style: Theme.of(context).textTheme.bodyMedium,
                           softWrap: true,
                         ),
                         Text(
-                          (userShow?.show.genres != null &&
-                                  userShow!.show.genres!.isNotEmpty)
-                              ? userShow!.show.genres!.take(2).join(" • ")
+                          (userShowInfo?.show.genres != null &&
+                                  userShowInfo!.show.genres!.isNotEmpty)
+                              ? userShowInfo!.show.genres!.take(2).join(" • ")
                               : "No genres available",
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
@@ -143,7 +179,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                                 '/add_to_watchlist',
                                 arguments: {
                                   'userId': userInfo?.id,
-                                  'apiId': userShow?.show.apiId,
+                                  'apiId': userShowInfo?.show.apiId,
                                 },
                               ),
 
@@ -198,12 +234,14 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                                           'Authorization': 'Bearer $token',
                                         },
                                         body: jsonEncode({
-                                          'apiId': userShow?.show.apiId,
-                                          'name': userShow?.show.name,
-                                          'imageUrl': userShow?.show.imageUrl,
-                                          'summary': userShow?.show.summary,
-                                          'premiered': userShow?.show.premiered,
-                                          'deckId': userShow?.deckId,
+                                          'apiId': userShowInfo?.show.apiId,
+                                          'name': userShowInfo?.show.name,
+                                          'imageUrl':
+                                              userShowInfo?.show.imageUrl,
+                                          'summary': userShowInfo?.show.summary,
+                                          'premiered':
+                                              userShowInfo?.show.premiered,
+                                          'deckId': userShowInfo?.deckId,
                                           'userRating': userRating,
                                         }),
                                       );
@@ -240,9 +278,9 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                     ),
                     clipBehavior: Clip.hardEdge,
                     child:
-                        (userShow?.show.imageUrl != null)
+                        (userShowInfo?.show.imageUrl != null)
                             ? CachedNetworkImage(
-                              imageUrl: userShow!.show.imageUrl,
+                              imageUrl: userShowInfo!.show.imageUrl,
                               fit: BoxFit.fitHeight,
                               height: 220,
                             )
@@ -251,10 +289,33 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                 ],
               ),
               SizedBox(height: 40),
-              ExpandableTextCard(
-                text: userShow?.show.summary ?? "Unknown summary.",
-                style: Theme.of(context).textTheme.bodyMedium,
+              ExpandableText(
+                userShowInfo?.show.summary ?? "Unknown summary.",
+                expandText: '',
+                linkColor: Theme.of(context).colorScheme.onPrimary,
+                maxLines: 4,
+                collapseOnTextTap: true,
+                expandOnTextTap: true,
+                animation: true,
+                animationDuration: Duration(milliseconds: 800),
               ),
+
+              Divider(
+                thickness: 2,
+                height: 40, // keeps it tight, no extra vertical padding
+                color: Theme.of(context).primaryColor,
+              ),
+
+              Text(
+                "More like this",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+
+              similarShowsInfo!.isEmpty
+                  ? Center(child: NoShowsFoundCard())
+                  : SingleChildScrollView(
+                    child: ShowGrid(shows: similarShowsInfo!),
+                  ),
             ],
           ),
         ),

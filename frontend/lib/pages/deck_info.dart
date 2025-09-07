@@ -273,16 +273,21 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
           ),
         ),
       ),
-      body:
-          finishedLoading && deckInfo!.userShows.isEmpty
-              ? Center(child: NoShowsFoundCard())
-              : ShowGrid(
-                shows:
-                    deckInfo?.userShows
-                        .map((userShow) => userShow.show)
-                        .toList() ??
-                    [],
-              ),
+      body: SafeArea(
+        child:
+            finishedLoading && (deckInfo?.userShows.isEmpty ?? true)
+                ? Center(child: NoShowsFoundCard())
+                : SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: ShowGrid(
+                    shows:
+                        deckInfo?.userShows
+                            .map((userShow) => userShow.show)
+                            .toList() ??
+                        [],
+                  ),
+                ),
+      ),
     );
   }
 }

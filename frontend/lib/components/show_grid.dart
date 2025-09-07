@@ -3,31 +3,32 @@ import 'package:frontend/components/cards/show_card.dart';
 import 'package:frontend/models/show_model.dart';
 
 class ShowGrid extends StatelessWidget {
-  final List<Show>? shows;
+  final List<Show> shows;
 
-  const ShowGrid({super.key, this.shows});
+  const ShowGrid({super.key, required this.shows});
+
   @override
   Widget build(BuildContext context) {
+    if (shows.isEmpty) return SizedBox.shrink();
+
     return Column(
       children: [
-        SizedBox(height: 10),
-        Expanded(
-          child: GridView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 2 / 3,
-            ),
-            itemCount: shows?.length,
-            itemBuilder: (context, i) {
-              return ShowCard(
-                apiId: shows![i].apiId,
-                imageUrl: shows![i].imageUrl,
-              );
-            },
-          ),
+        SizedBox(height: 20),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children:
+              shows
+                  .map(
+                    (show) => SizedBox(
+                      width: (MediaQuery.of(context).size.width - 60) / 3,
+                      child: ShowCard(
+                        apiId: show.apiId,
+                        imageUrl: show.imageUrl,
+                      ),
+                    ),
+                  )
+                  .toList(),
         ),
       ],
     );
