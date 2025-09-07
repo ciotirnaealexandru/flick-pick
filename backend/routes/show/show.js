@@ -55,7 +55,7 @@ router.get("/search/genre/:genre_id", async (req, res) => {
 
     const requests = [];
 
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 2; i++) {
       requests.push(
         fetch(
           `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${i}&sort_by=popularity.desc${genre}`,
