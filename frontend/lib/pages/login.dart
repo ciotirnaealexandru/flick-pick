@@ -109,14 +109,18 @@ class _FormScreenState extends State<FormScreen> {
               }
             },
           ),
-          // a temporary button to skip the login
-          SizedBox(height: 180),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/search');
-            },
-            child: Text("SKIP"),
-          ),
+          if (dotenv.env['DISPLAY_SKIP_BUTTON'] == 'true')
+            Column(
+              children: [
+                SizedBox(height: 180),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/search');
+                  },
+                  child: Text("SKIP"),
+                ),
+              ],
+            ),
         ],
       ),
     );
