@@ -91,9 +91,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
     else {
       // get the bearer token
       final secureStorage = FlutterSecureStorage();
-      final token = await secureStorage.read(
-        key: dotenv.env['SECURE_STORAGE_SECRET']!,
-      );
+      final token = await secureStorage.read(key: "auth_token");
 
       // get the deck info if it exists
       final deckResponse = await http.get(
@@ -143,9 +141,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
     else {
       // get the bearer token
       final secureStorage = FlutterSecureStorage();
-      final token = await secureStorage.read(
-        key: dotenv.env['SECURE_STORAGE_SECRET']!,
-      );
+      final token = await secureStorage.read(key: "auth_token");
 
       // get the deck info if it exists
       final deckResponse = await http.get(

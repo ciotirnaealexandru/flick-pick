@@ -9,9 +9,7 @@ Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
   try {
     // get the bearer token
     final secureStorage = FlutterSecureStorage();
-    final token = await secureStorage.read(
-      key: dotenv.env['SECURE_STORAGE_SECRET']!,
-    );
+    final token = await secureStorage.read(key: "auth_token");
 
     // get the main info of the show
     final mainInfoResponse = await http.get(

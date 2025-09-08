@@ -6,9 +6,7 @@ import '../models/user_model.dart';
 
 Future<User?> getUserInfo() async {
   final secureStorage = FlutterSecureStorage();
-  final token = await secureStorage.read(
-    key: dotenv.env['SECURE_STORAGE_SECRET']!,
-  );
+  final token = await secureStorage.read(key: "auth_token");
 
   final response = await http.get(
     Uri.parse('${dotenv.env['API_URL']!}/user/me'),

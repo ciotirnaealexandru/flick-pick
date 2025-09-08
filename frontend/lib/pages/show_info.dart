@@ -221,7 +221,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
 
                                   final secureStorage = FlutterSecureStorage();
                                   final token = await secureStorage.read(
-                                    key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                                    key: "auth_token",
                                   );
 
                                   final changeUserShowInfoResponse = await http

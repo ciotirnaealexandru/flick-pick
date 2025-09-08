@@ -7,9 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<List<Deck>?> getDecksInfo({int? userId}) async {
   final secureStorage = FlutterSecureStorage();
-  final token = await secureStorage.read(
-    key: dotenv.env['SECURE_STORAGE_SECRET']!,
-  );
+  final token = await secureStorage.read(key: "auth_token");
 
   // get the deck info if it exists
   final decksResponse = await http.get(
@@ -34,9 +32,7 @@ Future<List<Deck>?> getDecksInfo({int? userId}) async {
 Future<Deck?> getFullDeckInfo({required int userId}) async {
   try {
     final secureStorage = FlutterSecureStorage();
-    final token = await secureStorage.read(
-      key: dotenv.env['SECURE_STORAGE_SECRET']!,
-    );
+    final token = await secureStorage.read(key: "auth_token");
 
     final showsResponse = await http.get(
       Uri.parse('${dotenv.env['API_URL']!}/user/show/all/$userId'),

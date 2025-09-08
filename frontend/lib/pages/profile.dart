@@ -111,9 +111,7 @@ class _ProfileState extends State<Profile> {
                 onPressed: () async {
                   // remove the JWT token
                   final secureStorage = FlutterSecureStorage();
-                  await secureStorage.delete(
-                    key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                  );
+                  await secureStorage.delete(key: "auth_token");
 
                   if (!context.mounted) return;
                   Navigator.pushReplacementNamed(context, '/login');

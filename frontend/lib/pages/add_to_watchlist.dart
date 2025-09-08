@@ -110,9 +110,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                   CustomFilledButton(
                     onPressed: () async {
                       final secureStorage = FlutterSecureStorage();
-                      final token = await secureStorage.read(
-                        key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                      );
+                      final token = await secureStorage.read(key: "auth_token");
 
                       final changeUserShowInfoResponse = await http.delete(
                         Uri.parse(
@@ -155,9 +153,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                 if (selectedDeckId == 0) return;
 
                 final secureStorage = FlutterSecureStorage();
-                final token = await secureStorage.read(
-                  key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                );
+                final token = await secureStorage.read(key: "auth_token");
 
                 final changeUserShowInfoResponse = await http.post(
                   Uri.parse('${dotenv.env['API_URL']!}/user/show/$userId'),

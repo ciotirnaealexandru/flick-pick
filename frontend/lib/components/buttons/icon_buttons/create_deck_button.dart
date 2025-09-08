@@ -35,9 +35,7 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
 
   Future<void> createDeckFunction(String deckName) async {
     final secureStorage = FlutterSecureStorage();
-    final token = await secureStorage.read(
-      key: dotenv.env['SECURE_STORAGE_SECRET']!,
-    );
+    final token = await secureStorage.read(key: "auth_token");
 
     final createDeckResponse = await http.post(
       Uri.parse('${dotenv.env['API_URL']!}/user/deck/${widget.userId}'),

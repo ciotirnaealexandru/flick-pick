@@ -95,10 +95,7 @@ class _FormScreenState extends State<FormScreen> {
                   final token = responseData['token'];
 
                   final secureStorage = FlutterSecureStorage();
-                  await secureStorage.write(
-                    key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                    value: token,
-                  );
+                  await secureStorage.write(key: "auth_token", value: token);
 
                   if (!context.mounted) return;
                   Navigator.pushReplacementNamed(context, '/search');

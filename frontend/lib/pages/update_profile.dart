@@ -129,9 +129,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
                     final phone = _phoneController.text.trim();
 
                     final secureStorage = FlutterSecureStorage();
-                    final token = await secureStorage.read(
-                      key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                    );
+                    final token = await secureStorage.read(key: "auth_token");
 
                     final response = await http.patch(
                       Uri.parse(
@@ -219,7 +217,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                         onPressed: () async {
                           final secureStorage = FlutterSecureStorage();
                           final token = await secureStorage.read(
-                            key: dotenv.env['SECURE_STORAGE_SECRET']!,
+                            key: "auth_token",
                           );
 
                           final response = await http.delete(
@@ -236,9 +234,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                             print("Profile deleted successfully!");
 
                             // remove the JWT token
-                            await secureStorage.delete(
-                              key: dotenv.env['SECURE_STORAGE_SECRET']!,
-                            );
+                            await secureStorage.delete(key: "auth_token");
 
                             if (!context.mounted) return;
                             Navigator.pushReplacementNamed(context, '/login');

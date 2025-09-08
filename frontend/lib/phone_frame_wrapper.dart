@@ -19,6 +19,7 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final isSmallScreen = width < 600;
+    final isBigScreen = width > 1200;
 
     if (isSmallScreen) {
       return widget.child;
@@ -34,23 +35,24 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Opacity(
-                          opacity: 0.0,
-                          child: Text(
-                            "Flick Pick",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize: constraints.minHeight / 10,
-                              color: const Color.fromARGB(255, 5, 12, 28),
+                    if (isBigScreen)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Opacity(
+                            opacity: 0.0,
+                            child: Text(
+                              "Flick Pick",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: constraints.minHeight / 10,
+                                color: const Color.fromARGB(255, 5, 12, 28),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 40),
+                        ],
+                      ),
+                    if (isBigScreen) SizedBox(width: 40),
                     DeviceFrame(
                       device: Devices.ios.iPhone16,
                       isFrameVisible: true,
@@ -63,40 +65,41 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
                         },
                       ),
                     ),
-                    SizedBox(width: 40),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: constraints.minHeight / 7),
-                        Text(
-                          "Flick Pick",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: constraints.minHeight / 10,
-                            color: const Color.fromARGB(255, 5, 12, 28),
+                    if (isBigScreen) SizedBox(width: 40),
+                    if (isBigScreen)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: constraints.minHeight / 7),
+                          Text(
+                            "Flick Pick",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: constraints.minHeight / 10,
+                              color: const Color.fromARGB(255, 5, 12, 28),
+                            ),
                           ),
-                        ),
-                        Text(
-                          "Your Next Binge,\nOne Tap Away.",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic,
-                            fontSize: constraints.minHeight / 25,
-                            color: const Color.fromARGB(255, 5, 12, 28),
+                          Text(
+                            "Your Next Binge,\nOne Tap Away.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              fontSize: constraints.minHeight / 25,
+                              color: const Color.fromARGB(255, 5, 12, 28),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: constraints.minHeight / 20),
-                        Text(
-                          "Developed by\nAlexandru-Cosmin Ciotirnae",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic,
-                            fontSize: constraints.minHeight / 30,
-                            color: const Color.fromARGB(255, 5, 12, 28),
+                          SizedBox(height: constraints.minHeight / 20),
+                          Text(
+                            "Developed by\nAlexandru-Cosmin Ciotirnae",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              fontSize: constraints.minHeight / 30,
+                              color: const Color.fromARGB(255, 5, 12, 28),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                   ],
                 );
               },

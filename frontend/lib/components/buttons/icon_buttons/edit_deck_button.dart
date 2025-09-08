@@ -40,9 +40,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
 
     Future<void> changeNameFunction(deckName) async {
       final secureStorage = FlutterSecureStorage();
-      final token = await secureStorage.read(
-        key: dotenv.env['SECURE_STORAGE_SECRET']!,
-      );
+      final token = await secureStorage.read(key: "auth_token");
 
       final updateDeckResponse = await http.patch(
         Uri.parse(
@@ -113,9 +111,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
 
     Future<void> deleteDeckFunction() async {
       final secureStorage = FlutterSecureStorage();
-      final token = await secureStorage.read(
-        key: dotenv.env['SECURE_STORAGE_SECRET']!,
-      );
+      final token = await secureStorage.read(key: "auth_token");
 
       final deleteDeckResponse = await http.delete(
         Uri.parse(
