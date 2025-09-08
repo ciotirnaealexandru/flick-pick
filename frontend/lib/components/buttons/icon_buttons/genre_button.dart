@@ -71,6 +71,7 @@ class _GenreButtonState extends State<GenreButton> {
     FocusScope.of(context).unfocus();
 
     Future.delayed(const Duration(milliseconds: 200), () {
+      if (!context.mounted) return;
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -82,6 +83,7 @@ class _GenreButtonState extends State<GenreButton> {
                   return CustomTransparentButton(
                     onPressed: () async {
                       await widget.changeGenre(option);
+                      if (!context.mounted) return;
                       Navigator.pop(context);
                     },
                     child: Container(

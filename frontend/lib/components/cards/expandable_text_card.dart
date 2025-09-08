@@ -27,7 +27,7 @@ class _ExpandableTextCardState extends State<ExpandableTextCard> {
   Widget build(BuildContext context) {
     final defaultStyle = Theme.of(context).textTheme.bodyMedium!;
     final textStyle = widget.style ?? defaultStyle;
-    final textScale = MediaQuery.textScaleFactorOf(context);
+    final textScale = MediaQuery.textScalerOf(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -39,7 +39,7 @@ class _ExpandableTextCardState extends State<ExpandableTextCard> {
         final tpLine = TextPainter(
           text: TextSpan(text: 'M', style: textStyle),
           textDirection: TextDirection.ltr,
-          textScaleFactor: textScale,
+          textScaler: textScale,
           maxLines: 1,
         )..layout(maxWidth: availableWidth);
         final lineHeight = tpLine.height;
@@ -49,7 +49,7 @@ class _ExpandableTextCardState extends State<ExpandableTextCard> {
         final tpFull = TextPainter(
           text: TextSpan(text: widget.text, style: textStyle),
           textDirection: TextDirection.ltr,
-          textScaleFactor: textScale,
+          textScaler: textScale,
           maxLines: null,
         )..layout(maxWidth: availableWidth);
         final fullH = tpFull.height;

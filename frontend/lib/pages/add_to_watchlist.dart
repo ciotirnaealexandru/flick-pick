@@ -28,8 +28,6 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
 
   int? selectedDeckId = 0;
 
-  Future<void> searchDecks(text) async {}
-
   @override
   void initState() {
     super.initState();

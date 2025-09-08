@@ -74,6 +74,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
     FocusScope.of(context).unfocus();
 
     Future.delayed(const Duration(milliseconds: 200), () {
+      if (!context.mounted) return;
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -146,6 +147,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
     FocusScope.of(context).unfocus();
 
     Future.delayed(const Duration(milliseconds: 200), () {
+      if (!context.mounted) return;
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -179,6 +181,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
     FocusScope.of(context).unfocus();
 
     Future.delayed(const Duration(milliseconds: 200), () {
+      if (!context.mounted) return;
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,

@@ -106,7 +106,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
     });
   }
 
-  Future<void> changeSortField(newSortField) async {
+  Future<void> changeSortField(String newSortField) async {
     setState(() {
       sortField = newSortField;
     });

@@ -33,7 +33,7 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
     super.dispose();
   }
 
-  Future<void> createDeckFunction(deckName) async {
+  Future<void> createDeckFunction(String deckName) async {
     final secureStorage = FlutterSecureStorage();
     final token = await secureStorage.read(
       key: dotenv.env['SECURE_STORAGE_SECRET']!,
@@ -71,6 +71,7 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
     FocusScope.of(context).unfocus();
 
     Future.delayed(const Duration(milliseconds: 200), () {
+      if (!context.mounted) return;
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,

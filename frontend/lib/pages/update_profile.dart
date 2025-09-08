@@ -198,6 +198,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
             FocusScope.of(context).unfocus();
 
             Future.delayed(const Duration(milliseconds: 200), () {
+              if (!context.mounted) return;
               showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,

@@ -81,7 +81,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
       return;
     }
 
-    final deck;
+    final Deck? deck;
 
     // check for the full deck
     if (deckId == 0) {
@@ -213,7 +213,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
     return sortedShows;
   }
 
-  Future<void> changeSortField(newSortField) async {
+  Future<void> changeSortField(String newSortField) async {
     setState(() {
       sortField = newSortField;
     });

@@ -74,12 +74,12 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
     });
 
     if (apiId != null) {
-      await loadShowInfo(apiId);
-      await getSimilarShows(apiId);
+      await loadShowInfo(apiId!);
+      await getSimilarShows(apiId!);
     }
   }
 
-  Future<void> loadShowInfo(apiId) async {
+  Future<void> loadShowInfo(int apiId) async {
     final UserShow? data = await getShowInfo(
       apiId: apiId,
       userId: userInfo?.id,
@@ -98,7 +98,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
     });
   }
 
-  Future<void> getSimilarShows(apiId) async {
+  Future<void> getSimilarShows(int apiId) async {
     final response = await http.get(
       Uri.parse('${dotenv.env['API_URL']!}/show/similar/$apiId'),
       headers: {'Content-Type': 'application/json'},
@@ -263,7 +263,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                                     showMessage(context, message);
                                   }
 
-                                  await loadShowInfo(apiId);
+                                  await loadShowInfo(apiId!);
                                 }
                               },
                             ),

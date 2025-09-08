@@ -24,6 +24,7 @@ class _SortButtonState extends State<SortButton> {
     FocusScope.of(context).unfocus();
 
     Future.delayed(const Duration(milliseconds: 200), () {
+      if (!context.mounted) return;
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -35,6 +36,7 @@ class _SortButtonState extends State<SortButton> {
                   return CustomTransparentButton(
                     onPressed: () async {
                       await widget.changeSortField(option);
+                      if (!context.mounted) return;
                       Navigator.pop(context);
                     },
                     child: Container(
