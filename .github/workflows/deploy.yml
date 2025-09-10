@@ -7,6 +7,11 @@ on:
 jobs:
   deploy-fe:
     runs-on: ubuntu-latest
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -17,11 +22,14 @@ jobs:
           flutter-version: "3.35.3"
           channel: "stable"
 
+      - name: Enable Web version
+        run: flutter config --enable-web
+
       - name: Install Dependencies
         run: flutter pub get
 
       - name: Build Web version
-        run: flutter build web
+        run: flutter build web --release
 
       - name: Install Vercel CLI
         run: npm install --global vercel
