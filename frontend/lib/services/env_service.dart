@@ -13,12 +13,14 @@ class EnvConfig {
     return prodApi.isNotEmpty ? prodApi : dotenv.env['API_URL']!;
   }
 
-  static bool get displaySkipButton {
+  static String get displaySkipButton {
     const prodFlag = String.fromEnvironment(
       'DISPLAY_SKIP_BUTTON',
       defaultValue: '',
     );
-    return prodFlag == 'true' ||
-        (dotenv.env['DISPLAY_SKIP_BUTTON'] ?? 'false') == 'true';
+    if (prodFlag.isNotEmpty) {
+      return prodFlag;
+    }
+    return dotenv.env['DISPLAY_SKIP_BUTTON'] ?? 'false';
   }
 }
