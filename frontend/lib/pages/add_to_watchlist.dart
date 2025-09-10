@@ -149,7 +149,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
             SizedBox(height: 10),
             CustomFilledButton(
               onPressed: () async {
-                // make sure the user selected a deck
+                // make sure the user selected deck
                 if (selectedDeckId == 0) return;
 
                 final secureStorage = FlutterSecureStorage();
