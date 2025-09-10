@@ -11,6 +11,7 @@ jobs:
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -37,12 +38,14 @@ jobs:
             printf "API_URL=\nDISPLAY_SKIP_BUTTON=false\n" > frontend/.env
           fi
 
-      - name: Build and Deploy
+      - name: Build Flutter Web
+        working-directory: ./frontend
+        run: flutter build web --release \
+          --dart-define=API_URL=${{ secrets.API_URL }} \
+          --dart-define=DISPLAY_SKIP_BUTTON=${{ secrets.DISPLAY_SKIP_BUTTON }} \
+          --no-wasm-dry-run
+
+      - name: Deploy to Vercel
         run: |
-          cd frontend
-          flutter build web --release \
-            --dart-define=API_URL=${{ secrets.API_URL }} \
-            --dart-define=DISPLAY_SKIP_BUTTON=${{ secrets.DISPLAY_SKIP_BUTTON }} \
-            --no-wasm-dry-run
           npm install --global vercel
-          vercel deploy --prod --token=${{ secrets.VERCEL_SECRET }} --yes --cwd build/web
+          vercel --prod --yes --cwd frontend/build/web --confirm
