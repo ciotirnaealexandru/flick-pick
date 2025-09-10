@@ -33,6 +33,8 @@ jobs:
       - name: Build and Deploy
         run: |
           cd frontend
-          flutter build web --release
+          flutter build web --release \
+            --dart-define=API_URL=${{ secrets.API_URL }} \
+            --dart-define=DISPLAY_SKIP_BUTTON=${{ secrets.DISPLAY_SKIP_BUTTON }}
           npm install --global vercel
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --yes --cwd build/web
