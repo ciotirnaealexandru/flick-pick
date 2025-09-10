@@ -1,29 +1,30 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class EnvConfig {
-  // Load .env for dev only
   static Future<void> loadEnv() async {
-    // Only load .env on mobile/desktop, not Web
-    if (!const bool.fromEnvironment('IS_WEB', defaultValue: false)) {
-      await dotenv.load(fileName: ".env.dev");
+    if (!kIsWeb) {
+      try {
+        await dotenv.load(fileName: ".env");
+      } catch (e) {
+        print('No .env found, skipping: $e');
+      }
     }
   }
 
-  // Get API URL depending on environment
-  // Dev: reads from dotenv
-  // Prod: reads from dart-define
   static String get apiUrl {
-    const prodEnvResponse = String.fromEnvironment('API_URL', defaultValue: '');
-    if (prodEnvResponse.isNotEmpty) return prodEnvResponse;
-    return dotenv.env['API_URL']!;
+    const prodApi = String.fromEnvironment('API_URL', defaultValue: '');
+    return prodApi.isNotEmpty
+        ? prodApi
+        : dotenv.env['API_URL'] ?? 'https://api.default.com';
   }
 
-  static String get displaySkipButton {
-    const prodEnvResponse = String.fromEnvironment(
+  static bool get displaySkipButton {
+    const prodFlag = String.fromEnvironment(
       'DISPLAY_SKIP_BUTTON',
       defaultValue: '',
     );
-    if (prodEnvResponse.isNotEmpty) return prodEnvResponse;
-    return dotenv.env['API_URL']!;
+    return prodFlag == 'true' ||
+        (dotenv.env['DISPLAY_SKIP_BUTTON'] ?? 'false') == 'true';
   }
 }
