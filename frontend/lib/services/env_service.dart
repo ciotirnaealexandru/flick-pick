@@ -4,19 +4,13 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class EnvConfig {
   static Future<void> loadEnv() async {
     if (!kIsWeb) {
-      try {
-        await dotenv.load(fileName: ".env");
-      } catch (e) {
-        print('No .env found, skipping: $e');
-      }
+      await dotenv.load(fileName: ".env.dev");
     }
   }
 
   static String get apiUrl {
     const prodApi = String.fromEnvironment('API_URL', defaultValue: '');
-    return prodApi.isNotEmpty
-        ? prodApi
-        : dotenv.env['API_URL'] ?? 'https://api.default.com';
+    return prodApi.isNotEmpty ? prodApi : dotenv.env['API_URL']!;
   }
 
   static bool get displaySkipButton {
