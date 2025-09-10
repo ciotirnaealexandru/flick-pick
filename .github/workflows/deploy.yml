@@ -40,7 +40,8 @@ jobs:
 
       - name: Build Flutter Web
         working-directory: ./frontend
-        run: flutter build web --release \
+        run: |
+          flutter build web --release \
           --dart-define=API_URL=${{ secrets.API_URL }} \
           --dart-define=DISPLAY_SKIP_BUTTON=${{ secrets.DISPLAY_SKIP_BUTTON }} \
           --no-wasm-dry-run
