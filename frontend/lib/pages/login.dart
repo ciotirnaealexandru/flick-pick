@@ -4,8 +4,8 @@ import 'package:frontend/components/buttons/button_models/custom_filled_button.d
 import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/custom_form_field.dart';
 import 'package:frontend/components/show_message.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class FormScreen extends StatefulWidget {
@@ -85,7 +85,7 @@ class _FormScreenState extends State<FormScreen> {
                 final password = _passwordController.text;
 
                 final response = await http.post(
-                  Uri.parse('${dotenv.env['API_URL']!}/user/login'),
+                  Uri.parse('${EnvConfig.apiUrl}/user/login'),
                   headers: {'Content-Type': 'application/json'},
                   body: jsonEncode({'email': email, 'password': password}),
                 );
@@ -106,7 +106,7 @@ class _FormScreenState extends State<FormScreen> {
               }
             },
           ),
-          if (dotenv.env['DISPLAY_SKIP_BUTTON'] == 'true')
+          if (EnvConfig.displaySkipButton == 'true')
             Column(
               children: [
                 SizedBox(height: 180),

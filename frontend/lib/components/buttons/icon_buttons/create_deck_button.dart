@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/border_text_field.dart';
 import 'package:frontend/components/bottom_modal.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
 import 'package:frontend/components/show_message.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
 
 class CreateDeckButton extends StatefulWidget {
@@ -38,7 +38,7 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
     final token = await secureStorage.read(key: "auth_token");
 
     final createDeckResponse = await http.post(
-      Uri.parse('${dotenv.env['API_URL']!}/user/deck/${widget.userId}'),
+      Uri.parse('${EnvConfig.apiUrl}/user/deck/${widget.userId}'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/show_message.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_show_model.dart';
 import 'package:frontend/services/deck_service.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:frontend/services/show_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -114,7 +114,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
 
                       final changeUserShowInfoResponse = await http.delete(
                         Uri.parse(
-                          '${dotenv.env['API_URL']!}/user/show/$userId/${userShow?.show.apiId}',
+                          '${EnvConfig.apiUrl}/user/show/$userId/${userShow?.show.apiId}',
                         ),
                         headers: {
                           'Content-Type': 'application/json',
@@ -156,7 +156,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                 final token = await secureStorage.read(key: "auth_token");
 
                 final changeUserShowInfoResponse = await http.post(
-                  Uri.parse('${dotenv.env['API_URL']!}/user/show/$userId'),
+                  Uri.parse('${EnvConfig.apiUrl}/user/show/$userId'),
                   headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer $token',

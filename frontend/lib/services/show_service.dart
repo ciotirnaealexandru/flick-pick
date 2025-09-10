@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_show_model.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
@@ -13,7 +13,7 @@ Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
 
     // get the main info of the show
     final mainInfoResponse = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/show/details/$apiId'),
+      Uri.parse('${EnvConfig.apiUrl}/show/details/$apiId'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -28,7 +28,7 @@ Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
 
     // get the user info if it exists
     final userShowResponse = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/user/show/$userId/$apiId'),
+      Uri.parse('${EnvConfig.apiUrl}/user/show/$userId/$apiId'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

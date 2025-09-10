@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/border_text_field.dart';
 import 'package:frontend/components/bottom_modal.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
 import 'package:frontend/components/show_message.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
 
 class EditDeckButton extends StatefulWidget {
@@ -44,7 +44,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
 
       final updateDeckResponse = await http.patch(
         Uri.parse(
-          '${dotenv.env['API_URL']!}/user/deck/${widget.userId}/${widget.deckId}',
+          '${EnvConfig.apiUrl}/user/deck/${widget.userId}/${widget.deckId}',
         ),
         headers: {
           'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ class _EditDeckButtonState extends State<EditDeckButton> {
 
       final deleteDeckResponse = await http.delete(
         Uri.parse(
-          '${dotenv.env['API_URL']!}/user/deck/${widget.userId}/${widget.deckId}',
+          '${EnvConfig.apiUrl}/user/deck/${widget.userId}/${widget.deckId}',
         ),
         headers: {
           'Content-Type': 'application/json',

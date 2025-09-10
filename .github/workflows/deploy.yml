@@ -30,9 +30,22 @@ jobs:
         working-directory: ./frontend
         run: flutter pub get
 
-      - name: Build and Deploy
+      - name: Ensure .env exists for assets
         run: |
-          cd frontend
-          flutter build web --release
+          mkdir -p frontend
+          if [ ! -f frontend/.env ]; then
+            printf "API_URL=\nDISPLAY_SKIP_BUTTON=false\n" > frontend/.env
+          fi
+
+      - name: Build Flutter Web
+        working-directory: ./frontend
+        run: |
+          flutter build web --release \
+          --dart-define=API_URL=${{ secrets.API_URL }} \
+          --dart-define=DISPLAY_SKIP_BUTTON=${{ secrets.DISPLAY_SKIP_BUTTON }} \
+          --no-wasm-dry-run
+
+      - name: Deploy to Vercel
+        run: |
           npm install --global vercel
-          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --yes --cwd build/web
+          vercel --prod --yes --cwd frontend/build/web --token=${{ secrets.VERCEL_TOKEN }}

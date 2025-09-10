@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/components/buttons/icon_buttons/add_show_button.dart';
@@ -13,6 +12,7 @@ import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/models/user_show_model.dart';
 import 'package:frontend/services/deck_service.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -95,9 +95,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
 
       // get the deck info if it exists
       final deckResponse = await http.get(
-        Uri.parse(
-          '${dotenv.env['API_URL']!}/user/deck/${userInfo?.id}/$deckId',
-        ),
+        Uri.parse('${EnvConfig.apiUrl}/user/deck/${userInfo?.id}/$deckId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -145,9 +143,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
 
       // get the deck info if it exists
       final deckResponse = await http.get(
-        Uri.parse(
-          '${dotenv.env['API_URL']!}/user/deck/${userInfo?.id}/$deckId',
-        ),
+        Uri.parse('${EnvConfig.apiUrl}/user/deck/${userInfo?.id}/$deckId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
