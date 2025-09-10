@@ -30,6 +30,13 @@ jobs:
         working-directory: ./frontend
         run: flutter pub get
 
+      - name: Ensure .env exists for assets
+        run: |
+          mkdir -p frontend
+          if [ ! -f frontend/.env ]; then
+            printf "API_URL=\nDISPLAY_SKIP_BUTTON=false\n" > frontend/.env
+          fi
+
       - name: Build and Deploy
         run: |
           cd frontend

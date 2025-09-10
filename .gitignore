@@ -1,6 +1,5 @@
 # my custom .gitignore additions
 .env
-.env.dev
 .flutter-plugins
 .vercel
 
