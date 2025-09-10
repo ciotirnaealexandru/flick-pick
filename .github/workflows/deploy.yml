@@ -34,6 +34,7 @@ jobs:
         run: |
           cd frontend
           flutter build web --release \
+            --dart-define=IS_WEB=true \
             --dart-define=API_URL=${{ secrets.API_URL }} \
             --dart-define=DISPLAY_SKIP_BUTTON=${{ secrets.DISPLAY_SKIP_BUTTON }}
           npm install --global vercel
