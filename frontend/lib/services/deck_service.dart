@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_show_model.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<List<Deck>?> getDecksInfo({int? userId}) async {
   final secureStorage = FlutterSecureStorage();
@@ -11,7 +11,7 @@ Future<List<Deck>?> getDecksInfo({int? userId}) async {
 
   // get the deck info if it exists
   final decksResponse = await http.get(
-    Uri.parse('${dotenv.env['API_URL']!}/user/deck/all/$userId'),
+    Uri.parse('${EnvConfig.apiUrl}/user/deck/all/$userId'),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
@@ -35,7 +35,7 @@ Future<Deck?> getFullDeckInfo({required int userId}) async {
     final token = await secureStorage.read(key: "auth_token");
 
     final showsResponse = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/user/show/all/$userId'),
+      Uri.parse('${EnvConfig.apiUrl}/user/show/all/$userId'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

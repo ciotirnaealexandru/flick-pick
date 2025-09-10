@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/components/bottom_modal.dart';
 import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
 import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
 
 class Genre {
@@ -40,7 +40,7 @@ class _GenreButtonState extends State<GenreButton> {
 
   Future<void> getGenres() async {
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/show/genres'),
+      Uri.parse('${EnvConfig.apiUrl}/show/genres'),
       headers: {'Content-Type': 'application/json'},
     );
 

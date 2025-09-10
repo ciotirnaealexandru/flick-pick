@@ -6,9 +6,9 @@ import 'package:frontend/components/bars/search_bar.dart';
 import 'package:frontend/components/cards/no_shows_found_card.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/main.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
 import '../models/show_model.dart';
 import 'dart:convert';
@@ -84,7 +84,7 @@ class _SearchState extends State<Search> with RouteAware {
     }
 
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/show/search/genre/${genre.genreId}'),
+      Uri.parse('${EnvConfig.apiUrl}/show/search/genre/${genre.genreId}'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -116,7 +116,7 @@ class _SearchState extends State<Search> with RouteAware {
     changeGenre(Genre(genreName: "All", genreId: 0));
 
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/show/search/name/$showName'),
+      Uri.parse('${EnvConfig.apiUrl}/show/search/name/$showName'),
       headers: {'Content-Type': 'application/json'},
     );
 

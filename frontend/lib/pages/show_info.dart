@@ -8,6 +8,7 @@ import 'package:frontend/components/show_message.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/models/show_model.dart';
 import 'package:frontend/models/user_show_model.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
@@ -15,7 +16,6 @@ import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/show_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:expandable_text/expandable_text.dart';
 
 class ShowInfo extends StatefulWidget {
@@ -100,7 +100,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
 
   Future<void> getSimilarShows(int apiId) async {
     final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']!}/show/similar/$apiId'),
+      Uri.parse('${EnvConfig.apiUrl}/show/similar/$apiId'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -227,7 +227,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                                   final changeUserShowInfoResponse = await http
                                       .post(
                                         Uri.parse(
-                                          '${dotenv.env['API_URL']!}/user/show/${userInfo?.id}',
+                                          '${EnvConfig.apiUrl}/user/show/${userInfo?.id}',
                                         ),
                                         headers: {
                                           'Content-Type': 'application/json',

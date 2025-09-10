@@ -5,9 +5,9 @@ import 'package:frontend/components/bottom_modal.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/custom_form_field.dart';
 import 'package:frontend/components/show_message.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
 
 class UpdateProfileForm extends StatefulWidget {
@@ -133,7 +133,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
 
                     final response = await http.patch(
                       Uri.parse(
-                        '${dotenv.env['API_URL']!}/user/${widget.userInfo.id}',
+                        '${EnvConfig.apiUrl}/user/${widget.userInfo.id}',
                       ),
                       headers: {
                         'Content-Type': 'application/json',
@@ -222,7 +222,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
 
                           final response = await http.delete(
                             Uri.parse(
-                              '${dotenv.env['API_URL']!}/user/${widget.userInfo.id}',
+                              '${EnvConfig.apiUrl}/user/${widget.userInfo.id}',
                             ),
                             headers: {
                               'Content-Type': 'application/json',

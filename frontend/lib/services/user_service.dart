@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/user_model.dart';
 
 Future<User?> getUserInfo() async {
@@ -9,7 +9,7 @@ Future<User?> getUserInfo() async {
   final token = await secureStorage.read(key: "auth_token");
 
   final response = await http.get(
-    Uri.parse('${dotenv.env['API_URL']!}/user/me'),
+    Uri.parse('${EnvConfig.apiUrl}/user/me'),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
