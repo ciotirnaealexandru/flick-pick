@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class EnvConfig {
   static Future<void> loadEnv() async {
     if (!kIsWeb) {
-      await dotenv.load(fileName: ".env.dev");
+      await dotenv.load(fileName: ".env");
     }
   }
 
