@@ -91,6 +91,7 @@ router.get("/guest", async (req, res) => {
         firstName: "Guest First",
         lastName: "Guest Last",
         email: `guest_${Math.floor(Date.now() / 1000)}@gmail.com`,
+        phone: null,
         password: await bcrypt.hash("guest", 12),
         role: Role.GUEST,
       },

@@ -107,7 +107,7 @@ class _FormScreenState extends State<FormScreen> {
               }
             },
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           CustomTransparentButton(
             child: Container(
               decoration: BoxDecoration(
@@ -150,7 +150,7 @@ class _FormScreenState extends State<FormScreen> {
           if (EnvConfig.displaySkipButton == 'true')
             Column(
               children: [
-                SizedBox(height: 160),
+                SizedBox(height: 150),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, '/search');
