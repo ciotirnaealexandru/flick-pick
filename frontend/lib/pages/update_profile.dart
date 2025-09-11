@@ -118,7 +118,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
             child: SizedBox(
               width: double.infinity,
               child: CustomFilledButton(
-                child: Text("UPDATE"),
+                child: Text("Update Profile"),
                 onPressed: () async {
                   final form = _formKey.currentState!;
 
@@ -191,7 +191,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
         width: double.infinity,
         child: CustomFilledButton(
           backgroundColor: Theme.of(context).colorScheme.error,
-          child: Text("DELETE"),
+          child: Text("Delete Account"),
           onPressed: () async {
             FocusScope.of(context).unfocus();
 
@@ -205,7 +205,8 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                     modalSize: ModalSize.small,
                     children: [
                       Text(
-                        "Are you sure you want to delete your profile?",
+                        "Are you sure you want to delete your account?",
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).colorScheme.error,
                         ),
@@ -213,7 +214,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
                       SizedBox(height: 10),
                       CustomFilledButton(
                         backgroundColor: Theme.of(context).colorScheme.error,
-                        child: Text("DELETE PROFILE"),
+                        child: Text("Delete"),
                         onPressed: () async {
                           final secureStorage = FlutterSecureStorage();
                           final token = await secureStorage.read(
@@ -305,7 +306,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  'Update Profile',
+                  'Edit Profile',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 UpdateProfileForm(userInfo!, loadUserInfo),

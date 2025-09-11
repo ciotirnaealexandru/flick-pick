@@ -103,7 +103,7 @@ class _ProfileState extends State<Profile> {
               CustomFilledButton(
                 onPressed:
                     () => {Navigator.pushNamed(context, '/update_profile')},
-                child: Text("UPDATE PROFILE"),
+                child: Text("Edit Profile"),
               ),
               SizedBox(height: 10),
               CustomFilledButton(
@@ -116,7 +116,7 @@ class _ProfileState extends State<Profile> {
                   Navigator.pushReplacementNamed(context, '/login');
                 },
 
-                child: Text("LOGOUT"),
+                child: Text("Logout"),
               ),
             ],
           ),

@@ -59,7 +59,9 @@ class _FormScreenState extends State<FormScreen> {
               children: [
                 Text(
                   'Make an account',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(width: 10),
                 Icon(
@@ -137,7 +139,7 @@ class Login extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Login', style: Theme.of(context).textTheme.displayLarge),
+              Text('Login', style: Theme.of(context).textTheme.titleLarge),
               FormScreen(),
             ],
           ),
