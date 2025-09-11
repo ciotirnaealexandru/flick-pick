@@ -185,7 +185,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
 
       body: Column(
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           Expanded(
             child: SizedBox(
               child: ListView.separated(

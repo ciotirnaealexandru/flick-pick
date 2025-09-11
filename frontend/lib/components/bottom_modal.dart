@@ -24,7 +24,7 @@ class BottomModal extends StatelessWidget {
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: SizedBox(
-          height: (modalSize == ModalSize.small) ? 200 : 650,
+          height: (modalSize == ModalSize.small) ? 200 : 600,
           child: Center(
             child: SizedBox(
               width: 300,

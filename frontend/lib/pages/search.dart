@@ -242,15 +242,13 @@ class _SearchState extends State<Search> with RouteAware {
         ),
       ),
 
-      body: SafeArea(
-        child:
-            finishedLoading && showsInfo.isEmpty
-                ? Center(child: NoShowsFoundCard())
-                : SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: ShowGrid(shows: showsInfo),
-                ),
-      ),
+      body:
+          finishedLoading && showsInfo.isEmpty
+              ? Center(child: NoShowsFoundCard())
+              : SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: ShowGrid(shows: showsInfo),
+              ),
 
       bottomNavigationBar: Navbar(),
     );

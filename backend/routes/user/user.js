@@ -3,6 +3,7 @@ const router = express.Router();
 
 // for db
 const prisma = require("../../prismaClient");
+const { Role } = require("@prisma/client");
 
 // for auth using an array
 const bcrypt = require("bcryptjs");
@@ -15,6 +16,8 @@ const {
   adminRequired,
   adminOrSelfRequired,
 } = require("../middlewares");
+
+const expirationTime = "2h";
 
 // SIGN UP user based on firstName, lastName, email, password
 router.post("/signup", async (req, res) => {
@@ -69,7 +72,38 @@ router.post("/login", async (req, res) => {
       },
       secretKey,
       {
-        expiresIn: "2h",
+        expiresIn: expirationTime,
+      }
+    );
+
+    res.status(200).send({ token });
+  } catch (error) {
+    console.error("Something went wrong: ", error);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
+// create a temporary GUEST account
+router.get("/guest", async (req, res) => {
+  try {
+    const guestUser = await prisma.user.create({
+      data: {
+        firstName: "Guest First",
+        lastName: "Guest Last",
+        email: `guest_${Math.floor(Date.now() / 1000)}@gmail.com`,
+        password: await bcrypt.hash("guest", 12),
+        role: Role.GUEST,
+      },
+    });
+
+    // generate token
+    const token = jwt.sign(
+      {
+        id: guestUser.id,
+      },
+      secretKey,
+      {
+        expiresIn: expirationTime,
       }
     );
 
@@ -100,6 +134,7 @@ router.get("/me", authenticateToken, async (req, res) => {
       lastName: user.lastName,
       email: user.email,
       phone: user.phone,
+      role: user.role,
     });
   } catch (error) {
     console.error("Something went wrong: ", error);
@@ -162,6 +197,13 @@ router.patch(
       // check it the user exists
       if (!user) {
         return res.status(404).json({ message: "User does not exist." });
+      }
+
+      // check it the user is a guest
+      if (user.role == Role.GUEST) {
+        return res
+          .status(500)
+          .json({ message: "Can't update profile as a guest." });
       }
 
       // search for users with the new email to prevent duplicates

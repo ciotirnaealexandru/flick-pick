@@ -52,7 +52,7 @@ class _FormScreenState extends State<FormScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 80),
+          const SizedBox(height: 60),
           CustomTransparentButton(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -76,7 +76,6 @@ class _FormScreenState extends State<FormScreen> {
             },
           ),
           const SizedBox(height: 20),
-
           CustomFilledButton(
             child: Text("LOGIN"),
             onPressed: () async {
@@ -108,10 +107,50 @@ class _FormScreenState extends State<FormScreen> {
               }
             },
           ),
+          SizedBox(height: 10),
+          CustomTransparentButton(
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    width: 2.5,
+                  ),
+                ),
+              ),
+              child: Text(
+                'Login as Guest',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+            onPressed: () async {
+              final response = await http.get(
+                Uri.parse('${EnvConfig.apiUrl}/user/guest'),
+                headers: {'Content-Type': 'application/json'},
+              );
+
+              if (response.statusCode == 200) {
+                final responseData = jsonDecode(response.body);
+                final token = responseData['token'];
+
+                final secureStorage = FlutterSecureStorage();
+                await secureStorage.write(key: "auth_token", value: token);
+
+                if (!context.mounted) return;
+                Navigator.pushReplacementNamed(context, '/search');
+              } else {
+                if (!context.mounted) return;
+                showMessage(context, "Login failed.");
+              }
+            },
+          ),
+
           if (EnvConfig.displaySkipButton == 'true')
             Column(
               children: [
-                SizedBox(height: 180),
+                SizedBox(height: 160),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, '/search');

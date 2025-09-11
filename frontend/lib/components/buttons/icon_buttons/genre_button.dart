@@ -54,13 +54,11 @@ class _GenreButtonState extends State<GenreButton> {
             )
             .toList();
 
-    final limitedGenres =
-        genreOriginalOptions.length > 12
-            ? genreOriginalOptions.sublist(0, 12)
-            : genreOriginalOptions;
-
     setState(() {
-      genreOptions = [Genre(genreName: "All", genreId: 0), ...limitedGenres];
+      genreOptions = [
+        Genre(genreName: "All", genreId: 0),
+        ...genreOriginalOptions,
+      ];
       finishedLoading = true;
     });
   }
@@ -80,28 +78,33 @@ class _GenreButtonState extends State<GenreButton> {
             modalSize: ModalSize.big,
             children:
                 genreOptions!.map((option) {
-                  return CustomTransparentButton(
-                    onPressed: () async {
-                      await widget.changeGenre(option);
-                      if (!context.mounted) return;
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      decoration:
-                          widget.genre.genreId == option.genreId
-                              ? BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    width: 2.5,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: CustomTransparentButton(
+                      onPressed: () async {
+                        await widget.changeGenre(option);
+                        if (!context.mounted) return;
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        decoration:
+                            widget.genre.genreId == option.genreId
+                                ? BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                      width: 2.5,
+                                    ),
                                   ),
-                                ),
-                              )
-                              : null,
-                      child: Text(
-                        option.genreName,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                                )
+                                : null,
+                        child: Text(
+                          option.genreName,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                       ),
                     ),
                   );

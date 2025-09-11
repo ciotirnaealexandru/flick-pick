@@ -104,7 +104,7 @@ class _FormScreenState extends State<FormScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 60),
           CustomTransparentButton(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -127,7 +127,7 @@ class _FormScreenState extends State<FormScreen> {
               Navigator.pushReplacementNamed(context, '/login');
             },
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 20),
           CustomFilledButton(
             child: Text("SIGN UP"),
             onPressed: () async {
