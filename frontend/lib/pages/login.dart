@@ -139,7 +139,7 @@ class Login extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Login', style: Theme.of(context).textTheme.titleLarge),
+              Text('Login', style: Theme.of(context).textTheme.displayLarge),
               FormScreen(),
             ],
           ),

@@ -193,7 +193,7 @@ class Signup extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Sign Up', style: Theme.of(context).textTheme.titleLarge),
+              Text('Sign Up', style: Theme.of(context).textTheme.displayLarge),
               FormScreen(),
             ],
           ),

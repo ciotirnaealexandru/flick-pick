@@ -37,7 +37,7 @@ final ThemeData appTheme = ThemeData(
   // Text styles
   textTheme: TextTheme(
     displayLarge: TextStyle(
-      fontSize: 30,
+      fontSize: 26,
       fontWeight: FontWeight.w900,
       color: _appColors.onPrimary,
       fontFamily: AppFonts.primary,
