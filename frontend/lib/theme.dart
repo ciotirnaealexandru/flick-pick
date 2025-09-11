@@ -112,6 +112,16 @@ final ThemeData appTheme = ThemeData(
     selectedLabelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
     unselectedLabelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
   ),
+
+  pageTransitionsTheme: const PageTransitionsTheme(
+    builders: {
+      TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+      TargetPlatform.iOS: OpenUpwardsPageTransitionsBuilder(),
+      TargetPlatform.macOS: OpenUpwardsPageTransitionsBuilder(),
+      TargetPlatform.linux: OpenUpwardsPageTransitionsBuilder(),
+      TargetPlatform.windows: OpenUpwardsPageTransitionsBuilder(),
+    },
+  ),
 );
 
 class NoScrollbarScrollBehavior extends ScrollBehavior {
