@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       JWT_AUTH_KEY: ${{ secrets.JWT_AUTH_KEY }}
       SHOW_API_READ_ACCESS_TOKEN: ${{ secrets.SHOW_API_READ_ACCESS_TOKEN }}
@@ -34,10 +36,15 @@ jobs:
         working-directory: ./backend
         run: npx prisma migrate deploy
 
-      - name: Deploy to Heroku
-        run: |
-          git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/flick-pick-backend.git
-          git subtree push --prefix backend heroku main
+      - name: Deploy Backend to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: $HEROKU_API_KEY
+          heroku_app_name: flick-pick-backend
+          heroku_email: ciotirnae.alexandru005@gmail.com
+          usedocker: false
+          branch: prod
+          path: backend
 
   deploy-fe:
     runs-on: ubuntu-latest
