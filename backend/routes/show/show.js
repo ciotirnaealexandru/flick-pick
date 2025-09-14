@@ -10,7 +10,7 @@ router.get("/search/name/:name", async (req, res) => {
       `https://api.themoviedb.org/3/search/tv?include_adult=false&language=en-US&page=1&query=${parsedName}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.API_READ_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${process.env.SHOW_API_READ_ACCESS_TOKEN}`,
           accept: "application/json",
         },
       }
@@ -61,7 +61,7 @@ router.get("/search/genre/:genre_id", async (req, res) => {
           `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${i}&sort_by=popularity.desc${genre}`,
           {
             headers: {
-              Authorization: `Bearer ${process.env.API_READ_ACCESS_TOKEN}`,
+              Authorization: `Bearer ${process.env.SHOW_API_READ_ACCESS_TOKEN}`,
               accept: "application/json",
             },
           }
@@ -104,7 +104,7 @@ router.get("/genres", async (req, res) => {
       `https://api.themoviedb.org/3/genre/tv/list?language=en`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.API_READ_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${process.env.SHOW_API_READ_ACCESS_TOKEN}`,
           accept: "application/json",
         },
       }
@@ -134,7 +134,7 @@ router.get("/details/:api_id", async (req, res) => {
       `https://api.themoviedb.org/3/tv/${req.params.api_id}?language=en-US`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.API_READ_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${process.env.SHOW_API_READ_ACCESS_TOKEN}`,
           accept: "application/json",
         },
       }
@@ -173,7 +173,7 @@ router.get("/similar/:api_id", async (req, res) => {
       `https://api.themoviedb.org/3/tv/${req.params.api_id}/similar`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.API_READ_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${process.env.SHOW_API_READ_ACCESS_TOKEN}`,
           accept: "application/json",
         },
       }

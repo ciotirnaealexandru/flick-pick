@@ -8,7 +8,7 @@ const { Role } = require("@prisma/client");
 // for auth using an array
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const secretKey = process.env.SECRET_AUTH_KEY;
+const secretKey = process.env.JWT_AUTH_KEY;
 
 // middlewares
 const {
