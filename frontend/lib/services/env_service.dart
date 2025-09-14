@@ -9,8 +9,8 @@ class EnvConfig {
   }
 
   static String get apiUrl {
-    const prodApi = String.fromEnvironment('API_URL', defaultValue: '');
-    return prodApi.isNotEmpty ? prodApi : dotenv.env['API_URL']!;
+    const prodApi = String.fromEnvironment('BACKEND_API_URL', defaultValue: '');
+    return prodApi.isNotEmpty ? prodApi : dotenv.env['BACKEND_API_URL']!;
   }
 
   static String get displaySkipButton {
