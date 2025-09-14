@@ -36,6 +36,9 @@ jobs:
         working-directory: ./backend
         run: npx prisma migrate deploy
 
+      - name: Install Heroku CLI
+        run: curl https://cli-assets.heroku.com/install.sh | sh
+
       - name: Deploy Backend to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
@@ -44,7 +47,7 @@ jobs:
           heroku_email: ciotirnae.alexandru005@gmail.com
           usedocker: false
           branch: prod
-          path: backend
+          appdir: backend
 
   deploy-fe:
     runs-on: ubuntu-latest
