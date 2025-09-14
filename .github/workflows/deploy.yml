@@ -8,6 +8,11 @@ jobs:
   deploy-be:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      JWT_AUTH_KEY: ${{ secrets.JWT_AUTH_KEY }}
+      SHOW_API_READ_ACCESS_TOKEN: ${{ secrets.SHOW_API_READ_ACCESS_TOKEN }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,8 +33,6 @@ jobs:
       - name: Apply Prisma migrations
         working-directory: ./backend
         run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Deploy to Heroku
         run: |
@@ -44,6 +47,9 @@ jobs:
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      BACKEND_API_URL: ${{ secrets.BACKEND_API_URL }}
+      DISPLAY_SKIP_BUTTON: ${{ secrets.DISPLAY_SKIP_BUTTON }}
 
     steps:
       - name: Checkout repository
@@ -73,15 +79,15 @@ jobs:
         run: |
           mkdir -p frontend
           if [ ! -f frontend/.env ]; then
-            printf "BACKEND_API_URL=\nDISPLAY_SKIP_BUTTON=false\n" > frontend/.env
+            printf "Dummy .env because flutter throws an error if it's not in assets.\n" > frontend/.env
           fi
 
       - name: Build Flutter Web
         working-directory: ./frontend
         run: |
           flutter build web --release \
-          --dart-define=BACKEND_API_URL=${{ secrets.BACKEND_API_URL }} \
-          --dart-define=DISPLAY_SKIP_BUTTON=${{ secrets.DISPLAY_SKIP_BUTTON }} \
+          --dart-define=BACKEND_API_URL=$BACKEND_API_URL \
+          --dart-define=DISPLAY_SKIP_BUTTON=$DISPLAY_SKIP_BUTTON \
           --no-wasm-dry-run
 
       - name: Deploy to Vercel
