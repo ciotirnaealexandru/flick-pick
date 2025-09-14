@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/cards/no_shows_found_card.dart';
+import 'package:frontend/components/custom_divider.dart';
 import 'package:frontend/components/show_grid.dart';
 import 'package:frontend/components/show_message.dart';
 import 'package:frontend/main.dart';
@@ -299,13 +300,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                 animation: true,
                 animationDuration: Duration(milliseconds: 800),
               ),
-
-              Divider(
-                thickness: 2,
-                height: 40, // keeps it tight, no extra vertical padding
-                color: Theme.of(context).primaryColor,
-              ),
-
+              CustomDivider(),
               Text(
                 "More like this",
                 style: Theme.of(context).textTheme.titleMedium,

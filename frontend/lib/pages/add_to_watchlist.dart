@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/show_message.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_show_model.dart';
@@ -95,7 +96,13 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                         RadioListTile<int>(
                           activeColor: Theme.of(context).colorScheme.onPrimary,
                           value: decksInfo![i].id,
-                          title: Text(decksInfo![i].name),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(decksInfo![i].name),
+                              Icon(Icons.more_vert, size: 25),
+                            ],
+                          ),
                           contentPadding: EdgeInsets.all(0),
                         ),
                     ],
@@ -103,10 +110,27 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                 ),
               ),
             ),
+            CustomTransparentButton(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      width: 2.5,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  'Create Deck',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+              onPressed: () async {},
+            ),
+            SizedBox(height: 20),
             if (userShow?.userId != null)
               Column(
                 children: [
-                  SizedBox(height: 10),
                   CustomFilledButton(
                     onPressed: () async {
                       final secureStorage = FlutterSecureStorage();

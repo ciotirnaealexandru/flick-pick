@@ -185,23 +185,21 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
 
       body: Column(
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: 30),
           Expanded(
-            child: SizedBox(
-              child: ListView.separated(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: decksInfo!.length,
-                separatorBuilder: (context, index) => SizedBox(),
-                itemBuilder: (context, i) {
-                  return Column(
-                    children: [
-                      DeckCard(deck: decksInfo![i]),
-                      SizedBox(height: 20),
-                    ],
-                  );
-                },
-              ),
+            child: ListView.separated(
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemCount: decksInfo!.length,
+              separatorBuilder: (context, index) => SizedBox(),
+              itemBuilder: (context, i) {
+                return Column(
+                  children: [
+                    DeckCard(deck: decksInfo![i]),
+                    SizedBox(height: 40),
+                  ],
+                );
+              },
             ),
           ),
         ],

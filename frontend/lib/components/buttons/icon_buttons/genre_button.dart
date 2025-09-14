@@ -54,11 +54,13 @@ class _GenreButtonState extends State<GenreButton> {
             )
             .toList();
 
+    final limitedGenres =
+        genreOriginalOptions.length > 12
+            ? genreOriginalOptions.sublist(0, 12)
+            : genreOriginalOptions;
+
     setState(() {
-      genreOptions = [
-        Genre(genreName: "All", genreId: 0),
-        ...genreOriginalOptions,
-      ];
+      genreOptions = [Genre(genreName: "All", genreId: 0), ...limitedGenres];
       finishedLoading = true;
     });
   }
