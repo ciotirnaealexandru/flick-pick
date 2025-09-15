@@ -170,7 +170,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                   ),
                 ],
               ),
-            SizedBox(height: 10),
+            if (userShow?.userId != null) SizedBox(height: 10),
             CustomFilledButton(
               onPressed: () async {
                 // make sure the user selected deck

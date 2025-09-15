@@ -35,9 +35,11 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // dummy text to center the phone
                     if (isBigScreen)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Opacity(
                             opacity: 0.0,
@@ -69,8 +71,8 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
                     if (isBigScreen)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(height: constraints.minHeight / 7),
                           Text(
                             "Flick Pick",
                             style: TextStyle(
@@ -98,6 +100,7 @@ class _PhoneFrameWrapperState extends State<PhoneFrameWrapper> {
                               color: const Color.fromARGB(255, 5, 12, 28),
                             ),
                           ),
+                          SizedBox(height: constraints.minHeight / 5),
                         ],
                       ),
                   ],
