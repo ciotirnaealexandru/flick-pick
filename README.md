@@ -1,6 +1,33 @@
 # Flick Pick
 
-TV Show app for for TV Show lovers.
+### Your Next Binge, One Tap Away.
+
+### Technologies
+
+![Flutter](https://img.shields.io/badge/Flutter-1976D2?style=for-the-badge&logo=flutter&logoColor=white)
+![Express](https://img.shields.io/badge/Express%20js-111111?style=for-the-badge&logo=express&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-5CA837?style=for-the-badge&logo=node.js&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-255D91?style=for-the-badge&logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-394151?style=for-the-badge&logo=prisma&logoColor=white)
+![TMDB API](https://img.shields.io/badge/The_Movie_Databse_API-E68A00?style=for-the-badge&logo=amazonaws&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-d45dc4?style=for-the-badge&logo=jsonwebtoken&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CC1F1F?style=for-the-badge&logo=githubactions&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-111111?style=for-the-badge&logo=vercel&logoColor=white)
+![Heroku](https://img.shields.io/badge/Heroku-5A50D0?style=for-the-badge&logo=heroku&logoColor=white)
+
+## 1. Project Overview
+
+# _Flick Pick_
+
+_Flick Pick_ is a **TV Show Mobile App** designed for people who want _all their favorite shows in one place_.
+
+The app allows users to **search shows by name or genre**, discover new shows, find similar shows, and rate their favorites.
+
+The core feature is creating **“Decks”**, which are personalized bundles of shows—similar to watchlists—so users can **keep everything neatly organized** and always know what to watch next.
+
+## 2. Installation and Setup
+
+### Prerequisites
 
 ## App features
 
