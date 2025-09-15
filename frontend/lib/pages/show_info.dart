@@ -150,7 +150,7 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   SizedBox(
-                    width: 190,
+                    width: (MediaQuery.of(context).size.width - 40) / 2,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -187,14 +187,16 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                           child: Text(watchStatus),
                         ),
                         SizedBox(height: 10),
-                        IntrinsicWidth(
-                          child: Theme(
-                            data: Theme.of(context).copyWith(
-                              splashFactory: NoSplash.splashFactory,
-                              highlightColor: Colors.transparent,
-                            ),
+                        Theme(
+                          data: Theme.of(context).copyWith(
+                            splashFactory: NoSplash.splashFactory,
+                            highlightColor: Colors.transparent,
+                          ),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
                             child: StarRating(
-                              size: 38,
+                              // a large size that is being scaled down (initially it was size: 38)
+                              size: 50,
                               rating:
                                   watchStatus == "Added"
                                       ? (userRating?.toDouble() ?? 0)

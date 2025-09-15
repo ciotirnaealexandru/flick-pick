@@ -113,6 +113,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: InkWell(
@@ -141,7 +142,14 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
                                             ),
                                       ),
                                       SizedBox(width: 8),
-                                      Text(decksInfo![i].name),
+                                      Text(
+                                        decksInfo![i].name,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
