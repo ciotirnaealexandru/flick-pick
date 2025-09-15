@@ -1,4 +1,4 @@
-# **Flick Pick**
+# Flick Pick
 
 ### _Your Next Binge, One Tap Away._
 
@@ -12,6 +12,8 @@
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CC1F1F?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-111111?style=for-the-badge&logo=vercel&logoColor=white)
 ![Heroku](https://img.shields.io/badge/Heroku-5A50D0?style=for-the-badge&logo=heroku&logoColor=white)
+
+---
 
 ## 1. Project Overview
 
@@ -31,7 +33,64 @@ The heart of the app is **“Decks”**, personalized bundles of shows similar t
 
 - **PostgreSQL**: Set up a PostgreSQL database instance.
 
-- **Flutter**: Setup Flutter on your computer (for more details, check the [Frontend README](./frontend/README.md))
+- **Flutter**: Setup Flutter on your computer (for more details, check out the [Flutter Docs](https://docs.flutter.dev/get-started/install)).
+
+### Clone the **GitHub Repository**
+
+```sh
+git clone https://github.com/ciotirnaealexandru/flick-pick.git
+```
+
+### Setup Frontend
+
+- Create a `.env` file in `/frontend` and copy the text from `.env.example`. Adjust the **environment variables** as explained in the file.
+
+- Install the **dependencies**:
+
+  ```sh
+  cd ./frontend
+  flutter pub get
+  ```
+
+- Start an **emulator** via _Android Studio_ or **connect a phone** with _USB debugging enabled_.
+
+- Run the frontend:
+
+  ```sh
+  flutter run
+  ```
+
+### Setup Backend
+
+- Create a **PostgreSQL database instance**.
+
+- Create a `.env` file in `/backend` and copy the text from `.env.example`. Adjust the **environment variables** as explained in the file.
+
+- Install the **dependencies**:
+
+  ```sh
+  cd ./backend
+  npm install
+  ```
+
+- After you have a PostgreSQL database instance running, **prepare the database**:
+
+  ```sh
+  npx prisma db push
+  npx prisma generate
+  ```
+
+- **Seed** the database:
+
+  ```sh
+  npm run seed
+  ```
+
+- Run the backend:
+
+  ```sh
+  npm run start
+  ```
 
 ## App features
 
@@ -103,16 +162,8 @@ The heart of the app is **“Decks”**, personalized bundles of shows similar t
 
 ### Backend
 
-**MySQL** and **Prisma ORM** - setting up database seeding, user Roles (USER, ADMIN), User, custom UserShows
-
-To seed the database:
-
-```bash
-    npx prisma db push
-    npx prisma generate
-    npm run seed
-```
+**PostgreSQL** and **Prisma ORM** - setting up database seeding, user Roles (USER, ADMIN), User, custom UserShows
 
 **Express.js** + **Javascript** - endpoint routing, middlewares for route protection (only certain users or only admin guards), JWT token authorization, User CRUD (and /login, /signup, /me)
 
-**TVMaze API** - connected with Express.js backend (retrieve popular shows, or by name, by id, get user season information, text parsing, cleaning up jsons)
+**TMDB API** - connected with Express.js backend (retrieve popular shows, or by name, by id, get user season information, text parsing, cleaning up jsons)
