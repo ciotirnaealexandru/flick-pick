@@ -173,7 +173,10 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                       ),
                     SizedBox(width: 10),
                     if (userInfo != null)
-                      CreateDeckButton(userId: userInfo!.id),
+                      CreateDeckButton(
+                        userId: userInfo!.id,
+                        type: CreateDeckButtonType.filled,
+                      ),
                   ],
                 ),
               ),

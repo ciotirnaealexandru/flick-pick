@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
-import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
+import 'package:frontend/components/buttons/icon_buttons/create_deck_button.dart';
 import 'package:frontend/components/show_message.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_show_model.dart';
 import 'package:frontend/services/deck_service.dart';
@@ -19,7 +20,7 @@ class AddToWatchlist extends StatefulWidget {
   State<AddToWatchlist> createState() => _AddToWatchlistState();
 }
 
-class _AddToWatchlistState extends State<AddToWatchlist> {
+class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
   int? userId;
   int? apiId;
 
@@ -37,6 +38,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
 
     if (userId == null) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
@@ -45,6 +47,19 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
       loadDecksInfo();
       loadShowInfo();
     }
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    loadDecksInfo();
+    loadShowInfo();
   }
 
   Future<void> loadDecksInfo() async {
@@ -110,22 +125,9 @@ class _AddToWatchlistState extends State<AddToWatchlist> {
                 ),
               ),
             ),
-            CustomTransparentButton(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      width: 2.5,
-                    ),
-                  ),
-                ),
-                child: Text(
-                  'Create Deck',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ),
-              onPressed: () async {},
+            CreateDeckButton(
+              userId: userId!,
+              type: CreateDeckButtonType.transparent,
             ),
             SizedBox(height: 20),
             if (userShow?.userId != null)

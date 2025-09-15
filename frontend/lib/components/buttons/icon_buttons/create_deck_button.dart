@@ -6,14 +6,18 @@ import 'package:frontend/components/border_text_field.dart';
 import 'package:frontend/components/bottom_modal.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/show_message.dart';
 import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
 
+enum CreateDeckButtonType { filled, transparent }
+
 class CreateDeckButton extends StatefulWidget {
   final int userId;
+  final CreateDeckButtonType type;
 
-  const CreateDeckButton({required this.userId, super.key});
+  const CreateDeckButton({required this.userId, required this.type, super.key});
 
   @override
   State<CreateDeckButton> createState() => _CreateDeckButtonState();
@@ -105,10 +109,28 @@ class _CreateDeckButtonState extends State<CreateDeckButton> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomIconButton(
-      text: "Create Deck",
-      icon: Icons.add,
-      onPressed: _openCreateDeckOptions,
-    );
+    return widget.type == CreateDeckButtonType.filled
+        ? CustomIconButton(
+          text: "Create Deck",
+          icon: Icons.add,
+          onPressed: _openCreateDeckOptions,
+        )
+        : CustomTransparentButton(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  width: 2.5,
+                ),
+              ),
+            ),
+            child: Text(
+              'Create Deck',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
+          onPressed: () => _openCreateDeckOptions(context),
+        );
   }
 }
