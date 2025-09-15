@@ -1,8 +1,6 @@
-# Flick Pick
+# **Flick Pick**
 
-### Your Next Binge, One Tap Away.
-
-### Technologies
+### _Your Next Binge, One Tap Away._
 
 ![Flutter](https://img.shields.io/badge/Flutter-1976D2?style=for-the-badge&logo=flutter&logoColor=white)
 ![Express](https://img.shields.io/badge/Express%20js-111111?style=for-the-badge&logo=express&logoColor=white)
@@ -17,17 +15,23 @@
 
 ## 1. Project Overview
 
-# _Flick Pick_
+_Flick Pick_ is a **TV Show Mobile App** designed for the people who want _all their favorite shows in one place_.
 
-_Flick Pick_ is a **TV Show Mobile App** designed for people who want _all their favorite shows in one place_.
+The app allows users to **search shows** by _name_ or _genre_, **expore and sort trending series**, find **similar shows**, and **rate** their favorites.
 
-The app allows users to **search shows by name or genre**, discover new shows, find similar shows, and rate their favorites.
-
-The core feature is creating **“Decks”**, which are personalized bundles of shows—similar to watchlists—so users can **keep everything neatly organized** and always know what to watch next.
+The heart of the app is **“Decks”**, personalized bundles of shows similar to watchlists where users can **keep everything neatly organized** and always know what to watch next.
 
 ## 2. Installation and Setup
 
 ### Prerequisites
+
+- **Node.js**: Ensure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
+
+- **npm**: Comes with Node.js.
+
+- **PostgreSQL**: Set up a PostgreSQL database instance.
+
+- **Flutter**: Setup Flutter on your computer (for more details, check the [Frontend README](./frontend/README.md))
 
 ## App features
 
