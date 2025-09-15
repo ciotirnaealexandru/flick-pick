@@ -10,11 +10,19 @@ import 'package:frontend/components/show_message.dart';
 import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
 
+enum EditDeckButtonType { icon, iconButton }
+
 class EditDeckButton extends StatefulWidget {
   final int userId;
   final int deckId;
+  final EditDeckButtonType type;
 
-  const EditDeckButton({required this.userId, required this.deckId, super.key});
+  const EditDeckButton({
+    required this.userId,
+    required this.deckId,
+    required this.type,
+    super.key,
+  });
 
   @override
   State<EditDeckButton> createState() => _EditDeckButtonState();
@@ -217,10 +225,15 @@ class _EditDeckButtonState extends State<EditDeckButton> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomIconButton(
-      text: "Edit Deck",
-      icon: Icons.edit_outlined,
-      onPressed: _editDeckOptions,
-    );
+    return widget.type == EditDeckButtonType.iconButton
+        ? CustomIconButton(
+          text: "Edit Deck",
+          icon: Icons.edit_outlined,
+          onPressed: _editDeckOptions,
+        )
+        : IconButton(
+          icon: Icon(Icons.more_vert, size: 25),
+          onPressed: () => _editDeckOptions(context),
+        );
   }
 }

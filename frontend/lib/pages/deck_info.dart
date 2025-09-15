@@ -253,6 +253,7 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
                         EditDeckButton(
                           userId: userInfo!.id,
                           deckId: deckInfo!.id,
+                          type: EditDeckButtonType.iconButton,
                         ),
                       SizedBox(width: 10),
                       AddShowButton(),

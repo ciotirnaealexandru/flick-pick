@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/buttons/icon_buttons/create_deck_button.dart';
+import 'package:frontend/components/buttons/icon_buttons/edit_deck_button.dart';
 import 'package:frontend/components/show_message.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/models/deck_model.dart';
@@ -100,7 +101,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
                 physics: BouncingScrollPhysics(),
                 child: RadioGroup<int>(
                   groupValue: selectedDeckId,
-                  onChanged: (int? value) {
+                  onChanged: (value) {
                     setState(() {
                       selectedDeckId = value;
                     });
@@ -108,17 +109,50 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
                   child: Column(
                     children: [
                       for (int i = 0; i < decksInfo!.length; i++)
-                        RadioListTile<int>(
-                          activeColor: Theme.of(context).colorScheme.onPrimary,
-                          value: decksInfo![i].id,
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(decksInfo![i].name),
-                              Icon(Icons.more_vert, size: 25),
+                              Expanded(
+                                child: InkWell(
+                                  splashColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary.withAlpha(40),
+                                  highlightColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary.withAlpha(30),
+
+                                  onTap: () {
+                                    setState(() {
+                                      selectedDeckId = decksInfo![i].id;
+                                    });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio<int>(
+                                        value: decksInfo![i].id,
+                                        fillColor:
+                                            WidgetStateProperty.resolveWith(
+                                              (states) =>
+                                                  Theme.of(
+                                                    context,
+                                                  ).colorScheme.onPrimary,
+                                            ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(decksInfo![i].name),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              EditDeckButton(
+                                userId: userId!,
+                                deckId: decksInfo![i].id,
+                                type: EditDeckButtonType.icon,
+                              ),
                             ],
                           ),
-                          contentPadding: EdgeInsets.all(0),
                         ),
                     ],
                   ),
