@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/bars/navbar.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/user_service.dart';
 
@@ -12,12 +13,30 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileState extends State<Profile> with RouteAware {
   User? userInfo;
 
   @override
   void initState() {
     super.initState();
+    loadUserInfo();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
     loadUserInfo();
   }
 
@@ -91,7 +110,9 @@ class _ProfileState extends State<Profile> {
                         ),
                         SizedBox(width: 15),
                         Text(
-                          userInfo!.phone ?? "No phone number.",
+                          (userInfo?.phone?.isNotEmpty == true)
+                              ? userInfo!.phone!
+                              : "No phone number.",
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],

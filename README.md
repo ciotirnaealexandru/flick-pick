@@ -7,20 +7,17 @@
 ![Prisma](https://img.shields.io/badge/Prisma-394151?style=for-the-badge&logo=prisma&logoColor=white)
 ![TMDB API](https://img.shields.io/badge/The_Movie_Databse_API-E68A00?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CC1F1F?style=for-the-badge&logo=githubactions&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-d45dc4?style=for-the-badge&logo=vercel&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-111111?style=for-the-badge&logo=vercel&logoColor=white)
 ![Heroku](https://img.shields.io/badge/Heroku-5A50D0?style=for-the-badge&logo=heroku&logoColor=white)
 
-## Table of Contents
+## 📑 Table of Contents
 
 1. [Project Overview](#1-project-overview)
 2. [Features](#2-features)
 3. [Project Architecture and Tech Stack](#3-project-architecture-and-tech-stack)
-
    - [API Endpoints](#api-endpoints)
    - [Technologies](#technologies)
-
 4. [Installation and Setup](#4-installation-and-setup)
-
    - [Prerequisites](#prerequisites)
    - [Clone the GitHub Repository](#clone-the-github-repository)
    - [Frontend Setup](#frontend-setup)
@@ -38,25 +35,25 @@ The heart of the app is **“Decks”**, _personalized bundles of shows_ similar
 
 ## 2. Features
 
-### Login / Sign Up Pages
+### 🔐 Login / Sign Up Pages
 
 - **Login** with an existing account or **sign up** for a new one.
 - **Join as a guest** to _test out the app_.
 
-### Search Page
+### 🔍 Search Page
 
 - _Fully integrated_ with **The Movie Database API**.
 - Get the currently **popular** shows, view the **show posters** and choose with ease.
 - **Search shows** by **name** or **genre**.
 - **Sort shows** by **relevance**, **first premiered**, **last premiered** or **alphabetically**.
 
-### Show Info Page
+### 🎬 Show Info Page
 
 - Get all the _essential details_ about the show, like the **image poster**, **title**, **runtime years**, **network**, **genres** and **description**.
 - _Discover similar shows_ with the **More like this** feature, where you can discover what other viewers have also watched.
 - **Add the show** to the decks you want. **Create**, **edit** and **delete** decks _on the spot_.
 
-### Decks Page
+### 📚 Watchlist Page
 
 - See your favourite shows packed in **Decks**.
 - **Create new decks** and _quickly_ **add shows** to them.
@@ -64,7 +61,7 @@ The heart of the app is **“Decks”**, _personalized bundles of shows_ similar
 - **Sort decks** by **first added**, **last added** or **alphabetically**.
 - View **all of your shows** in a special deck.
 
-### Deck Info Page
+### 📂 Deck Info Page
 
 - **Enter each deck** to see the respective shows.
 - **Search shows inside the deck** by **name**.
@@ -72,14 +69,14 @@ The heart of the app is **“Decks”**, _personalized bundles of shows_ similar
 - **Edit** the deck or **delete it**.
 - **Add new shows**.
 
-### Profile Page
+### 👤 Profile Page
 
 - Get all the _essential details_ about the user, like the **profile image**, **first name**, **last name**, **email** and **phone number**.
 - Allow the user to **logout**, **update their profile** or **delete their account**.
 
 ## 3. Project Architecture and Tech Stack
 
-### API Endpoints
+### 🔌 API Endpoints
 
 | Endpoint                         | Method             | Access        | Notes |
 | -------------------------------- | ------------------ | ------------- | ----- |
@@ -102,13 +99,11 @@ The heart of the app is **“Decks”**, _personalized bundles of shows_ similar
 | `/user/show/review/:user_id`     | POST               | ADMIN or USER |       |
 | `/user/show/review/:user_id`     | GET, PATCH, DELETE | ADMIN or USER |       |
 
-### Technologies
-
-### Frontend
+### 📱 Frontend
 
 - **Flutter (Dart)** - page routing, creating pages and components, color themes (future dark mode), connecting .envs, auth services (retrieving info from the backend with `package:http/http.dart`), creating models (user_model, show_model), form validation, keeping JWTs with `package:flutter_secure_storage/flutter_secure_storage.dart`, mapping images on a grid (for future cacheing)
 
-### Backend
+### 🖥️ Backend
 
 - **PostgreSQL** and **Prisma ORM** - setting up database seeding, user Roles (USER, ADMIN), User, custom UserShows
 - **Express.js** + **Javascript** - endpoint routing, middlewares for route protection (only certain users or only admin guards), JWT token authorization, User CRUD (and /login, /signup, /me)
