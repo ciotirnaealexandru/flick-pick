@@ -1,7 +1,5 @@
 # Flick Pick
 
-### _Your Next Binge, One Tap Away._
-
 ![Flutter](https://img.shields.io/badge/Flutter-1976D2?style=for-the-badge&logo=flutter&logoColor=white)
 ![Express](https://img.shields.io/badge/Express%20js-111111?style=for-the-badge&logo=express&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-5CA837?style=for-the-badge&logo=node.js&logoColor=white)
@@ -12,36 +10,115 @@
 ![Vercel](https://img.shields.io/badge/Vercel-d45dc4?style=for-the-badge&logo=vercel&logoColor=white)
 ![Heroku](https://img.shields.io/badge/Heroku-5A50D0?style=for-the-badge&logo=heroku&logoColor=white)
 
----
-
 ## Table of Contents
 
 1. [Project Overview](#1-project-overview)
-2. [Installation and Setup](#2-installation-and-setup)
+2. [Features](#2-features)
+3. [Project Architecture and Tech Stack](#3-project-architecture-and-tech-stack)
+
+   - [API Endpoints](#api-endpoints)
+   - [Technologies](#technologies)
+
+4. [Installation and Setup](#4-installation-and-setup)
+
    - [Prerequisites](#prerequisites)
    - [Clone the GitHub Repository](#clone-the-github-repository)
    - [Frontend Setup](#frontend-setup)
    - [Backend Setup](#backend-setup)
    - [Recommended for Testing](#recommended-for-testing)
    - [Recommended for Feature Planning](#recommended-for-feature-planning)
-3. [App Features](#app-features)
-4. [API Endpoints](#api-endpoints)
-5. [Technologies](#technologies)
 
 ## 1. Project Overview
 
-_Flick Pick_ is a **TV Show Mobile App** designed for the people who want _all their favorite shows in one place_.
+Flick Pick is a **TV Show Mobile App** designed for the people who want _all their favorite shows in one place_.
 
-The app allows users to **search shows** by _name_ or _genre_, **explore and sort trending series**, find **similar shows**, and **rate** their favorites.
+The app allows users to **search shows** by _name_ or _genre_, **explore and sort trending series**, find **similar shows** and **rate** their favorites.
 
-The heart of the app is **“Decks”**, personalized bundles of shows similar to watchlists where users can **keep everything neatly organized** and always know what to watch next.
+The heart of the app is **“Decks”**, _personalized bundles of shows_ similar to watchlists where users can keep everything neatly organized and always know what to watch next.
 
-## 2. Installation and Setup
+## 2. Features
+
+### Login / Sign Up Pages
+
+- **Login** with an existing account or **sign up** for a new one.
+- **Join as a guest** to _test out the app_.
+
+### Search Page
+
+- _Fully integrated_ with **The Movie Database API**.
+- Get the currently **popular** shows, view the **show posters** and choose with ease.
+- **Search shows** by **name** or **genre**.
+- **Sort shows** by **relevance**, **first premiered**, **last premiered** or **alphabetically**.
+
+### Show Info Page
+
+- Get all the _essential details_ about the show, like the **image poster**, **title**, **runtime years**, **network**, **genres** and **description**.
+- _Discover similar shows_ with the **More like this** feature, where you can discover what other viewers have also watched.
+- **Add the show** to the decks you want. **Create**, **edit** and **delete** decks _on the spot_.
+
+### Decks Page
+
+- See your favourite shows packed in **Decks**.
+- **Create new decks** and _quickly_ **add shows** to them.
+- **Search decks** by **name**.
+- **Sort decks** by **first added**, **last added** or **alphabetically**.
+- View **all of your shows** in a special deck.
+
+### Deck Info Page
+
+- **Enter each deck** to see the respective shows.
+- **Search shows inside the deck** by **name**.
+- **Sort shows inside the deck** by **first added**, **last added** or **alphabetically**.
+- **Edit** the deck or **delete it**.
+- **Add new shows**.
+
+### Profile Page
+
+- Get all the _essential details_ about the user, like the **profile image**, **first name**, **last name**, **email** and **phone number**.
+- Allow the user to **logout**, **update their profile** or **delete their account**.
+
+## 3. Project Architecture and Tech Stack
+
+### API Endpoints
+
+| Endpoint                         | Method             | Access        | Notes |
+| -------------------------------- | ------------------ | ------------- | ----- |
+| `/show/popular`                  | GET                | Any           | ✅    |
+| `/show/search/:name`             | GET                | Any           | ✅    |
+| `/show/more/:api_id`             | GET                | Any           | ✅    |
+| `/show/review/all`               | GET                | ADMIN         |       |
+| `/user/signup`                   | POST               | Any           | ✅    |
+| `/user/login`                    | POST               | Any           | ✅    |
+| `/user/me`                       | GET                | JWT Required  | ✅    |
+| `/user/all`                      | GET                | ADMIN         | ✅    |
+| `/user/:user_id`                 | GET, PATCH, DELETE | ADMIN or USER | ✅    |
+| `/user/deck/all/:user_id`        | GET                | ADMIN or USER | ✅    |
+| `/user/deck/:user_id`            | POST               | ADMIN or USER | ✅    |
+| `/user/deck/:user_id/:deck_id`   | GET, PATCH, DELETE | ADMIN or USER | ✅    |
+| `/user/show/all/:user_id`        | GET                | ADMIN or USER | ✅    |
+| `/user/show/:user_id`            | POST               | ADMIN or USER | ✅    |
+| `/user/show/:user_id/:api_id`    | GET, DELETE        | ADMIN or USER | ✅    |
+| `/user/show/review/all/:user_id` | GET                | ADMIN or USER |       |
+| `/user/show/review/:user_id`     | POST               | ADMIN or USER |       |
+| `/user/show/review/:user_id`     | GET, PATCH, DELETE | ADMIN or USER |       |
+
+### Technologies
+
+### Frontend
+
+- **Flutter (Dart)** - page routing, creating pages and components, color themes (future dark mode), connecting .envs, auth services (retrieving info from the backend with `package:http/http.dart`), creating models (user_model, show_model), form validation, keeping JWTs with `package:flutter_secure_storage/flutter_secure_storage.dart`, mapping images on a grid (for future cacheing)
+
+### Backend
+
+- **PostgreSQL** and **Prisma ORM** - setting up database seeding, user Roles (USER, ADMIN), User, custom UserShows
+- **Express.js** + **Javascript** - endpoint routing, middlewares for route protection (only certain users or only admin guards), JWT token authorization, User CRUD (and /login, /signup, /me)
+- **TMDB API** - connected with Express.js backend (retrieve popular shows, or by name, by id, get user season information, text parsing, cleaning up jsons)
+
+## 4. Installation and Setup
 
 ### Prerequisites
 
 - **Node.js**: Ensure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
-- **npm**: Comes with Node.js.
 - **PostgreSQL**: Set up a PostgreSQL database instance.
 - **Flutter**: Setup Flutter on your computer (for more details, check out the [Flutter Docs](https://docs.flutter.dev/get-started/install)).
 
@@ -102,7 +179,7 @@ git clone https://github.com/ciotirnaealexandru/flick-pick.git
   npm run start
   ```
 
-### Recommended for testing
+### Recommended for development
 
 - **Insomnia**: For testing endpoints.
 - **Android Studio**: For resolving dependencies, SDK issues and emulators.
@@ -111,48 +188,3 @@ git clone https://github.com/ciotirnaealexandru/flick-pick.git
 
 - **Trello**: For project tracking.
 - **Figma**: For UI/UX design.
-
-## App features
-
-**Login / SignUp Pages** (form validation, working endpoints)
-
-**Search Page** (connected with the The Movie Database API\_, displays popular shows (with images), can search for shows by name)
-
-**Show info Page** (can display info about the show)
-
-**Profile Page** (can _update_ profile info and _delete_ account)
-
-## API Endpoints
-
-| Endpoint                         | Method             | Access        | Notes |
-| -------------------------------- | ------------------ | ------------- | ----- |
-| `/show/popular`                  | GET                | Any           | ✅    |
-| `/show/search/:name`             | GET                | Any           | ✅    |
-| `/show/more/:api_id`             | GET                | Any           | ✅    |
-| `/show/review/all`               | GET                | ADMIN         |       |
-| `/user/signup`                   | POST               | Any           | ✅    |
-| `/user/login`                    | POST               | Any           | ✅    |
-| `/user/me`                       | GET                | JWT Required  | ✅    |
-| `/user/all`                      | GET                | ADMIN         | ✅    |
-| `/user/:user_id`                 | GET, PATCH, DELETE | ADMIN or USER | ✅    |
-| `/user/deck/all/:user_id`        | GET                | ADMIN or USER | ✅    |
-| `/user/deck/:user_id`            | POST               | ADMIN or USER | ✅    |
-| `/user/deck/:user_id/:deck_id`   | GET, PATCH, DELETE | ADMIN or USER | ✅    |
-| `/user/show/all/:user_id`        | GET                | ADMIN or USER | ✅    |
-| `/user/show/:user_id`            | POST               | ADMIN or USER | ✅    |
-| `/user/show/:user_id/:api_id`    | GET, DELETE        | ADMIN or USER | ✅    |
-| `/user/show/review/all/:user_id` | GET                | ADMIN or USER |       |
-| `/user/show/review/:user_id`     | POST               | ADMIN or USER |       |
-| `/user/show/review/:user_id`     | GET, PATCH, DELETE | ADMIN or USER |       |
-
-## Technologies
-
-### Frontend
-
-- **Flutter (Dart)** - page routing, creating pages and components, color themes (future dark mode), connecting .envs, auth services (retrieving info from the backend with `package:http/http.dart`), creating models (user_model, show_model), form validation, keeping JWTs with `package:flutter_secure_storage/flutter_secure_storage.dart`, mapping images on a grid (for future cacheing)
-
-### Backend
-
-- **PostgreSQL** and **Prisma ORM** - setting up database seeding, user Roles (USER, ADMIN), User, custom UserShows
-- **Express.js** + **Javascript** - endpoint routing, middlewares for route protection (only certain users or only admin guards), JWT token authorization, User CRUD (and /login, /signup, /me)
-- **TMDB API** - connected with Express.js backend (retrieve popular shows, or by name, by id, get user season information, text parsing, cleaning up jsons)
