@@ -48,7 +48,10 @@ Future<UserShow?> getShowInfo({int? userId, int? apiId}) async {
       userRating: userShowJson['userRating'] as int?,
       userId: userShowJson['userId'] as int?,
       showId: userShowJson['showId'] as int?,
-      deckId: userShowJson['deckId'] as int?,
+      selectedDeckIds:
+          (userShowJson["decks"] as List<dynamic>?)
+              ?.map((deck) => deck["id"] as int)
+              .toList(),
       updatedAt:
           userShowJson['updatedAt'] != null
               ? DateTime.parse(userShowJson['updatedAt'] as String)

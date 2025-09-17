@@ -10,7 +10,7 @@ class UserShow {
   int? userRating;
   int? userId;
   int? showId;
-  int? deckId;
+  List<int>? selectedDeckIds;
   DateTime? updatedAt;
 
   Show show;
@@ -20,7 +20,7 @@ class UserShow {
     this.userRating,
     this.userId,
     this.showId,
-    this.deckId,
+    this.selectedDeckIds,
     this.updatedAt,
 
     required this.show,
@@ -31,7 +31,10 @@ class UserShow {
     userRating: json["userRating"] as int?,
     userId: json["userId"] as int?,
     showId: json["showId"] as int?,
-    deckId: json["deckId"] as int?,
+    selectedDeckIds:
+        (json["selectedDeckIds"] as List<dynamic>?)
+            ?.map((e) => e as int)
+            .toList(),
     updatedAt:
         json["updatedAt"] != null
             ? DateTime.parse(json["updatedAt"] as String)
@@ -48,7 +51,7 @@ class UserShow {
     "userRating": userRating,
     "userId": userId,
     "showId": showId,
-    "deckId": deckId,
+    "selectedDeckIds": selectedDeckIds,
 
     "show": show.toJson(),
   };

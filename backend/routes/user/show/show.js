@@ -92,7 +92,8 @@ router.post(
   adminOrSelfRequired,
   async (req, res) => {
     try {
-      const { apiId, name, imageUrl, summary, premiered, decks } = req.body;
+      const { apiId, name, imageUrl, summary, premiered, selectedDeckIds } =
+        req.body;
 
       if (apiId == null)
         return res.status(404).json({ message: "Api Id is required." });
@@ -109,7 +110,7 @@ router.post(
       if (premiered == null)
         return res.status(404).json({ message: "Premiered is required." });
 
-      if (decks == null || !Array.isArray(decks))
+      if (selectedDeckIds == null || !Array.isArray(selectedDeckIds))
         return res.status(404).json({ message: "Decks are required." });
 
       // check if the show already exists in my database
@@ -133,7 +134,7 @@ router.post(
         },
       });
 
-      const decksInt = decks.map((id) => parseInt(id));
+      const decksInt = selectedDeckIds.map((id) => parseInt(id));
 
       // check if all decks exist
       const existingDecks = await prisma.deck.findMany({
@@ -142,7 +143,7 @@ router.post(
         },
       });
 
-      if (existingDecks.length !== decks.length) {
+      if (existingDecks.length !== decksInt.length) {
         return res
           .status(404)
           .json({ message: "One or more decks not found." });
@@ -249,42 +250,30 @@ router.get(
   }
 );
 
-// DELETE a show of an user (based on the id of the user)
+// DELETE a show of an user
 router.delete(
-  "/:user_id/:api_id",
+  "/:user_id/:show_id",
   authenticateToken,
   adminOrSelfRequired,
   async (req, res) => {
     try {
-      // get the show from the api id
-      const show = await prisma.show.findUnique({
-        where: {
-          apiId: parseInt(req.params.api_id),
-        },
-      });
-
-      if (!show)
-        return res.status(404).json({ message: "Show does not exist." });
-
-      // check if the user_show exists, if so, delete it
       const userShow = await prisma.userShow.findUnique({
         where: {
           userId_showId: {
             userId: parseInt(req.params.user_id),
-            showId: show.id,
+            showId: parseInt(req.params.show_id),
           },
         },
       });
 
-      if (!userShow) {
+      if (!userShow)
         return res.status(404).json({ message: "User show does not exist." });
-      }
 
       await prisma.userShow.delete({
         where: {
           userId_showId: {
             userId: parseInt(req.params.user_id),
-            showId: show.id,
+            showId: parseInt(req.params.show_id),
           },
         },
       });

@@ -29,7 +29,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
   List<Deck>? decksInfo;
   bool finishedLoading = false;
 
-  int? selectedDeckId = 0;
+  List<int>? currentSelectedDeckIds = [];
 
   @override
   void initState() {
@@ -76,7 +76,8 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
     setState(() {
       userShow = data;
       finishedLoading = true;
-      if (userShow?.userId != null) selectedDeckId = userShow?.deckId;
+      if (userShow?.userId != null)
+        currentSelectedDeckIds = userShow?.selectedDeckIds;
     });
   }
 
@@ -96,170 +97,155 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
             Text("Your Decks", style: Theme.of(context).textTheme.titleMedium),
             SizedBox(height: 20),
             Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                physics: BouncingScrollPhysics(),
-                child: RadioGroup<int>(
-                  groupValue: selectedDeckId,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedDeckId = value;
-                    });
-                  },
-                  child: Column(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
                     children: [
-                      for (int i = 0; i < decksInfo!.length; i++)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  splashColor: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimary.withAlpha(40),
-                                  highlightColor: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimary.withAlpha(30),
-
-                                  onTap: () {
-                                    setState(() {
-                                      selectedDeckId = decksInfo![i].id;
-                                    });
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Radio<int>(
-                                        value: decksInfo![i].id,
-                                        fillColor:
-                                            WidgetStateProperty.resolveWith(
-                                              (states) =>
-                                                  Theme.of(
-                                                    context,
-                                                  ).colorScheme.onPrimary,
-                                            ),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        decksInfo![i].name,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: decksInfo!.length,
+                        itemBuilder: (context, i) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: CheckboxListTile(
+                                    value:
+                                        currentSelectedDeckIds?.contains(
+                                          decksInfo![i].id,
+                                        ) ??
+                                        false,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        if (value == true) {
+                                          currentSelectedDeckIds?.add(
+                                            decksInfo![i].id,
+                                          );
+                                        } else {
+                                          currentSelectedDeckIds?.remove(
+                                            decksInfo![i].id,
+                                          );
+                                        }
+                                      });
+                                    },
+                                    title: Text(decksInfo![i].name),
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    contentPadding: EdgeInsets.zero,
                                   ),
                                 ),
-                              ),
-                              EditDeckButton(
-                                userId: userId!,
-                                deckId: decksInfo![i].id,
-                                type: EditDeckButtonType.icon,
-                              ),
-                            ],
-                          ),
-                        ),
+                                EditDeckButton(
+                                  userId: userId!,
+                                  deckId: decksInfo![i].id,
+                                  type: EditDeckButtonType.icon,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
-                ),
-              ),
-            ),
-            CreateDeckButton(
-              userId: userId!,
-              type: CreateDeckButtonType.transparent,
-            ),
-            SizedBox(height: 20),
-            if (userShow?.userId != null)
-              Column(
-                children: [
-                  CustomFilledButton(
-                    onPressed: () async {
-                      final secureStorage = FlutterSecureStorage();
-                      final token = await secureStorage.read(key: "auth_token");
+                  Column(
+                    children: [
+                      CreateDeckButton(
+                        userId: userId!,
+                        type: CreateDeckButtonType.transparent,
+                      ),
+                      SizedBox(height: 15),
+                      CustomFilledButton(
+                        onPressed: () async {
+                          final secureStorage = FlutterSecureStorage();
+                          final token = await secureStorage.read(
+                            key: "auth_token",
+                          );
 
-                      final changeUserShowInfoResponse = await http.delete(
-                        Uri.parse(
-                          '${EnvConfig.apiUrl}/user/show/$userId/${userShow?.show.apiId}',
-                        ),
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'Authorization': 'Bearer $token',
+                          // if no decks were selected simply delete the show
+                          if (currentSelectedDeckIds!.isEmpty) {
+                            final deleteShowResponse = await http.delete(
+                              Uri.parse(
+                                '${EnvConfig.apiUrl}/user/show/$userId/${userShow?.showId}',
+                              ),
+                              headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer $token',
+                              },
+                            );
+
+                            if (deleteShowResponse.statusCode == 200) {
+                              if (!context.mounted) return;
+                              showMessage(context, "Removed show.");
+                            } else {
+                              print(
+                                "Response body: ${deleteShowResponse.body}",
+                              );
+
+                              final responseData = jsonDecode(
+                                deleteShowResponse.body,
+                              );
+                              final message =
+                                  responseData['message'] ??
+                                  'Something went wrong.';
+
+                              if (!context.mounted) return;
+                              showMessage(context, message);
+                            }
+                          }
+                          // if some decks were selected change the user show info
+                          else {
+                            final changeUserShowInfoResponse = await http.post(
+                              Uri.parse(
+                                '${EnvConfig.apiUrl}/user/show/$userId',
+                              ),
+                              headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer $token',
+                              },
+                              body: jsonEncode({
+                                'apiId': userShow?.show.apiId,
+                                'name': userShow?.show.name,
+                                'imageUrl': userShow?.show.imageUrl,
+                                'summary': userShow?.show.summary,
+                                'premiered': userShow?.show.premiered,
+                                'selectedDeckIds': currentSelectedDeckIds,
+                              }),
+                            );
+
+                            if (changeUserShowInfoResponse.statusCode == 200) {
+                              if (!context.mounted) return;
+                              showMessage(context, "Added show to deck.");
+                            } else {
+                              print(
+                                "Response body: ${changeUserShowInfoResponse.body}",
+                              );
+
+                              final responseData = jsonDecode(
+                                changeUserShowInfoResponse.body,
+                              );
+                              final message =
+                                  responseData['message'] ??
+                                  'Something went wrong.';
+
+                              if (!context.mounted) return;
+                              showMessage(context, message);
+                            }
+                          }
+
+                          Navigator.pop(context);
                         },
-                      );
-
-                      if (changeUserShowInfoResponse.statusCode == 200) {
-                        if (!context.mounted) return;
-                        showMessage(context, "Removed show.");
-                      } else {
-                        print(
-                          "Response body: ${changeUserShowInfoResponse.body}",
-                        );
-
-                        final responseData = jsonDecode(
-                          changeUserShowInfoResponse.body,
-                        );
-                        final message =
-                            responseData['message'] ?? 'Something went wrong.';
-
-                        if (!context.mounted) return;
-                        showMessage(context, message);
-                      }
-
-                      Navigator.pop(context);
-                    },
-                    child: Text("Remove Show"),
+                        child: Text("Add to Deck"),
+                      ),
+                      SizedBox(height: 50),
+                    ],
                   ),
                 ],
               ),
-            if (userShow?.userId != null) SizedBox(height: 10),
-            CustomFilledButton(
-              onPressed: () async {
-                // make sure the user selected deck
-                if (selectedDeckId == 0) return;
-
-                final secureStorage = FlutterSecureStorage();
-                final token = await secureStorage.read(key: "auth_token");
-
-                final changeUserShowInfoResponse = await http.post(
-                  Uri.parse('${EnvConfig.apiUrl}/user/show/$userId'),
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer $token',
-                  },
-                  body: jsonEncode({
-                    'apiId': userShow?.show.apiId,
-                    'name': userShow?.show.name,
-                    'imageUrl': userShow?.show.imageUrl,
-                    'summary': userShow?.show.summary,
-                    'premiered': userShow?.show.premiered,
-                    'deckId': selectedDeckId,
-                  }),
-                );
-
-                if (changeUserShowInfoResponse.statusCode == 200) {
-                  if (!context.mounted) return;
-                  showMessage(context, "Added show to deck.");
-                } else {
-                  print("Response body: ${changeUserShowInfoResponse.body}");
-
-                  final responseData = jsonDecode(
-                    changeUserShowInfoResponse.body,
-                  );
-                  final message =
-                      responseData['message'] ?? 'Something went wrong.';
-
-                  if (!context.mounted) return;
-                  showMessage(context, message);
-                }
-
-                Navigator.pop(context);
-              },
-              child: Text("Add to Deck"),
             ),
-            SizedBox(height: 40),
           ],
         ),
       ),

@@ -89,7 +89,9 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
     setState(() {
       userShowInfo = data;
       userRating = userShowInfo?.userRating;
-      if (userShowInfo?.deckId != null) {
+      final selectedDecks = userShowInfo?.selectedDeckIds ?? [];
+
+      if (selectedDecks.isNotEmpty) {
         watchStatus = "Added";
         showRating = true;
       } else {
@@ -230,21 +232,13 @@ class _ShowInfoState extends State<ShowInfo> with RouteAware {
                                   final changeUserShowInfoResponse = await http
                                       .post(
                                         Uri.parse(
-                                          '${EnvConfig.apiUrl}/user/show/${userInfo?.id}',
+                                          '${EnvConfig.apiUrl}/user/show/rate/${userInfo?.id}/${userShowInfo?.showId}',
                                         ),
                                         headers: {
                                           'Content-Type': 'application/json',
                                           'Authorization': 'Bearer $token',
                                         },
                                         body: jsonEncode({
-                                          'apiId': userShowInfo?.show.apiId,
-                                          'name': userShowInfo?.show.name,
-                                          'imageUrl':
-                                              userShowInfo?.show.imageUrl,
-                                          'summary': userShowInfo?.show.summary,
-                                          'premiered':
-                                              userShowInfo?.show.premiered,
-                                          'deckId': userShowInfo?.deckId,
                                           'userRating': userRating,
                                         }),
                                       );

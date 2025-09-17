@@ -6,6 +6,7 @@ import 'package:frontend/components/border_text_field.dart';
 import 'package:frontend/components/bottom_modal.dart';
 import 'package:frontend/components/buttons/button_models/custom_filled_button.dart';
 import 'package:frontend/components/buttons/button_models/custom_icon_button.dart';
+import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/show_message.dart';
 import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
@@ -231,8 +232,12 @@ class _EditDeckButtonState extends State<EditDeckButton> {
           icon: Icons.edit_outlined,
           onPressed: _editDeckOptions,
         )
-        : IconButton(
-          icon: Icon(Icons.more_vert, size: 25),
+        : CustomTransparentButton(
+          child: Icon(
+            Icons.more_vert,
+            color: Theme.of(context).colorScheme.onPrimary,
+            size: 25,
+          ),
           onPressed: () => _editDeckOptions(context),
         );
   }
