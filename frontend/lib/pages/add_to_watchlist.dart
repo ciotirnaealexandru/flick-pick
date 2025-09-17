@@ -137,6 +137,10 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
                                     controlAffinity:
                                         ListTileControlAffinity.leading,
                                     contentPadding: EdgeInsets.zero,
+                                    activeColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    checkColor:
+                                        Theme.of(context).colorScheme.onPrimary,
                                   ),
                                 ),
                                 EditDeckButton(
@@ -238,7 +242,7 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
 
                           Navigator.pop(context);
                         },
-                        child: Text("Add to Deck"),
+                        child: Text("Confirm Decks"),
                       ),
                       SizedBox(height: 50),
                     ],
