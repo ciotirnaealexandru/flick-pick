@@ -10,7 +10,7 @@
 ![Vercel](https://img.shields.io/badge/Vercel-111111?style=for-the-badge&logo=vercel&logoColor=white)
 ![Heroku](https://img.shields.io/badge/Heroku-5A50D0?style=for-the-badge&logo=heroku&logoColor=white)
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [Project Overview](#1-project-overview)
 2. [Features](#2-features)
@@ -76,7 +76,7 @@ The heart of the app is **“Decks”**, _personalized bundles of shows_ similar
 
 ## 3. Project Architecture and Tech Stack
 
-### 🔌 API Endpoints
+### API Endpoints
 
 | Endpoint                         | Method             | Access        | Notes |
 | -------------------------------- | ------------------ | ------------- | ----- |
@@ -99,11 +99,11 @@ The heart of the app is **“Decks”**, _personalized bundles of shows_ similar
 | `/user/show/review/:user_id`     | POST               | ADMIN or USER |       |
 | `/user/show/review/:user_id`     | GET, PATCH, DELETE | ADMIN or USER |       |
 
-### 📱 Frontend
+### Frontend
 
 - **Flutter (Dart)** - page routing, creating pages and components, color themes (future dark mode), connecting .envs, auth services (retrieving info from the backend with `package:http/http.dart`), creating models (user_model, show_model), form validation, keeping JWTs with `package:flutter_secure_storage/flutter_secure_storage.dart`, mapping images on a grid (for future cacheing)
 
-### 🖥️ Backend
+### Backend
 
 - **PostgreSQL** and **Prisma ORM** - setting up database seeding, user Roles (USER, ADMIN), User, custom UserShows
 - **Express.js** + **Javascript** - endpoint routing, middlewares for route protection (only certain users or only admin guards), JWT token authorization, User CRUD (and /login, /signup, /me)

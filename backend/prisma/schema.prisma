@@ -31,7 +31,10 @@ model User {
 
   userShows UserShow[]
   deck      Deck[]
-  reviews   Review[]
+
+  /**
+   * reviews   Review[]
+   */
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -49,7 +52,10 @@ model Show {
   premiered String
 
   userShows UserShow[]
-  reviews   Review[]
+
+  /**
+   * reviews   Review[]
+   */
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,16 +65,17 @@ model UserShow {
   id Int @id @default(autoincrement())
 
   userRating Int?
-  reviews    Review[]
+  decks      Deck[]
+
+  /**
+   * reviews    Review[]
+   */
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
   show   Show @relation(fields: [showId], references: [id])
   showId Int
-
-  deck   Deck @relation(fields: [deckId], references: [id])
-  deckId Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -91,19 +98,17 @@ model Deck {
   @@unique([name, userId])
 }
 
-model Review {
-  id      Int    @id @default(autoincrement())
-  content String
-
-  userShow   UserShow @relation(fields: [userShowId], references: [id])
-  userShowId Int
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
-
-  show   Show @relation(fields: [showId], references: [id])
-  showId Int
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+/**
+ * model Review {
+ * id      Int    @id @default(autoincrement())
+ * content String
+ * userShow   UserShow @relation(fields: [userShowId], references: [id])
+ * userShowId Int
+ * user   User @relation(fields: [userId], references: [id])
+ * userId Int
+ * show   Show @relation(fields: [showId], references: [id])
+ * showId Int
+ * createdAt DateTime @default(now())
+ * updatedAt DateTime @updatedAt
+ * }
+ */
