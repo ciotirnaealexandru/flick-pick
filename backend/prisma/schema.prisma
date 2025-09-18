@@ -20,14 +20,23 @@ enum Role {
   GUEST
 }
 
+enum ProfileImageColor {
+  RED
+  YELLOW
+  GREEN
+  BLUE
+  PURPLE
+}
+
 model User {
-  id        Int     @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email     String  @unique
-  phone     String?
-  password  String
-  role      Role    @default(USER)
+  id                Int               @id @default(autoincrement())
+  firstName         String
+  lastName          String
+  email             String            @unique
+  phone             String?
+  password          String
+  role              Role              @default(USER)
+  profileImageColor ProfileImageColor @default(PURPLE)
 
   userShows UserShow[]
   deck      Deck[]
