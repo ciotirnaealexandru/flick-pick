@@ -63,15 +63,28 @@ class _ProfileState extends State<Profile> with RouteAware {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20),
-              CircleAvatar(
-                radius: 80, // size of the circle
-                backgroundColor:
-                    Theme.of(
-                      context,
-                    ).colorScheme.primary, // circle background color
-                child: Icon(Icons.person, size: 120),
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        width: 2.0,
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      radius: 76,
+                      backgroundImage: const AssetImage(
+                        'assets/images/purple.jpeg',
+                      ),
+                    ),
+                  ),
+                ],
               ),
+
               SizedBox(height: 20),
               Text(
                 userInfo!.firstName,
@@ -81,7 +94,7 @@ class _ProfileState extends State<Profile> with RouteAware {
                 userInfo!.lastName,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
                 child: Column(
