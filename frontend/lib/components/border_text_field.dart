@@ -17,6 +17,7 @@ class BorderTextField extends StatelessWidget {
     return SizedBox(
       height: 50,
       child: TextField(
+        textAlign: TextAlign.center,
         controller: controller,
         onSubmitted: (value) {
           onSubmitted(value);

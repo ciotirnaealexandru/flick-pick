@@ -144,6 +144,7 @@ class _UpdateProfileFormState extends State<UpdateProfileForm> {
                         'newLastName': lastName,
                         'newEmail': email,
                         'newPhone': phone,
+                        'profileImageColor': widget.userInfo.profileImageColor,
                       }),
                     );
 

@@ -11,6 +11,7 @@ class User {
   String email;
   String? phone;
   String role;
+  String profileImageColor;
 
   User({
     required this.id,
@@ -19,6 +20,7 @@ class User {
     required this.lastName,
     this.phone,
     required this.role,
+    required this.profileImageColor,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -28,6 +30,7 @@ class User {
     lastName: json["lastName"],
     phone: json["phone"],
     role: json["role"],
+    profileImageColor: json["profileImageColor"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -37,5 +40,6 @@ class User {
     "lastName": lastName,
     "phone": phone,
     "role": role,
+    "profileImageColor": profileImageColor,
   };
 }

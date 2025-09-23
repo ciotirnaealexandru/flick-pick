@@ -212,7 +212,6 @@ router.patch(
       if (
         profileImageColor != "RED" &&
         profileImageColor != "YELLOW" &&
-        profileImageColor != "GREEN" &&
         profileImageColor != "BLUE" &&
         profileImageColor != "PURPLE"
       ) {

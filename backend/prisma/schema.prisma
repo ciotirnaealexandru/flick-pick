@@ -23,7 +23,6 @@ enum Role {
 enum ProfileImageColor {
   RED
   YELLOW
-  GREEN
   BLUE
   PURPLE
 }

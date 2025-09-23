@@ -76,8 +76,9 @@ class _AddToWatchlistState extends State<AddToWatchlist> with RouteAware {
     setState(() {
       userShow = data;
       finishedLoading = true;
-      if (userShow?.userId != null)
+      if (userShow?.userId != null) {
         currentSelectedDeckIds = userShow?.selectedDeckIds;
+      }
     });
   }
 

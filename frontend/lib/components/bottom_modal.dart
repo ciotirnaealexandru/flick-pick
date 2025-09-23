@@ -26,8 +26,8 @@ class BottomModal extends StatelessWidget {
         child: SizedBox(
           height: (modalSize == ModalSize.small) ? 200 : 600,
           child: Center(
-            child: SizedBox(
-              width: 300,
+            child: Padding(
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: children,
