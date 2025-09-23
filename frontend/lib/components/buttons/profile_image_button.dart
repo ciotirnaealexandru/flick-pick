@@ -48,7 +48,7 @@ class _ProfileImageButtonState extends State<ProfileImageButton> {
                           Navigator.pop(context);
                         },
                         child: CircleAvatar(
-                          radius: 40,
+                          radius: 36,
                           backgroundImage: AssetImage(
                             'assets/images/${option.toLowerCase()}.jpeg',
                           ),
@@ -77,7 +77,7 @@ class _ProfileImageButtonState extends State<ProfileImageButton> {
           ),
         ),
         child: CircleAvatar(
-          radius: 75,
+          radius: 70,
           backgroundImage: AssetImage(
             'assets/images/${widget.profileImageColor.toLowerCase()}.jpeg',
           ),

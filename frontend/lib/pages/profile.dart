@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/components/bars/navbar.dart';
@@ -98,88 +97,90 @@ class _ProfileState extends State<Profile> with RouteAware {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(automaticallyImplyLeading: false),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ProfileImageButton(
+              profileImageColor: userInfo!.profileImageColor,
+              profileImageColorOptions: profileImageColorOptions,
+              changeProfileImageColor: changeProfileImageColor,
+            ),
+            SizedBox(height: 25),
+            Text(
+              userInfo!.firstName,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            Text(
+              userInfo!.lastName,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
 
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ProfileImageButton(
-                profileImageColor: userInfo!.profileImageColor,
-                profileImageColorOptions: profileImageColorOptions,
-                changeProfileImageColor: changeProfileImageColor,
-              ),
+            SizedBox(height: 40),
 
-              SizedBox(height: 20),
-              Text(
-                userInfo!.firstName,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              Text(
-                userInfo!.lastName,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              SizedBox(height: 30),
-              SizedBox(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.email,
-                          size: 25,
-                          color: Theme.of(context).colorScheme.onPrimary,
+            Center(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.email,
+                        size: 25,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                      SizedBox(width: 25),
+                      Text(
+                        userInfo!.email,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(width: 15),
-                        Text(
-                          userInfo!.email,
-                          style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.phone,
+                        size: 25,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                      SizedBox(width: 25),
+                      Text(
+                        (userInfo?.phone?.isNotEmpty == true)
+                            ? userInfo!.phone!
+                            : "No phone number.",
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.phone,
-                          size: 25,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                        SizedBox(width: 15),
-                        Text(
-                          (userInfo?.phone?.isNotEmpty == true)
-                              ? userInfo!.phone!
-                              : "No phone number.",
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              SizedBox(height: 80),
-              CustomFilledButton(
-                onPressed:
-                    () => {Navigator.pushNamed(context, '/update_profile')},
-                child: Text("Edit Profile"),
-              ),
-              SizedBox(height: 10),
-              CustomFilledButton(
-                onPressed: () async {
-                  // remove the JWT token
-                  final secureStorage = FlutterSecureStorage();
-                  await secureStorage.delete(key: "auth_token");
+            ),
 
-                  if (!context.mounted) return;
-                  Navigator.pushReplacementNamed(context, '/login');
-                },
+            Spacer(),
+            CustomFilledButton(
+              onPressed:
+                  () => {Navigator.pushNamed(context, '/update_profile')},
+              child: Text("Edit Profile"),
+            ),
+            SizedBox(height: 10),
+            CustomFilledButton(
+              onPressed: () async {
+                // remove the JWT token
+                final secureStorage = FlutterSecureStorage();
+                await secureStorage.delete(key: "auth_token");
 
-                child: Text("Logout"),
-              ),
-            ],
-          ),
+                if (!context.mounted) return;
+                Navigator.pushReplacementNamed(context, '/login');
+              },
+              child: Text("Logout"),
+            ),
+            SizedBox(height: 50),
+          ],
         ),
       ),
       bottomNavigationBar: Navbar(),
