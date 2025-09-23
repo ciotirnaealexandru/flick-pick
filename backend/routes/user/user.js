@@ -136,6 +136,7 @@ router.get("/me", authenticateToken, async (req, res) => {
       email: user.email,
       phone: user.phone,
       role: user.role,
+      profileImageColor: user.profileImageColor,
     });
   } catch (error) {
     console.error("Something went wrong: ", error);
@@ -186,7 +187,39 @@ router.patch(
   adminOrSelfRequired,
   async (req, res) => {
     try {
-      const { newFirstName, newLastName, newEmail, newPhone } = req.body;
+      const {
+        newFirstName,
+        newLastName,
+        newEmail,
+        newPhone,
+        profileImageColor,
+      } = req.body;
+
+      if (newFirstName == null)
+        return res.status(404).json({ message: "First name is required." });
+
+      if (newLastName == null)
+        return res.status(404).json({ message: "Last name is required." });
+
+      if (newEmail == null)
+        return res.status(404).json({ message: "Email is required." });
+
+      if (profileImageColor == null)
+        return res
+          .status(404)
+          .json({ message: "Profile image color is required." });
+
+      if (
+        profileImageColor != "RED" &&
+        profileImageColor != "YELLOW" &&
+        profileImageColor != "GREEN" &&
+        profileImageColor != "BLUE" &&
+        profileImageColor != "PURPLE"
+      ) {
+        return res
+          .status(401)
+          .json({ message: "Profile image color is invalid." });
+      }
 
       // search the user by its id in the JWT
       const user = await prisma.user.findUnique({
@@ -229,6 +262,7 @@ router.patch(
           lastName: newLastName,
           email: newEmail,
           phone: newPhone,
+          profileImageColor: profileImageColor,
         },
       });
 

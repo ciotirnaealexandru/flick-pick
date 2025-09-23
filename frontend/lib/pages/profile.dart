@@ -67,16 +67,16 @@ class _ProfileState extends State<Profile> with RouteAware {
                 alignment: Alignment.bottomCenter,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: Theme.of(context).colorScheme.onPrimary,
-                        width: 2.0,
+                        width: 3.0,
                       ),
                     ),
                     child: CircleAvatar(
-                      radius: 76,
+                      radius: 75,
                       backgroundImage: const AssetImage(
                         'assets/images/purple.jpeg',
                       ),

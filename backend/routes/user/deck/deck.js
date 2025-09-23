@@ -46,7 +46,7 @@ router.post(
     try {
       const { deckName } = req.body;
 
-      if (!deckName)
+      if (deckName == null)
         return res.status(404).json({ message: "Deck name is required." });
 
       // check if the deck already exists in the database
