@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/models/deck_model.dart';
-import 'package:frontend/models/user_show_model.dart';
+import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/env_service.dart';
+import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Deck>?> getDecksInfo({int? userId}) async {
@@ -29,6 +30,7 @@ Future<List<Deck>?> getDecksInfo({int? userId}) async {
   }
 }
 
+/*
 Future<Deck?> getFullDeckInfo({required int userId}) async {
   try {
     final secureStorage = FlutterSecureStorage();
@@ -68,5 +70,43 @@ Future<Deck?> getFullDeckInfo({required int userId}) async {
   } catch (error) {
     print("Error fetching full deck: $error");
     return null;
+  }
+}
+*/
+
+Future<void> createDefaultDecks() async {
+  try {
+    final secureStorage = FlutterSecureStorage();
+    final token = await secureStorage.read(key: "auth_token");
+
+    User? userInfo = await getUserInfo();
+
+    final createWatchedDeckResponse = await http.post(
+      Uri.parse('${EnvConfig.apiUrl}/user/deck/${userInfo?.id}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({'deckName': "Watched"}),
+    );
+
+    if (createWatchedDeckResponse.statusCode != 200) {
+      print("Response body: ${createWatchedDeckResponse.body}");
+    }
+
+    final createWantToWatchDeckResponse = await http.post(
+      Uri.parse('${EnvConfig.apiUrl}/user/deck/${userInfo?.id}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({'deckName': "Want to Watch"}),
+    );
+
+    if (createWantToWatchDeckResponse.statusCode != 200) {
+      print("Response body: ${createWantToWatchDeckResponse.body}");
+    }
+  } catch (error) {
+    print("Error fetching full deck: $error");
   }
 }

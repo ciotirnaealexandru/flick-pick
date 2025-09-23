@@ -11,7 +11,6 @@ import 'package:frontend/main.dart';
 import 'package:frontend/models/deck_model.dart';
 import 'package:frontend/models/user_model.dart';
 import 'package:frontend/models/user_show_model.dart';
-import 'package:frontend/services/deck_service.dart';
 import 'package:frontend/services/env_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:http/http.dart' as http;
@@ -83,32 +82,25 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
 
     final Deck? deck;
 
-    // check for the full deck
-    if (deckId == 0) {
-      deck = await getFullDeckInfo(userId: userInfo!.id);
-    }
-    // if not, then it's a normal deck
-    else {
-      // get the bearer token
-      final secureStorage = FlutterSecureStorage();
-      final token = await secureStorage.read(key: "auth_token");
+    // get the bearer token
+    final secureStorage = FlutterSecureStorage();
+    final token = await secureStorage.read(key: "auth_token");
 
-      // get the deck info if it exists
-      final deckResponse = await http.get(
-        Uri.parse('${EnvConfig.apiUrl}/user/deck/${userInfo?.id}/$deckId'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
+    // get the deck info if it exists
+    final deckResponse = await http.get(
+      Uri.parse('${EnvConfig.apiUrl}/user/deck/${userInfo?.id}/$deckId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
-      final decksJson = json.decode(deckResponse.body);
+    final decksJson = json.decode(deckResponse.body);
 
-      deck = Deck.fromJson(decksJson);
-    }
+    deck = Deck.fromJson(decksJson);
 
     final sortedShowsDeck = Deck(
-      id: deck!.id,
+      id: deck.id,
       name: deck.name,
       userId: deck.userId,
       createdAt: deck.createdAt,
@@ -131,32 +123,25 @@ class _DeckInfoState extends State<DeckInfo> with RouteAware {
 
     Deck? deck;
 
-    // check for the full deck
-    if (deckId == 0) {
-      deck = await getFullDeckInfo(userId: userInfo!.id);
-    }
-    // if not, then it's a normal deck
-    else {
-      // get the bearer token
-      final secureStorage = FlutterSecureStorage();
-      final token = await secureStorage.read(key: "auth_token");
+    // get the bearer token
+    final secureStorage = FlutterSecureStorage();
+    final token = await secureStorage.read(key: "auth_token");
 
-      // get the deck info if it exists
-      final deckResponse = await http.get(
-        Uri.parse('${EnvConfig.apiUrl}/user/deck/${userInfo?.id}/$deckId'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
+    // get the deck info if it exists
+    final deckResponse = await http.get(
+      Uri.parse('${EnvConfig.apiUrl}/user/deck/${userInfo?.id}/$deckId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
-      final decksJson = json.decode(deckResponse.body);
+    final decksJson = json.decode(deckResponse.body);
 
-      deck = Deck.fromJson(decksJson);
-    }
+    deck = Deck.fromJson(decksJson);
 
     final sortedShowsDeck = Deck(
-      id: deck!.id,
+      id: deck.id,
       name: deck.name,
       userId: deck.userId,
       createdAt: deck.createdAt,

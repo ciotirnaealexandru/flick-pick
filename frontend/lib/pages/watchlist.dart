@@ -72,10 +72,8 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
     final decks = await getDecksInfo(userId: userInfo!.id);
     final sortedDecks = _sortDecks(decks: decks);
 
-    final fullDeck = await getFullDeckInfo(userId: userInfo!.id);
-
     setState(() {
-      decksInfo = [fullDeck!, ...sortedDecks!];
+      decksInfo = [...sortedDecks!];
       finishedLoading = true;
     });
   }
@@ -199,7 +197,7 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                 return Column(
                   children: [
                     DeckCard(deck: decksInfo![i]),
-                    SizedBox(height: 40),
+                    SizedBox(height: 35),
                   ],
                 );
               },

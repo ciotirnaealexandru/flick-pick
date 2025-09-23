@@ -19,18 +19,18 @@ class AddShowCard extends StatelessWidget {
           overlayColor: Colors.transparent,
           padding: EdgeInsets.zero,
         ),
-        child: SizedBox(
-          height: 150,
-          width: 105,
-          child: Center(
-            child: Icon(
-              Icons.add,
-              size: 25,
-              color: Theme.of(context).colorScheme.onPrimary,
+        child: AspectRatio(
+          aspectRatio: 210 / 300,
+          child: SizedBox(
+            child: Center(
+              child: Icon(
+                Icons.add,
+                size: 25,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
             ),
           ),
         ),
-
         onPressed: () {
           Navigator.pushReplacementNamed(context, '/search');
         },

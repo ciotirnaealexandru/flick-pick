@@ -34,7 +34,7 @@ class _DeckCardState extends State<DeckCard> {
               children: [
                 Text(
                   widget.deck.name,
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Icon(
                   Icons.arrow_forward_rounded,
@@ -47,7 +47,7 @@ class _DeckCardState extends State<DeckCard> {
         ),
         SizedBox(height: 10),
         SizedBox(
-          height: 150,
+          height: 140,
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             scrollDirection: Axis.horizontal,

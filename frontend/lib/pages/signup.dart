@@ -5,6 +5,7 @@ import 'package:frontend/components/buttons/button_models/custom_filled_button.d
 import 'package:frontend/components/buttons/button_models/custom_transparent_button.dart';
 import 'package:frontend/components/custom_form_field.dart';
 import 'package:frontend/components/show_message.dart';
+import 'package:frontend/services/deck_service.dart';
 import 'package:frontend/services/env_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -151,6 +152,8 @@ class _FormScreenState extends State<FormScreen> {
                 );
 
                 if (response.statusCode == 200) {
+                  createDefaultDecks();
+
                   if (!context.mounted) return;
                   Navigator.pushReplacementNamed(context, '/login');
                 } else {
